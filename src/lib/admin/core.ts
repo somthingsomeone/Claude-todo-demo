@@ -140,11 +140,8 @@ export function explainDbError(e: unknown): never {
   if (e instanceof AdminError) throw e;
   const msg = e instanceof Error ? e.message : String(e);
   if (msg.includes("name_without_honorific")) throw new AdminError("اكتب الاسم بدون لقب (مثل د.). اللقب يُختار من قائمة اللقب.");
-  if (msg.includes("nationality_note_no_id_numbers")) throw new AdminError("لا تكتب أرقام هوية أو أرقامًا طويلة.");
-  if (msg.includes("nationality_verified_needs_note")) throw new AdminError("التحقق من الجنسية يحتاج ملاحظة قصيرة عن المصدر.");
   if (msg.includes("doctor_title_matches_specialty")) throw new AdminError("لقب «أخصائي علاج طبيعي» للعلاج الطبيعي فقط.");
   if (msg.includes("physio_doctor_title_needs_proof")) throw new AdminError("لقب «د.» لأخصائي العلاج الطبيعي يحتاج ملاحظة عن المستند الذي يثبته.");
-  if (msg.includes("rating_needs_source")) throw new AdminError("التقييم يحتاج مصدرًا (مثل: تقييمات Google، تاريخ الأخذ).");
   if (msg.includes("whatsapp")) throw new AdminError("رقم واتساب يجب أن يكون بصيغة 9665XXXXXXXX.");
   if (msg.includes("duplicate key") || msg.includes("unique")) throw new AdminError("هذا السجل موجود مسبقًا (الرابط المختصر مستخدم).");
   throw e;

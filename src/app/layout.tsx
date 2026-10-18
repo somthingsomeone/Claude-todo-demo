@@ -10,7 +10,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: { default: "باناكس — اعرف طبيبك قبل موعدك", template: "%s · باناكس" },
-  description: "دليل بسيط لأطباء وأخصائيين سعوديين في الرياض: جلدية، تجميل وليزر، عيون، أسنان، وعلاج طبيعي.",
+  description: "دليل بسيط لأطباء وأخصائيين في الرياض: جلدية، تجميل وليزر، عيون، أسنان، وعلاج طبيعي.",
   robots: { index: false, follow: false }, // stays hidden from search engines until launch
 };
 

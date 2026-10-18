@@ -23,33 +23,44 @@ describe("public profiles", () => {
     expect(sara?.photo).toBeNull();
   });
 
-  it("new real profiles start hidden and need verified nationality to be shown", async () => {
+  it("new real profiles start hidden until an admin shows them", async () => {
     const db = await freshDb();
     const owner = await makeOwner(db);
-    const id = await createDoctor(db, owner, realDoctor({ nationality_status: "unverified", nationality_note: "" }));
+    const id = await createDoctor(db, owner, realDoctor());
     expect(await getPublicDoctor(db, "test-doctor")).toBeNull();
-    await expect(setHidden(db, owner, id, false)).rejects.toThrow(AdminError);
-    await updateDoctor(db, owner, id, realDoctor());
     await setHidden(db, owner, id, false);
     const shown = await getPublicDoctor(db, "test-doctor");
     expect(shown?.whatsapp).toBe("966551234567");
     expect(shown?.treats).toEqual(["جفاف العين", "المياه البيضاء"]);
     expect(shown?.languages).toEqual(["العربية", "الإنجليزية"]);
-    expect(JSON.stringify(shown)).not.toContain("تأكيد من العيادة"); // nationality note stays private
-    // Un-verifying hides it again automatically.
-    await updateDoctor(db, owner, id, realDoctor({ nationality_status: "unverified", nationality_note: "" }));
+    await setHidden(db, owner, id, true);
     expect(await getPublicDoctor(db, "test-doctor")).toBeNull();
   });
 
-  it("enforces the title, honorific, ID-number and rating-source rules", async () => {
+  it("keeps no nationality data", async () => {
+    const db = await freshDb();
+    const cols = await db.query<{ column_name: string }>(
+      `select column_name from information_schema.columns where table_name = 'doctors' and column_name like 'nationality%'`,
+    );
+    expect(cols).toEqual([]);
+  });
+
+  it("ignores ratings typed by admins (a profile never rates itself)", async () => {
+    const db = await freshDb();
+    const owner = await makeOwner(db);
+    const id = await createDoctor(db, owner, realDoctor({ rating: "5", rating_count: "999", rating_source: "أنا" }));
+    await setHidden(db, owner, id, false);
+    const shown = await getPublicDoctor(db, "test-doctor");
+    expect([shown?.rating, shown?.ratingCount, shown?.ratingSource]).toEqual([null, null, null]);
+  });
+
+  it("enforces the title, honorific and ID-number rules", async () => {
     const db = await freshDb();
     const owner = await makeOwner(db);
     await expect(createDoctor(db, owner, realDoctor({ name: "د. أحمد" }))).rejects.toThrow(/بدون لقب/);
     await expect(createDoctor(db, owner, realDoctor({ specialty: "physio" }))).rejects.toThrow(/المستند/);
     await expect(createDoctor(db, owner, realDoctor({ title: "أخصائي علاج طبيعي" }))).rejects.toThrow(/للعلاج الطبيعي فقط/);
-    await expect(createDoctor(db, owner, realDoctor({ nationality_note: "هوية 1023456789" }))).rejects.toThrow(/أرقام هوية/);
-    await expect(createDoctor(db, owner, realDoctor({ rating: "4.5" }))).rejects.toThrow(/مصدر/);
-    await expect(createDoctor(db, owner, realDoctor({ rating: "6", rating_source: "Google" }))).rejects.toThrow(AdminError);
+    await expect(createDoctor(db, owner, realDoctor({ title_note: "رقم 1023456789", specialty: "physio" }))).rejects.toThrow(/أرقامًا/);
     await expect(createDoctor(db, owner, realDoctor({ slug: "demo-x" }))).rejects.toThrow(AdminError);
     // A physiotherapist titled "د." is allowed only with a documented title.
     await createDoctor(db, owner, realDoctor({ slug: "physio-dr", specialty: "physio", title_note: "شهادة دكتوراه مرفقة من العيادة" }));

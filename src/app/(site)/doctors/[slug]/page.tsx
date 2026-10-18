@@ -73,7 +73,7 @@ export default async function DoctorPage(props: PageProps<"/doctors/[slug]">) {
 
       <section className="glass card rating-card" aria-label="التقييم">
         {doctor.rating === null ? (
-          <p className="muted">لا يوجد تقييم موثّق بمصدر بعد.</p>
+          <p className="muted">لا يوجد تقييم بعد.</p>
         ) : (
           <>
             <div className="rating-card__score">

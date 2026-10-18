@@ -36,8 +36,6 @@ export interface AdminDoctor {
   rating_count: number | null;
   rating_source: string | null;
   whatsapp: string;
-  nationality_status: "unverified" | "verified";
-  nationality_note: string | null;
   source: string;
   checked_at: string;
   is_demo: boolean;
@@ -55,7 +53,6 @@ export interface AdminDoctorRow {
   hospital: string;
   is_demo: boolean;
   is_hidden: boolean;
-  nationality_status: string;
   whatsapp: string;
   clicks_total: number;
   clicks_30d: number;
@@ -75,7 +72,7 @@ export function normalizeSaudiMobile(input: string | null): string {
 
 export async function listAdminDoctors(db: Db): Promise<AdminDoctorRow[]> {
   return db.query<AdminDoctorRow>(
-    `select d.id, d.slug, d.name, d.title, d.specialty, d.hospital, d.is_demo, d.is_hidden, d.nationality_status, d.whatsapp,
+    `select d.id, d.slug, d.name, d.title, d.specialty, d.hospital, d.is_demo, d.is_hidden, d.whatsapp,
        coalesce(sum(c.clicks), 0)::int as clicks_total,
        coalesce(sum(c.clicks) filter (where c.day > (now() at time zone 'Asia/Riyadh')::date - 30), 0)::int as clicks_30d
      from doctors d left join whatsapp_clicks c on c.doctor_id = d.id
@@ -89,7 +86,7 @@ export async function getAdminDoctor(db: Db, id: string): Promise<AdminDoctor | 
   const [row] = await db.query<AdminDoctor>(
     `select d.id, d.slug, d.name, d.title, d.title_note, d.specialty, d.role, d.hospital, d.district, d.map_url, d.bio,
        d.treats, d.languages, d.years_experience, d.rating::float8 as rating, d.rating_count, d.rating_source, d.whatsapp,
-       d.nationality_status, d.nationality_note, d.source, to_char(d.checked_at, 'YYYY-MM-DD') as checked_at,
+       d.source, to_char(d.checked_at, 'YYYY-MM-DD') as checked_at,
        d.is_demo, d.is_hidden, (p.doctor_id is not null) as has_photo, p.permission_note as photo_permission_note
      from doctors d left join doctor_photos p on p.doctor_id = d.id
      where d.id = $1`,
@@ -104,12 +101,9 @@ function readDoctor(values: Record<string, unknown>) {
     throw new AdminError("الرابط المختصر: أحرف إنجليزية صغيرة وأرقام وشرطات فقط، مثل sara-alqahtani");
   }
   if (slug.startsWith("demo-")) throw new AdminError("الرابط المختصر لا يبدأ بـ demo- (محجوز للملفات التجريبية).");
-  const nationalityNote = text(values, "nationality_note", { max: 200, label: "ملاحظة الجنسية" });
-  if (containsIdLikeNumber(nationalityNote)) throw new AdminError("لا تكتب أرقام هوية أو أرقامًا طويلة في ملاحظة الجنسية.");
   const titleNote = text(values, "title_note", { max: 200, label: "مستند اللقب" });
   if (containsIdLikeNumber(titleNote)) throw new AdminError("لا تكتب أرقامًا طويلة في ملاحظة اللقب.");
 
-  const rating = numberField(values, "rating", { min: 0, max: 5, label: "التقييم" });
   return {
     slug,
     name: text(values, "name", { required: true, max: 80, label: "الاسم" })!,
@@ -124,24 +118,16 @@ function readDoctor(values: Record<string, unknown>) {
     treats: listField(values, "treats", { max: 20, label: "يعالج" }),
     languages: listField(values, "languages", { max: 8, label: "اللغات" }),
     years_experience: numberField(values, "years_experience", { min: 0, max: 70, integer: true, label: "سنوات الخبرة" }),
-    rating: rating === null ? null : Math.round(rating * 10) / 10,
-    rating_count: numberField(values, "rating_count", { min: 0, max: 1_000_000, integer: true, label: "عدد التقييمات" }),
-    rating_source: text(values, "rating_source", { max: 200, label: "مصدر التقييم" }),
     whatsapp: normalizeSaudiMobile(text(values, "whatsapp", { max: 30, label: "واتساب" })),
-    nationality_status: oneOf(values, "nationality_status", ["unverified", "verified"] as const, {
-      required: true,
-      label: "الجنسية",
-    })!,
-    nationality_note: nationalityNote,
     source: text(values, "source", { required: true, max: 300, label: "المصدر" })!,
     checked_at: dateField(values, "checked_at", { required: true, label: "تاريخ التحقق" })!,
   };
 }
 
+// Ratings are not entered by admins (the profile must not "rate itself").
 const COLUMNS = [
   "slug", "name", "title", "title_note", "specialty", "role", "hospital", "district", "map_url", "bio", "treats",
-  "languages", "years_experience", "rating", "rating_count", "rating_source", "whatsapp", "nationality_status",
-  "nationality_note", "source", "checked_at",
+  "languages", "years_experience", "whatsapp", "source", "checked_at",
 ] as const;
 
 export async function createDoctor(db: Db, actor: Actor, values: Record<string, unknown>): Promise<string> {
@@ -179,9 +165,6 @@ export async function updateDoctor(db: Db, actor: Actor, id: string, values: Rec
 export async function setHidden(db: Db, actor: Actor, id: string, hidden: boolean) {
   const before = await getAdminDoctor(db, id);
   if (!before) throw new AdminError("الملف غير موجود.");
-  if (!hidden && !before.is_demo && before.nationality_status !== "verified") {
-    throw new AdminError("لا يظهر الملف للزوار قبل التحقق من الجنسية السعودية.");
-  }
   await db.query(`update doctors set is_hidden = $2, updated_at = now() where id = $1`, [id, hidden]);
   await audit(db, actor, hidden ? "hide" : "show", "doctors", id, { is_hidden: before.is_hidden }, { is_hidden: hidden });
 }

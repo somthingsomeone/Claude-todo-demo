@@ -10,7 +10,7 @@ export default async function EditDoctor(props: PageProps<"/admin/doctors/[id]">
   const doctor = await getAdminDoctor(await getDb(), id);
   if (!doctor) notFound();
   const back = `/admin/doctors/${doctor.id}`;
-  const isPublic = !doctor.is_hidden && (doctor.is_demo || doctor.nationality_status === "verified");
+  const isPublic = !doctor.is_hidden;
 
   return (
     <div className="adm-stack">
@@ -31,11 +31,7 @@ export default async function EditDoctor(props: PageProps<"/admin/doctors/[id]">
             <div>
               <h2 className="card__title">الظهور للزوار</h2>
               <p className="muted">
-                {isPublic
-                  ? "الملف ظاهر في الموقع."
-                  : doctor.nationality_status !== "verified"
-                    ? "مخفي — لازم تتحقق من الجنسية السعودية أولًا."
-                    : "مخفي — راجع المعلومات ثم أظهره."}
+                {isPublic ? "الملف ظاهر في الموقع." : "مخفي — راجع المعلومات ثم أظهره."}
               </p>
             </div>
             <form action={setHidden}>

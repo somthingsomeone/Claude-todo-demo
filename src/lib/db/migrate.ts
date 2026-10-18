@@ -119,6 +119,16 @@ const MIGRATIONS: [name: string, sql: string][] = [
     end $$;
   `,
   ],
+  [
+    "0003_drop_nationality_check",
+    /* sql */ `
+    -- The owner decided not to verify nationality: no nationality data is kept at all.
+    alter table doctors drop constraint if exists nationality_note_no_id_numbers;
+    alter table doctors drop constraint if exists nationality_verified_needs_note;
+    alter table doctors drop column if exists nationality_status;
+    alter table doctors drop column if exists nationality_note;
+  `,
+  ],
 ];
 
 export async function migrate(db: Db) {

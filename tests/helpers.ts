@@ -29,8 +29,6 @@ export const realDoctor = (over: Record<string, string> = {}) => ({
   languages: "العربية، الإنجليزية",
   years_experience: "10",
   whatsapp: "0551234567",
-  nationality_status: "verified",
-  nationality_note: "تأكيد من العيادة بالبريد",
   source: "موقع العيادة الرسمي",
   checked_at: "2026-10-01",
   ...over,

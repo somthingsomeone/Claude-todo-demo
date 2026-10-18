@@ -1,7 +1,7 @@
 import { SPECIALTIES } from "@/lib/doctors";
 import { TITLES, type AdminDoctor } from "@/lib/admin/profiles";
 
-/** Add/edit form for a doctor profile. Every public fact needs a source + checked date. */
+/** Add/edit form for a doctor profile. Every public fact needs a source + checked date. No rating fields: profiles never rate themselves. */
 export function DoctorForm({
   action,
   doctor,
@@ -111,40 +111,8 @@ export function DoctorForm({
       </fieldset>
 
       <fieldset className="glass card">
-        <legend>التقييم من 5 (اختياري)</legend>
-        <div className="grid-3">
-          <label className="field">
-            <span>التقييم</span>
-            <input name="rating" type="number" min={0} max={5} step={0.1} defaultValue={doctor?.rating ?? ""} />
-          </label>
-          <label className="field">
-            <span>عدد التقييمات</span>
-            <input name="rating_count" type="number" min={0} defaultValue={doctor?.rating_count ?? ""} />
-          </label>
-          <label className="field">
-            <span>مصدر التقييم</span>
-            <input name="rating_source" maxLength={200} defaultValue={doctor?.rating_source ?? ""} placeholder="تقييمات Google للعيادة" />
-          </label>
-        </div>
-        <small className="muted">لا تكتب تقييم بدون مصدر حقيقي. ممنوع تأليف تقييمات.</small>
-      </fieldset>
-
-      <fieldset className="glass card">
-        <legend>التحقق (خاص — ما يظهر للزوار)</legend>
+        <legend>المصدر</legend>
         <div className="grid-2">
-          <label className="field">
-            <span>الجنسية السعودية</span>
-            <select name="nationality_status" defaultValue={doctor?.nationality_status ?? "unverified"}>
-              <option value="unverified">لم يُتحقق بعد</option>
-              <option value="verified">تم التحقق</option>
-            </select>
-            <small>لا تخمّن من الاسم أو الصورة. الملف ما يظهر قبل التحقق.</small>
-          </label>
-          <label className="field">
-            <span>كيف تحققنا؟ (ملاحظة قصيرة)</span>
-            <input name="nationality_note" maxLength={200} defaultValue={doctor?.nationality_note ?? ""} placeholder="تأكيد من العيادة بالبريد" />
-            <small>بدون أرقام هوية أو صور مستندات.</small>
-          </label>
           <label className="field">
             <span>مصدر المعلومات</span>
             <input name="source" required maxLength={300} defaultValue={doctor?.source} placeholder="موقع العيادة الرسمي" />

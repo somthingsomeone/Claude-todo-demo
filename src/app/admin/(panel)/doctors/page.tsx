@@ -45,8 +45,6 @@ export default async function AdminDoctors() {
                     <span className="pill pill--demo">تجريبي</span>
                   ) : d.is_hidden ? (
                     <span className="pill pill--off">مخفي</span>
-                  ) : d.nationality_status !== "verified" ? (
-                    <span className="pill pill--off">بانتظار تحقق الجنسية</span>
                   ) : (
                     <span className="pill pill--on">ظاهر</span>
                   )}

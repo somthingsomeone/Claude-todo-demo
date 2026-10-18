@@ -2,11 +2,10 @@ import type { Db } from "../db/client";
 import type { Doctor, SpecialtySlug } from "../doctors";
 
 /**
- * Public reads. A profile is shown only if it is not hidden AND (it is a demo
- * profile OR its Saudi nationality was verified by an admin).
- * Private fields (nationality note, title note, photo permission note) never leave here.
+ * Public reads. A profile is shown unless an admin hid it.
+ * Private fields (title note, photo permission note) never leave here.
  */
-const PUBLIC_WHERE = `not d.is_hidden and (d.is_demo or d.nationality_status = 'verified')`;
+const PUBLIC_WHERE = `not d.is_hidden`;
 
 const PUBLIC_COLUMNS = `
   d.slug, d.name, d.title, d.specialty, d.role, d.hospital, d.district, d.map_url, d.bio, d.treats,

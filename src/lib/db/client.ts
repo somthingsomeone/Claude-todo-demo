@@ -24,7 +24,8 @@ async function createPglite(dataDir?: string): Promise<Db> {
   if (dataDir === "memory://") {
     pg = new PGlite();
   } else {
-    const dir = dataDir ?? path.join(process.cwd(), ".data", "pglite");
+    // On Vercel only /tmp is writable: a preview without Supabase gets a fresh demo database there.
+    const dir = dataDir ?? (process.env.VERCEL ? "/tmp/panax-pglite" : path.join(process.cwd(), ".data", "pglite"));
     fs.mkdirSync(path.dirname(dir), { recursive: true });
     pg = new PGlite(dir);
   }
