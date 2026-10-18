@@ -1,0 +1,184 @@
+import { describe, expect, it } from "vitest";
+import { getPublicDoctor, getPublicPhoto, listPublicDoctors, recordWhatsAppClick } from "@/lib/data/doctors";
+import { FormError, submitCorrection } from "@/lib/data/corrections";
+import { AdminError, containsIdLikeNumber } from "@/lib/admin/core";
+import {
+  createDoctor, deleteAllDemo, getAdminDoctor, listAdminDoctors, normalizeSaudiMobile, savePhoto, setHidden, updateDoctor,
+} from "@/lib/admin/profiles";
+import { eraseRequest, listRequests, purgeExpired, setRequestStatus } from "@/lib/admin/requests";
+import { addAdmin, mayRequestLogin, resolveAdminByEmail, setAdminActive } from "@/lib/admin/admins";
+import { dashboardStats, testVerdict } from "@/lib/admin/stats";
+import { freshDb, makeOwner, realDoctor } from "./helpers";
+
+const PNG = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 0]);
+
+describe("public profiles", () => {
+  it("shows the demo profiles from the seed", async () => {
+    const db = await freshDb();
+    const list = await listPublicDoctors(db);
+    expect(list.length).toBe(12);
+    expect(list.every((d) => d.demo)).toBe(true);
+    const sara = await getPublicDoctor(db, "demo-sara-alqahtani");
+    expect(sara?.rating).toBe(4.8);
+    expect(sara?.photo).toBeNull();
+  });
+
+  it("new real profiles start hidden and need verified nationality to be shown", async () => {
+    const db = await freshDb();
+    const owner = await makeOwner(db);
+    const id = await createDoctor(db, owner, realDoctor({ nationality_status: "unverified", nationality_note: "" }));
+    expect(await getPublicDoctor(db, "test-doctor")).toBeNull();
+    await expect(setHidden(db, owner, id, false)).rejects.toThrow(AdminError);
+    await updateDoctor(db, owner, id, realDoctor());
+    await setHidden(db, owner, id, false);
+    const shown = await getPublicDoctor(db, "test-doctor");
+    expect(shown?.whatsapp).toBe("966551234567");
+    expect(shown?.treats).toEqual(["جفاف العين", "المياه البيضاء"]);
+    expect(shown?.languages).toEqual(["العربية", "الإنجليزية"]);
+    expect(JSON.stringify(shown)).not.toContain("تأكيد من العيادة"); // nationality note stays private
+    // Un-verifying hides it again automatically.
+    await updateDoctor(db, owner, id, realDoctor({ nationality_status: "unverified", nationality_note: "" }));
+    expect(await getPublicDoctor(db, "test-doctor")).toBeNull();
+  });
+
+  it("enforces the title, honorific, ID-number and rating-source rules", async () => {
+    const db = await freshDb();
+    const owner = await makeOwner(db);
+    await expect(createDoctor(db, owner, realDoctor({ name: "د. أحمد" }))).rejects.toThrow(/بدون لقب/);
+    await expect(createDoctor(db, owner, realDoctor({ specialty: "physio" }))).rejects.toThrow(/المستند/);
+    await expect(createDoctor(db, owner, realDoctor({ title: "أخصائي علاج طبيعي" }))).rejects.toThrow(/للعلاج الطبيعي فقط/);
+    await expect(createDoctor(db, owner, realDoctor({ nationality_note: "هوية 1023456789" }))).rejects.toThrow(/أرقام هوية/);
+    await expect(createDoctor(db, owner, realDoctor({ rating: "4.5" }))).rejects.toThrow(/مصدر/);
+    await expect(createDoctor(db, owner, realDoctor({ rating: "6", rating_source: "Google" }))).rejects.toThrow(AdminError);
+    await expect(createDoctor(db, owner, realDoctor({ slug: "demo-x" }))).rejects.toThrow(AdminError);
+    // A physiotherapist titled "د." is allowed only with a documented title.
+    await createDoctor(db, owner, realDoctor({ slug: "physio-dr", specialty: "physio", title_note: "شهادة دكتوراه مرفقة من العيادة" }));
+    expect(containsIdLikeNumber("١٠٢٣٤٥٦٧٨٩")).toBe(true);
+  });
+
+  it("normalizes Saudi mobile numbers", () => {
+    expect(normalizeSaudiMobile("0551234567")).toBe("966551234567");
+    expect(normalizeSaudiMobile("+966 55 123 4567")).toBe("966551234567");
+    expect(normalizeSaudiMobile("٠٥٥١٢٣٤٥٦٧")).toBe("966551234567");
+    expect(normalizeSaudiMobile("")).toBe("");
+    expect(() => normalizeSaudiMobile("0112345678")).toThrow(AdminError);
+  });
+});
+
+describe("whatsapp click counter", () => {
+  it("counts clicks per profile per day, only for public profiles with a number", async () => {
+    const db = await freshDb();
+    const owner = await makeOwner(db);
+    const id = await createDoctor(db, owner, realDoctor());
+    expect(await recordWhatsAppClick(db, "test-doctor")).toBe(false); // still hidden
+    await setHidden(db, owner, id, false);
+    for (let i = 0; i < 3; i++) expect(await recordWhatsAppClick(db, "test-doctor")).toBe(true);
+    expect(await recordWhatsAppClick(db, "demo-sara-alqahtani")).toBe(false); // no number
+    const row = (await listAdminDoctors(db)).find((d) => d.id === id)!;
+    expect(row.clicks_total).toBe(3);
+    const stats = await dashboardStats(db);
+    expect(stats.clicks_30d).toBe(3);
+    expect(stats.daily).toHaveLength(14);
+    const cols = await db.query<{ column_name: string }>(
+      `select column_name from information_schema.columns where table_name = 'whatsapp_clicks'`,
+    );
+    expect(cols.map((c) => c.column_name).sort()).toEqual(["clicks", "day", "doctor_id"]);
+  });
+
+  it("applies the 90-day test rule", () => {
+    expect(testVerdict(301).tone).toBe("good");
+    expect(testVerdict(300).tone).toBe("mid");
+    expect(testVerdict(99).tone).toBe("low");
+  });
+});
+
+describe("photos", () => {
+  it("requires permission and a real image file", async () => {
+    const db = await freshDb();
+    const owner = await makeOwner(db);
+    const id = await createDoctor(db, owner, realDoctor());
+    await setHidden(db, owner, id, false);
+    const file = { bytes: PNG, size: PNG.length };
+    await expect(savePhoto(db, owner, id, file, { permission_note: "x" })).rejects.toThrow(/إذن/);
+    await expect(
+      savePhoto(db, owner, id, { bytes: new TextEncoder().encode("<svg>"), size: 5 }, { permission: "on", permission_note: "واتساب" }),
+    ).rejects.toThrow(/الصيغ/);
+    await savePhoto(db, owner, id, file, { permission: "on", permission_note: "وافق كتابيًا عبر واتساب" });
+    expect((await getAdminDoctor(db, id))?.has_photo).toBe(true);
+    expect((await getPublicDoctor(db, "test-doctor"))?.photo).toMatch(/^\/photos\/test-doctor\?v=/);
+    const photo = await getPublicPhoto(db, "test-doctor");
+    expect(photo?.mime).toBe("image/png");
+    expect(Array.from(photo!.data)).toEqual(Array.from(PNG));
+    const [log] = await db.query<{ after_data: { permission_note: string; data?: unknown } }>(
+      `select after_data from audit_log where action = 'upload_photo'`,
+    );
+    expect(log.after_data.permission_note).toBe("وافق كتابيًا عبر واتساب");
+  });
+});
+
+describe("correction requests", () => {
+  const form = {
+    name: "سائل",
+    email: "Person@Example.com",
+    relationship: "self",
+    profile: "demo-sara-alqahtani",
+    message: "أرجو تحديث اسم العيادة",
+    consent: "on",
+  };
+
+  it("stores only the allowed fields and can erase them", async () => {
+    const db = await freshDb();
+    const owner = await makeOwner(db);
+    await expect(submitCorrection(db, { ...form, consent: undefined })).rejects.toThrow(FormError);
+    await expect(submitCorrection(db, { ...form, email: "bad" })).rejects.toThrow(FormError);
+    await submitCorrection(db, form);
+    await submitCorrection(db, { ...form, website: "spam" }); // honeypot: silently ignored
+    const [req] = await listRequests(db);
+    expect((await listRequests(db)).length).toBe(1);
+    expect(req.requester_email).toBe("person@example.com");
+    expect(req.profile_label).toBe("سارة القحطاني");
+    await expect(eraseRequest(db, owner, req.id)).rejects.toThrow(/أغلق/);
+    await setRequestStatus(db, owner, req.id, "closed");
+    await eraseRequest(db, owner, req.id);
+    const [after] = await listRequests(db);
+    expect([after.requester_name, after.requester_email, after.message]).toEqual([null, null, null]);
+    const logs = await db.query<{ t: string }>(`select coalesce(before_data::text, '') || coalesce(after_data::text, '') as t from audit_log`);
+    expect(logs.some((l) => l.t.includes("person@example.com"))).toBe(false);
+  });
+
+  it("purges closed requests after the retention period", async () => {
+    const db = await freshDb();
+    const owner = await makeOwner(db);
+    await submitCorrection(db, form);
+    const [req] = await listRequests(db);
+    await setRequestStatus(db, owner, req.id, "closed");
+    await db.query(`update correction_requests set closed_at = now() - interval '40 days'`);
+    expect(await purgeExpired(db, null)).toBe(0);
+    expect(await purgeExpired(db, 30)).toBe(1);
+  });
+});
+
+describe("admins", () => {
+  it("makes ADMIN_OWNER_EMAIL the first owner, then only listed admins can sign in", async () => {
+    const db = await freshDb();
+    expect(await mayRequestLogin(db, "someone@x.com", "boss@x.com")).toBe(false);
+    expect(await mayRequestLogin(db, "boss@x.com", "boss@x.com")).toBe(true);
+    const owner = (await resolveAdminByEmail(db, "Boss@x.com", null, "boss@x.com"))!;
+    expect(owner.role).toBe("owner");
+    expect(await resolveAdminByEmail(db, "other@x.com", null, "other@x.com")).toBeNull();
+    await addAdmin(db, owner, { email: "helper@x.com", display_name: "مساعد", role: "editor" });
+    const helper = (await resolveAdminByEmail(db, "helper@x.com", null, null))!;
+    expect(helper.role).toBe("editor");
+    await expect(addAdmin(db, helper, { email: "a@x.com", display_name: "a", role: "editor" })).rejects.toThrow(/للمالك/);
+    await expect(setAdminActive(db, owner, owner.id, false)).rejects.toThrow(AdminError);
+    await setAdminActive(db, owner, helper.id, false);
+    expect(await resolveAdminByEmail(db, "helper@x.com", null, null)).toBeNull();
+  });
+
+  it("can remove all demo profiles at launch", async () => {
+    const db = await freshDb();
+    const owner = await makeOwner(db);
+    expect(await deleteAllDemo(db, owner)).toBe(12);
+    expect(await listPublicDoctors(db)).toEqual([]);
+  });
+});

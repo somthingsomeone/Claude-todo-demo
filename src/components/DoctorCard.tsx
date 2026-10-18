@@ -36,19 +36,30 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
         <div className="glass-stat">
           <dt className="sr-only">التقييم</dt>
           <dd>
-            <strong>
-              {doctor.rating.toFixed(1)} <StarIcon size={14} className="star-gold" />
-            </strong>
-            <span>{doctor.ratingCount} تقييم</span>
+            {doctor.rating === null ? (
+              <>
+                <strong>—</strong>
+                <span>لا يوجد تقييم</span>
+              </>
+            ) : (
+              <>
+                <strong>
+                  {doctor.rating.toFixed(1)} <StarIcon size={14} className="star-gold" />
+                </strong>
+                <span>{doctor.ratingCount ?? 0} تقييم</span>
+              </>
+            )}
           </dd>
         </div>
-        <div className="glass-stat">
-          <dt className="sr-only">الخبرة</dt>
-          <dd>
-            <strong>{doctor.yearsExperience}+</strong>
-            <span>سنة خبرة</span>
-          </dd>
-        </div>
+        {doctor.yearsExperience !== null && (
+          <div className="glass-stat">
+            <dt className="sr-only">الخبرة</dt>
+            <dd>
+              <strong>{doctor.yearsExperience}+</strong>
+              <span>سنة خبرة</span>
+            </dd>
+          </div>
+        )}
       </dl>
     </article>
   );

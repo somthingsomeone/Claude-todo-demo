@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { DOCTORS, SPECIALTIES, type SpecialtySlug, filterDoctors, specialtyName } from "@/lib/doctors";
+import { type Doctor, SPECIALTIES, type SpecialtySlug, filterDoctors, specialtyName } from "@/lib/doctors";
 import { DoctorCard } from "./DoctorCard";
 import { GridIcon, SearchIcon, SpecialtyIcon } from "./Icons";
 
@@ -14,7 +14,7 @@ function isSpecialty(value: string | null): value is SpecialtySlug {
   return SPECIALTIES.some((s) => s.slug === value);
 }
 
-export function HomeView() {
+export function HomeView({ doctors }: { doctors: Doctor[] }) {
   const [specialty, setSpecialty] = useState<SpecialtySlug | null>(null);
   const [query, setQuery] = useState("");
   const [hello, setHello] = useState("أهلًا بك");
@@ -34,7 +34,7 @@ export function HomeView() {
     window.history.replaceState(null, "", url);
   }
 
-  const results = useMemo(() => filterDoctors(DOCTORS, { specialty, query }), [specialty, query]);
+  const results = useMemo(() => filterDoctors(doctors, { specialty, query }), [doctors, specialty, query]);
 
   return (
     <>

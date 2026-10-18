@@ -1,40 +1,31 @@
 import { describe, expect, it } from "vitest";
-import { DOCTORS, SPECIALTIES, filterDoctors, normalizeArabic, whatsappLink } from "@/lib/doctors";
+import { DEMO_DOCTORS } from "@/lib/db/demo-data";
+import { SPECIALTIES, filterDoctors, normalizeArabic, whatsappLink, type Doctor } from "@/lib/doctors";
 
-describe("directory data", () => {
-  it("has unique slugs and known specialties", () => {
+const DOCTORS: Doctor[] = DEMO_DOCTORS.map((d) => ({
+  ...d,
+  mapUrl: null,
+  whatsapp: "",
+  photo: null,
+  demo: true,
+}));
+
+describe("demo data", () => {
+  it("has unique demo- slugs and known specialties", () => {
     const slugs = DOCTORS.map((d) => d.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
+    expect(slugs.every((s) => s.startsWith("demo-"))).toBe(true);
     const known = new Set(SPECIALTIES.map((s) => s.slug));
     for (const d of DOCTORS) expect(known.has(d.specialty)).toBe(true);
   });
 
   it("covers the five launch specialties", () => {
     expect(SPECIALTIES.map((s) => s.name)).toEqual(["جلدية", "تجميل وليزر", "عيون", "أسنان", "علاج طبيعي"]);
+    for (const s of SPECIALTIES) expect(DOCTORS.some((d) => d.specialty === s.slug)).toBe(true);
   });
 
   it("never calls a physiotherapist a doctor", () => {
-    for (const d of DOCTORS.filter((x) => x.specialty === "physio")) {
-      expect(d.title).toMatch(/^أخصائي/);
-      expect(d.title).not.toContain("د.");
-    }
-  });
-
-  it("keeps ratings out of 5 and every fact sourced and dated", () => {
-    for (const d of DOCTORS) {
-      expect(d.rating).toBeGreaterThanOrEqual(0);
-      expect(d.rating).toBeLessThanOrEqual(5);
-      expect(d.source).not.toBe("");
-      expect(Number.isNaN(Date.parse(d.checkedAt))).toBe(false);
-    }
-  });
-
-  it("labels fictional profiles as demo and gives them no WhatsApp number or photo", () => {
-    for (const d of DOCTORS.filter((x) => x.demo)) {
-      expect(d.slug.startsWith("demo-")).toBe(true);
-      expect(d.whatsapp).toBe("");
-      expect(d.photo).toBeUndefined();
-    }
+    for (const d of DOCTORS.filter((x) => x.specialty === "physio")) expect(d.title).toMatch(/^أخصائي/);
   });
 });
 
@@ -47,9 +38,7 @@ describe("search", () => {
 
   it("matches Arabic spelling variants (أ/ا, ة/ه)", () => {
     expect(normalizeArabic("أسنان")).toBe(normalizeArabic("اسنان"));
-    expect(filterDoctors(DOCTORS, { query: "اسنان" }).length).toBe(
-      filterDoctors(DOCTORS, { specialty: "dental" }).length,
-    );
+    expect(filterDoctors(DOCTORS, { query: "اسنان" }).length).toBe(filterDoctors(DOCTORS, { specialty: "dental" }).length);
     expect(filterDoctors(DOCTORS, { query: "الصدفيه" }).map((d) => d.slug)).toContain("demo-sara-alqahtani");
   });
 

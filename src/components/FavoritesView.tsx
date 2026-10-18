@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { DOCTORS } from "@/lib/doctors";
+import type { Doctor } from "@/lib/doctors";
 import { useFavorites } from "@/lib/favorites";
 import { DoctorCard } from "./DoctorCard";
 import { HeartIcon } from "./Icons";
 
-export function FavoritesView() {
+export function FavoritesView({ doctors }: { doctors: Doctor[] }) {
   const { ids } = useFavorites();
   // Keep the order the visitor saved them in (newest first).
-  const saved = ids.map((id) => DOCTORS.find((d) => d.slug === id)).filter((d) => d !== undefined);
+  const saved = ids.map((id) => doctors.find((d) => d.slug === id)).filter((d) => d !== undefined);
 
   return (
     <section className="page" aria-labelledby="fav-title">
