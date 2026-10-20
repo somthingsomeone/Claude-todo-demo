@@ -226,3 +226,17 @@ export const GridIcon = (p: IconProps) => (
     <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2" />
   </Svg>
 );
+
+export const ShareIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 3.5v11M8 7.5l4-4 4 4" />
+    <path d="M8.5 10.5H7A1.5 1.5 0 0 0 5.5 12v7A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-1.5-1.5h-1.5" />
+  </Svg>
+);
+
+export const MapIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M9 4.5 3.5 6.5v13l5.5-2 6 2 5.5-2v-13l-5.5 2-6-2Z" />
+    <path d="M9 4.5v13M15 6.5v13" />
+  </Svg>
+);

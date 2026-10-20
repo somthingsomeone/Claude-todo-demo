@@ -11,39 +11,41 @@ const ITEMS = [
   { href: "/settings", label: "الإعدادات", Icon: SettingsIcon },
 ] as const;
 
-function isActive(pathname: string, href: string) {
-  if (href === "/") return pathname === "/" || pathname.startsWith("/doctors");
-  return pathname.startsWith(href);
+function activeIndex(pathname: string) {
+  if (pathname.startsWith("/favorites")) return 1;
+  if (["/settings", "/about", "/privacy", "/terms", "/corrections"].some((p) => pathname.startsWith(p))) return 2;
+  return 0;
 }
 
-/** Floating navigation: hovers above the bottom edge instead of sticking to it. */
+/**
+ * Floating glass tab bar — it hovers above the bottom edge instead of sticking to it.
+ * The highlight slides between tabs on a critically damped spring.
+ */
 export function BottomNav() {
   const pathname = usePathname();
   const { ids } = useFavorites();
+  const active = activeIndex(pathname);
   return (
-    <nav className="bottom-nav" aria-label="التنقل الرئيسي">
-      {ITEMS.map(({ href, label, Icon }) => {
-        const active = isActive(pathname, href);
-        return (
-          <Link
-            key={href}
-            href={href}
-            className={`bottom-nav__item ${active ? "is-active" : ""}`}
-            aria-current={active ? "page" : undefined}
-            aria-label={label}
-          >
-            <span className="bottom-nav__icon">
-              <Icon size={22} />
-              {href === "/favorites" && ids.length > 0 && (
-                <span className="bottom-nav__badge" aria-hidden="true">
-                  {ids.length}
-                </span>
-              )}
-            </span>
-            <span className="bottom-nav__label">{label}</span>
-          </Link>
-        );
-      })}
+    <nav className="tabbar" aria-label="التنقل الرئيسي" style={{ "--active": active } as React.CSSProperties}>
+      <span className="tabbar__indicator" aria-hidden="true" />
+      {ITEMS.map(({ href, label, Icon }, i) => (
+        <Link
+          key={href}
+          href={href}
+          className={`tabbar__item ${i === active ? "is-active" : ""}`}
+          aria-current={i === active ? "page" : undefined}
+        >
+          <span className="tabbar__icon">
+            <Icon size={23} />
+            {href === "/favorites" && ids.length > 0 && (
+              <span className="tabbar__badge" aria-label={`${ids.length} محفوظ`}>
+                {ids.length}
+              </span>
+            )}
+          </span>
+          <span className="tabbar__label">{label}</span>
+        </Link>
+      ))}
     </nav>
   );
 }

@@ -15,7 +15,7 @@ export function FavoritesView({ doctors }: { doctors: Doctor[] }) {
     <section className="page" aria-labelledby="fav-title">
       <div className="page-head">
         <h1 id="fav-title">المفضلة</h1>
-        <p className="muted">الأطباء اللي حفظتهم يوصلون لهم بسرعة من هنا.</p>
+        <p className="page-head__sub">الأطباء اللي حفظتهم، بمكان واحد.</p>
       </div>
 
       {saved.length > 0 ? (
@@ -25,7 +25,7 @@ export function FavoritesView({ doctors }: { doctors: Doctor[] }) {
           ))}
         </div>
       ) : (
-        <div className="empty glass">
+        <div className="empty">
           <span className="empty__icon">
             <HeartIcon size={28} />
           </span>

@@ -1,11 +1,5 @@
 import type { Metadata, Viewport } from "next";
-// Fonts are bundled with the site (no calls to outside font services).
-import "@fontsource/readex-pro/arabic-400.css";
-import "@fontsource/readex-pro/arabic-500.css";
-import "@fontsource/readex-pro/arabic-600.css";
-import "@fontsource/readex-pro/arabic-700.css";
-import "@fontsource/readex-pro/latin-400.css";
-import "@fontsource/readex-pro/latin-600.css";
+// Uses the device's system font (SF Arabic on Apple devices) — no web fonts to download.
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +9,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#EEF3FC",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F2F2F7" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+  colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -25,7 +23,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ar" dir="rtl">
       <body>
-        <div className="bg-blobs" aria-hidden="true" />
         {children}
       </body>
     </html>

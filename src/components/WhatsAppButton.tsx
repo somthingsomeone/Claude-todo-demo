@@ -9,14 +9,16 @@ export function WhatsAppButton({ slug, href }: { slug: string; href: string }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="btn-whatsapp"
+      className="action action--whatsapp"
       onClick={() => {
         const url = `/api/clicks/${encodeURIComponent(slug)}`;
         if (!navigator.sendBeacon?.(url)) fetch(url, { method: "POST", keepalive: true }).catch(() => {});
       }}
     >
-      <WhatsAppIcon size={22} />
-      تواصل عبر واتساب
+      <span className="action__icon">
+        <WhatsAppIcon size={22} />
+      </span>
+      <span className="action__label">واتساب</span>
     </a>
   );
 }

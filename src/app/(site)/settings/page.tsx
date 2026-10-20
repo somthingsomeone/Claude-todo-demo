@@ -7,10 +7,10 @@ import { LogoMark } from "@/components/Logo";
 export const metadata: Metadata = { title: "الإعدادات" };
 
 const LINKS = [
-  { href: "/about", label: "عن باناكس", Icon: InfoIcon },
-  { href: "/privacy", label: "سياسة الخصوصية", Icon: ShieldIcon },
-  { href: "/terms", label: "الشروط والأحكام", Icon: DocIcon },
-  { href: "/corrections", label: "طلب تصحيح أو إزالة معلومات", Icon: EditIcon },
+  { href: "/about", label: "عن باناكس", Icon: InfoIcon, tile: "blue" },
+  { href: "/privacy", label: "سياسة الخصوصية", Icon: ShieldIcon, tile: "green" },
+  { href: "/terms", label: "الشروط والأحكام", Icon: DocIcon, tile: "gray" },
+  { href: "/corrections", label: "طلب تصحيح أو إزالة", Icon: EditIcon, tile: "orange" },
 ];
 
 export default function SettingsPage() {
@@ -20,39 +20,39 @@ export default function SettingsPage() {
         <h1 id="settings-title">الإعدادات</h1>
       </div>
 
-      <div className="glass card account-card">
-        <span className="account-card__icon">
-          <UserIcon size={26} />
+      <div className="group account">
+        <span className="account__avatar">
+          <UserIcon size={28} />
         </span>
-        <div>
-          <p className="account-card__title">حسابك</p>
-          <p className="muted">تسجيل الدخول لحفظ المفضلة على كل أجهزتك — قريبًا.</p>
-        </div>
+        <span className="row__text">
+          <b>حسابك</b>
+          <small>تسجيل الدخول لحفظ المفضلة على كل أجهزتك — قريبًا</small>
+        </span>
       </div>
 
-      <ul className="glass menu">
-        {LINKS.map(({ href, label, Icon }) => (
+      <ul className="group list">
+        {LINKS.map(({ href, label, Icon, tile }) => (
           <li key={href}>
-            <Link href={href} className="menu__item">
-              <span className="menu__icon">
-                <Icon size={20} />
+            <Link href={href} className="row row--link">
+              <span className={`row__icon tile tile--${tile}`}>
+                <Icon size={18} />
               </span>
-              {label}
-              <ChevronIcon size={18} className="menu__chev" />
+              <span className="row__text">{label}</span>
+              <ChevronIcon size={18} className="row__chev" />
             </Link>
           </li>
         ))}
       </ul>
 
-      <ul className="glass menu">
+      <ul className="group list">
         <li>
           <ClearFavorites />
         </li>
       </ul>
 
       <div className="settings-foot">
-        <LogoMark size={34} />
-        <p className="muted">باناكس · نسخة تجريبية 0.1</p>
+        <LogoMark size={30} />
+        <p>باناكس · نسخة تجريبية 0.1</p>
       </div>
     </section>
   );

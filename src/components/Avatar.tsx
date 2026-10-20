@@ -13,7 +13,7 @@ const TINTS: Record<SpecialtySlug, [string, string, string]> = {
  * Doctor photo. Without a permitted photo we show the first letter of the name on a soft
  * tint — never a stock photo pretending to be the doctor.
  */
-export function Avatar({ doctor, className }: { doctor: Doctor; className?: string }) {
+export function Avatar({ doctor, className, round }: { doctor: Doctor; className?: string; round?: boolean }) {
   if (doctor.photo) {
     return <img src={doctor.photo} alt={`صورة ${doctor.name}`} className={`avatar ${className ?? ""}`} />;
   }
@@ -34,11 +34,19 @@ export function Avatar({ doctor, className }: { doctor: Doctor; className?: stri
         </linearGradient>
       </defs>
       <rect width="160" height="200" fill={`url(#${id}-bg)`} />
-      <circle cx="80" cy="200" r="110" fill="#fff" opacity="0.2" />
-      <circle cx="80" cy="92" r="44" fill="#fff" opacity="0.7" />
-      <text x="80" y="92" textAnchor="middle" dominantBaseline="central" fontSize="44" fontWeight="600" fill={accent}>
-        {doctor.name.charAt(0)}
-      </text>
+      {round ? (
+        <text x="80" y="100" textAnchor="middle" dominantBaseline="central" fontSize="72" fontWeight="700" fill={accent}>
+          {doctor.name.charAt(0)}
+        </text>
+      ) : (
+        <>
+          <circle cx="80" cy="200" r="110" fill="#fff" opacity="0.2" />
+          <circle cx="80" cy="92" r="44" fill="#fff" opacity="0.7" />
+          <text x="80" y="92" textAnchor="middle" dominantBaseline="central" fontSize="44" fontWeight="600" fill={accent}>
+            {doctor.name.charAt(0)}
+          </text>
+        </>
+      )}
     </svg>
   );
 }

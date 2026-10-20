@@ -8,12 +8,16 @@ import {
   ArrowIcon,
   BriefcaseIcon,
   CheckIcon,
+  ChevronIcon,
+  EditIcon,
   GlobeIcon,
   HospitalIcon,
+  MapIcon,
   PinIcon,
   SpecialtyIcon,
   WhatsAppIcon,
 } from "@/components/Icons";
+import { ShareButton } from "@/components/ShareButton";
 import { Stars } from "@/components/Stars";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { getDb } from "@/lib/db/client";
@@ -44,7 +48,7 @@ export default async function DoctorPage(props: PageProps<"/doctors/[slug]">) {
     `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${doctor.hospital} ${doctor.district}`)}`;
 
   return (
-    <article className="profile">
+    <article className={`profile tint-${doctor.specialty}`}>
       <div className="profile__nav">
         <Link href={`/?specialty=${doctor.specialty}`} className="icon-btn" aria-label="رجوع">
           <ArrowIcon size={22} />
@@ -52,70 +56,82 @@ export default async function DoctorPage(props: PageProps<"/doctors/[slug]">) {
         <FavoriteButton slug={doctor.slug} name={displayName(doctor)} className="icon-btn" />
       </div>
 
-      <header className={`profile__hero tint-${doctor.specialty}`}>
-        <Avatar doctor={doctor} className="profile__photo" />
-        <div className="profile__id">
-          <div className="profile__pills">
-            <span className="pill pill--glass">
-              <SpecialtyIcon slug={doctor.specialty} size={15} />
-              {specialtyName(doctor.specialty)}
-            </span>
-            {doctor.demo && <span className="pill pill--demo">ملف تجريبي</span>}
-          </div>
-          <h1 className="profile__name">{displayName(doctor)}</h1>
-          <p className="profile__role">{doctor.role}</p>
-          <p className="profile__place">
-            <HospitalIcon size={18} />
-            {doctor.hospital}
-          </p>
+      <header className="profile__hero">
+        <Avatar doctor={doctor} className="profile__photo" round />
+        <h1 className="profile__name">{displayName(doctor)}</h1>
+        <p className="profile__role">{doctor.role}</p>
+        <div className="profile__tags">
+          <span className="tag">
+            <SpecialtyIcon slug={doctor.specialty} size={14} />
+            {specialtyName(doctor.specialty)}
+          </span>
+          {doctor.demo && <span className="tag tag--demo">ملف تجريبي</span>}
         </div>
       </header>
 
-      <section className="glass card rating-card" aria-label="التقييم">
+      <div className="actions">
+        {wa ? (
+          <WhatsAppButton slug={doctor.slug} href={wa} />
+        ) : (
+          <span className="action action--whatsapp is-disabled" aria-disabled="true" title="رقم واتساب غير متوفر">
+            <span className="action__icon">
+              <WhatsAppIcon size={22} />
+            </span>
+            <span className="action__label">واتساب</span>
+          </span>
+        )}
+        {doctor.demo ? (
+          <span className="action is-disabled" aria-disabled="true">
+            <span className="action__icon">
+              <MapIcon size={22} />
+            </span>
+            <span className="action__label">الخريطة</span>
+          </span>
+        ) : (
+          <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="action">
+            <span className="action__icon">
+              <MapIcon size={22} />
+            </span>
+            <span className="action__label">الخريطة</span>
+          </a>
+        )}
+        <ShareButton title={displayName(doctor)} />
+      </div>
+      {!wa && <p className="group-footer group-footer--center">{doctor.demo ? "التواصل غير متاح في الملف التجريبي." : "رقم واتساب غير متوفر."}</p>}
+
+      <section className="group rating-row" aria-label="التقييم">
         {doctor.rating === null ? (
           <p className="muted">لا يوجد تقييم بعد.</p>
         ) : (
           <>
-            <div className="rating-card__score">
-              <strong>{doctor.rating.toFixed(1)}</strong>
-              <span>/ 5</span>
-            </div>
+            <strong className="rating-row__score">{doctor.rating.toFixed(1)}</strong>
             <div>
-              <Stars rating={doctor.rating} size={22} />
-              <p className="muted">
-                من {doctor.ratingCount ?? 0} تقييم
-                {doctor.ratingSource && <span className="rating-card__src"> · المصدر: {doctor.ratingSource}</span>}
+              <Stars rating={doctor.rating} size={18} />
+              <p className="muted rating-row__count">
+                من 5 · {doctor.ratingCount ?? 0} تقييم
+                {doctor.ratingSource && ` · ${doctor.ratingSource}`}
               </p>
             </div>
           </>
         )}
       </section>
 
-      <div className="contact-bar">
-        {wa ? (
-          <WhatsAppButton slug={doctor.slug} href={wa} />
-        ) : (
-          <span className="btn-whatsapp is-disabled" aria-disabled="true">
-            <WhatsAppIcon size={22} />
-            {doctor.demo ? "واتساب (غير متاح في الملف التجريبي)" : "رقم واتساب غير متوفر"}
-          </span>
-        )}
-      </div>
-
       {doctor.bio && (
-        <section className="glass card">
-          <h2 className="card__title">نبذة</h2>
-          <p>{doctor.bio}</p>
+        <section>
+          <h2 className="group-header">نبذة</h2>
+          <div className="group group--text">
+            <p>{doctor.bio}</p>
+          </div>
         </section>
       )}
 
       {doctor.treats.length > 0 && (
-        <section className="glass card">
-          <h2 className="card__title">{doctor.specialty === "physio" ? "يساعد في" : "يعالج"}</h2>
-          <ul className="treats">
+        <section>
+          <h2 className="group-header">{doctor.specialty === "physio" ? "يساعد في" : "يعالج"}</h2>
+          <ul className="group group--text treats">
             {doctor.treats.map((t) => (
               <li key={t}>
-                <CheckIcon size={16} />
+                <CheckIcon size={15} />
                 {t}
               </li>
             ))}
@@ -123,67 +139,66 @@ export default async function DoctorPage(props: PageProps<"/doctors/[slug]">) {
         </section>
       )}
 
-      <section className="glass card">
-        <h2 className="card__title">معلومات</h2>
-        <ul className="facts">
-          <li>
-            <span className="facts__icon">
-              <SpecialtyIcon slug={doctor.specialty} size={18} />
+      <section>
+        <h2 className="group-header">معلومات</h2>
+        <ul className="group list">
+          <li className="row">
+            <span className="row__icon tile tile--blue">
+              <HospitalIcon size={18} />
             </span>
-            <span>
-              <small>التخصص</small>
-              {doctor.role}
+            <span className="row__text">
+              <small>المستشفى</small>
+              {doctor.hospital}
+            </span>
+          </li>
+          <li className="row">
+            <span className="row__icon tile tile--red">
+              <PinIcon size={18} />
+            </span>
+            <span className="row__text">
+              <small>الموقع</small>
+              {doctor.district}
             </span>
           </li>
           {doctor.yearsExperience !== null && (
-            <li>
-              <span className="facts__icon">
+            <li className="row">
+              <span className="row__icon tile tile--orange">
                 <BriefcaseIcon size={18} />
               </span>
-              <span>
+              <span className="row__text">
                 <small>الخبرة</small>
                 {doctor.yearsExperience} سنة
               </span>
             </li>
           )}
           {doctor.languages.length > 0 && (
-            <li>
-              <span className="facts__icon">
+            <li className="row">
+              <span className="row__icon tile tile--green">
                 <GlobeIcon size={18} />
               </span>
-              <span>
+              <span className="row__text">
                 <small>اللغات</small>
                 {doctor.languages.join("، ")}
               </span>
             </li>
           )}
-          <li>
-            <span className="facts__icon">
-              <PinIcon size={18} />
-            </span>
-            <span>
-              <small>الموقع</small>
-              {doctor.hospital} — {doctor.district}
-              {!doctor.demo && (
-                <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="facts__link">
-                  افتح في الخريطة
-                </a>
-              )}
-            </span>
-          </li>
         </ul>
-        <p className="source-note">
+        <p className="group-footer">
           المصدر: {doctor.source} · آخر تحقق: {formatDate(doctor.checkedAt)}
         </p>
       </section>
 
-      <p className="note">
-        فيه معلومة غلط أو تبي تشيل الملف؟{" "}
-        <Link href={`/corrections?profile=${doctor.slug}`} className="text-link">
-          اطلب تصحيح أو إزالة
-        </Link>
-      </p>
-
+      <ul className="group list">
+        <li>
+          <Link href={`/corrections?profile=${doctor.slug}`} className="row row--link">
+            <span className="row__icon tile tile--gray">
+              <EditIcon size={18} />
+            </span>
+            <span className="row__text row__text--tint">طلب تصحيح أو إزالة</span>
+            <ChevronIcon size={18} className="row__chev" />
+          </Link>
+        </li>
+      </ul>
     </article>
   );
 }

@@ -39,28 +39,30 @@ export function HomeView({ doctors }: { doctors: Doctor[] }) {
   return (
     <>
       <section className="hero">
-        <p className="hero__hello">{hello} 👋</p>
+        <p className="hero__hello">{hello}</p>
         <h1 className="hero__title">
-          اعرف طبيبك
-          <br />
-          <span className="text-gradient">قبل موعدك</span>
+          اعرف طبيبك <span className="text-gradient">قبل موعدك</span>
         </h1>
 
         <form className="search" role="search" onSubmit={(e) => e.preventDefault()}>
           <label htmlFor="q" className="sr-only">
             ابحث
           </label>
+          <SearchIcon size={18} className="search__icon" />
           <input
             id="q"
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="ابحث باسم الطبيب، المستشفى أو الحالة"
+            placeholder="طبيب، مستشفى، أو حالة"
             autoComplete="off"
+            enterKeyHint="search"
           />
-          <button type="submit" className="search__btn" aria-label="بحث">
-            <SearchIcon size={20} />
-          </button>
+          {query && (
+            <button type="button" className="search__clear" aria-label="مسح البحث" onClick={() => setQuery("")}>
+              ×
+            </button>
+          )}
         </form>
       </section>
 
@@ -95,18 +97,21 @@ export function HomeView({ doctors }: { doctors: Doctor[] }) {
 
       <section className="results" aria-labelledby="results-title">
         <div className="section-head">
-          <h2 id="results-title">{specialty ? `أطباء ${specialtyName(specialty)}` : "أطباؤنا"}</h2>
+          <h2 id="results-title">{specialty ? specialtyName(specialty) : "كل الأطباء"}</h2>
           <span className="section-head__count">{results.length} نتيجة</span>
         </div>
 
         {results.length > 0 ? (
-          <div className="card-grid">
+          <div className="card-grid" aria-live="polite">
             {results.map((d) => (
               <DoctorCard key={d.slug} doctor={d} />
             ))}
           </div>
         ) : (
-          <div className="empty glass">
+          <div className="empty">
+            <span className="empty__icon">
+              <SearchIcon size={28} />
+            </span>
             <p className="empty__title">ما لقينا نتائج</p>
             <p>جرّب كلمة ثانية أو اختر تخصص آخر.</p>
           </div>

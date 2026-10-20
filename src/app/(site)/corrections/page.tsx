@@ -16,7 +16,7 @@ export default async function CorrectionsPage(props: PageProps<"/corrections">) 
   const initial = typeof profile === "string" && profiles.some((p) => p.slug === profile) ? profile : "";
   return (
     <InfoPage title="طلب تصحيح أو إزالة" bare>
-      <p className="muted">
+      <p className="page-head__sub">
         إذا كنت طبيبًا أو تمثّل منشأة أو لاحظت معلومة غلط، أرسل لنا طلبك. نحفظ فقط: اسمك، بريدك، صلتك بالملف، الملف، ورسالتك.
       </p>
       <CorrectionForm profiles={profiles} initialProfile={initial} />

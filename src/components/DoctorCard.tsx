@@ -8,59 +8,46 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
   const href = `/doctors/${doctor.slug}`;
   return (
     <article className={`doc-card tint-${doctor.specialty}`}>
-      <div className="doc-card__top">
-        <span className="pill pill--glass">
-          <SpecialtyIcon slug={doctor.specialty} size={15} />
-          {specialtyName(doctor.specialty)}
-        </span>
-        {doctor.demo && <span className="pill pill--demo">تجريبي</span>}
-        <FavoriteButton slug={doctor.slug} name={displayName(doctor)} className="doc-card__fav" />
-      </div>
+      <Avatar doctor={doctor} className="doc-card__photo" />
 
-      <div className="doc-card__text">
-        <p className="doc-card__role">{doctor.role}</p>
+      <div className="doc-card__body">
+        <div className="doc-card__top">
+          <span className="tag">
+            <SpecialtyIcon slug={doctor.specialty} size={14} />
+            {specialtyName(doctor.specialty)}
+          </span>
+          {doctor.demo && <span className="tag tag--demo">تجريبي</span>}
+        </div>
         <h3 className="doc-card__name">
           <Link href={href} className="stretched">
             {displayName(doctor)}
           </Link>
         </h3>
+        <p className="doc-card__role">{doctor.role}</p>
         <p className="doc-card__place">
-          <HospitalIcon size={16} />
+          <HospitalIcon size={15} />
           {doctor.hospital}
+        </p>
+        <p className="doc-card__meta">
+          {doctor.rating === null ? (
+            <span className="muted">لا يوجد تقييم</span>
+          ) : (
+            <span className="doc-card__rating">
+              <StarIcon size={14} className="star-gold" />
+              <b>{doctor.rating.toFixed(1)}</b>
+              <span className="muted">({doctor.ratingCount ?? 0})</span>
+            </span>
+          )}
+          {doctor.yearsExperience !== null && (
+            <>
+              <span className="dot" aria-hidden="true" />
+              <span>{doctor.yearsExperience} سنة خبرة</span>
+            </>
+          )}
         </p>
       </div>
 
-      <Avatar doctor={doctor} className="doc-card__photo" />
-
-      <dl className="doc-card__stats">
-        <div className="glass-stat">
-          <dt className="sr-only">التقييم</dt>
-          <dd>
-            {doctor.rating === null ? (
-              <>
-                <strong>—</strong>
-                <span>لا يوجد تقييم</span>
-              </>
-            ) : (
-              <>
-                <strong>
-                  {doctor.rating.toFixed(1)} <StarIcon size={14} className="star-gold" />
-                </strong>
-                <span>{doctor.ratingCount ?? 0} تقييم</span>
-              </>
-            )}
-          </dd>
-        </div>
-        {doctor.yearsExperience !== null && (
-          <div className="glass-stat">
-            <dt className="sr-only">الخبرة</dt>
-            <dd>
-              <strong>{doctor.yearsExperience}+</strong>
-              <span>سنة خبرة</span>
-            </dd>
-          </div>
-        )}
-      </dl>
+      <FavoriteButton slug={doctor.slug} name={displayName(doctor)} className="doc-card__fav" />
     </article>
   );
 }

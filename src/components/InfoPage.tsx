@@ -22,8 +22,8 @@ export function InfoPage({
         </Link>
         <h1>{title}</h1>
       </div>
-      {draft && <p className="pill pill--demo draft-pill">مسودة — بانتظار مراجعة محامٍ سعودي</p>}
-      {bare ? children : <div className="glass card prose">{children}</div>}
+      {draft && <p className="tag tag--demo draft-pill">مسودة — بانتظار مراجعة محامٍ سعودي</p>}
+      {bare ? children : <div className="group group--text prose">{children}</div>}
     </article>
   );
 }

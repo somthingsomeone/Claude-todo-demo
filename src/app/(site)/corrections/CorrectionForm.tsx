@@ -9,7 +9,7 @@ export function CorrectionForm({ profiles, initialProfile }: { profiles: { slug:
 
   if (state.ok) {
     return (
-      <div className="empty glass">
+      <div className="empty">
         <p className="empty__title">وصلنا طلبك ✅</p>
         <p>بنراجعه ونرد عليك على بريدك.</p>
       </div>
@@ -17,7 +17,7 @@ export function CorrectionForm({ profiles, initialProfile }: { profiles: { slug:
   }
 
   return (
-    <form action={action} className="glass card form">
+    <form action={action} className="group form">
       {state.error && (
         <p className="form__error" role="alert">
           {state.error}
