@@ -35,14 +35,12 @@ export interface Doctor {
   languages: string[];
   mapUrl: string | null;
   yearsExperience: number | null;
-  /** Out of 5. Null when there is no rating with a source yet. */
-  rating: number | null;
-  ratingCount: number | null;
-  ratingSource: string | null;
   /** International format without "+", e.g. 9665XXXXXXXX. Empty when unknown. */
   whatsapp: string;
   source: string;
   checkedAt: string;
+  /** Last time the profile was edited (YYYY-MM-DD). */
+  updatedAt: string;
   demo: boolean;
 }
 

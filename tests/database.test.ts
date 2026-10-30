@@ -19,16 +19,18 @@ describe("public profiles", () => {
     expect(list.length).toBe(12);
     expect(list.every((d) => d.demo)).toBe(true);
     const sara = await getPublicDoctor(db, "demo-sara-alqahtani");
-    expect(sara?.rating).toBe(4.8);
+    // Ratings exist in the database but are never read for public pages.
+    expect(sara && "rating" in sara).toBe(false);
     expect(sara?.photo).toBeNull();
   });
 
-  it("new real profiles start hidden until an admin shows them", async () => {
+  it("new real profiles start as drafts; published + not hidden is public", async () => {
     const db = await freshDb();
     const owner = await makeOwner(db);
     const id = await createDoctor(db, owner, realDoctor());
+    expect((await getAdminDoctor(db, id))?.status).toBe("draft");
     expect(await getPublicDoctor(db, "test-doctor")).toBeNull();
-    await setHidden(db, owner, id, false);
+    await updateDoctor(db, owner, id, realDoctor({ status: "published" }));
     const shown = await getPublicDoctor(db, "test-doctor");
     expect(shown?.whatsapp).toBe("966551234567");
     expect(shown?.treats).toEqual(["جفاف العين", "المياه البيضاء"]);
@@ -48,10 +50,9 @@ describe("public profiles", () => {
   it("ignores ratings typed by admins (a profile never rates itself)", async () => {
     const db = await freshDb();
     const owner = await makeOwner(db);
-    const id = await createDoctor(db, owner, realDoctor({ rating: "5", rating_count: "999", rating_source: "أنا" }));
-    await setHidden(db, owner, id, false);
-    const shown = await getPublicDoctor(db, "test-doctor");
-    expect([shown?.rating, shown?.ratingCount, shown?.ratingSource]).toEqual([null, null, null]);
+    await createDoctor(db, owner, realDoctor({ status: "published", rating: "5", rating_count: "999", rating_source: "أنا" }));
+    const [row] = await db.query<{ rating: unknown; rating_count: unknown }>(`select rating, rating_count from doctors where slug = 'test-doctor'`);
+    expect([row.rating, row.rating_count]).toEqual([null, null]);
   });
 
   it("enforces the title, honorific and ID-number rules", async () => {
@@ -81,8 +82,8 @@ describe("whatsapp click counter", () => {
     const db = await freshDb();
     const owner = await makeOwner(db);
     const id = await createDoctor(db, owner, realDoctor());
-    expect(await recordWhatsAppClick(db, "test-doctor")).toBe(false); // still hidden
-    await setHidden(db, owner, id, false);
+    expect(await recordWhatsAppClick(db, "test-doctor")).toBe(false); // still a draft
+    await updateDoctor(db, owner, id, realDoctor({ status: "published" }));
     for (let i = 0; i < 3; i++) expect(await recordWhatsAppClick(db, "test-doctor")).toBe(true);
     expect(await recordWhatsAppClick(db, "demo-sara-alqahtani")).toBe(false); // no number
     const row = (await listAdminDoctors(db)).find((d) => d.id === id)!;
@@ -107,8 +108,7 @@ describe("photos", () => {
   it("requires permission and a real image file", async () => {
     const db = await freshDb();
     const owner = await makeOwner(db);
-    const id = await createDoctor(db, owner, realDoctor());
-    await setHidden(db, owner, id, false);
+    const id = await createDoctor(db, owner, realDoctor({ status: "published" }));
     const file = { bytes: PNG, size: PNG.length };
     await expect(savePhoto(db, owner, id, file, { permission_note: "x" })).rejects.toThrow(/إذن/);
     await expect(

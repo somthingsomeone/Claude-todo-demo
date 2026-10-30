@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest";
 import { DEMO_DOCTORS } from "@/lib/db/demo-data";
 import { SPECIALTIES, filterDoctors, normalizeArabic, whatsappLink, type Doctor } from "@/lib/doctors";
 
-const DOCTORS: Doctor[] = DEMO_DOCTORS.map((d) => ({
+const DOCTORS: Doctor[] = DEMO_DOCTORS.map(({ rating: _r, ratingCount: _c, ratingSource: _s, ...d }) => ({
   ...d,
+  updatedAt: d.checkedAt,
   mapUrl: null,
   whatsapp: "",
   photo: null,

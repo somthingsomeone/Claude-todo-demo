@@ -35,7 +35,6 @@
   --red-text: #d70015;
   --orange: #ff9500;
   --gray: #8e8e93;
-  --gold: #ff9f0a;
   --demo-bg: #fff4d6;
   --demo-ink: #8a5a00;
 
@@ -218,12 +217,10 @@ img, svg { display: block; }
 .doc-card__role { color: var(--label-2); font-size: 0.9375rem; }
 .doc-card__place { display: flex; align-items: center; gap: 0.3rem; color: var(--label-2); font-size: 0.875rem; }
 .doc-card__place svg { flex: none; color: var(--label-3); }
-.doc-card__meta { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; margin-block-start: 0.45rem; font-size: 0.875rem; }
+.doc-card__meta { display: flex; align-items: center; gap: 0.35rem; margin-block-start: 0.45rem; font-size: 0.875rem; color: var(--label-2); }
 .doc-card__meta > span { white-space: nowrap; }
-.doc-card__rating { display: inline-flex; align-items: center; gap: 0.2rem; }
 .doc-card .doc-card__fav { position: absolute; inset-block-start: 0.75rem; inset-inline-end: 0.75rem; }
 .dot { inline-size: 3px; block-size: 3px; border-radius: 50%; background: var(--label-3); }
-.star-gold { color: var(--gold); }
 
 /* The whole card is a link via its name; buttons sit above it. */
 .stretched::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
@@ -397,13 +394,6 @@ img, svg { display: block; }
 .action.is-disabled { opacity: 0.4; cursor: not-allowed; }
 .action--whatsapp.is-disabled { background: var(--bg-elevated); color: var(--label-2); opacity: 0.7; }
 
-.rating-row { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.1rem; }
-.rating-row__score { font-size: 2.5rem; font-weight: 800; line-height: 1; }
-.rating-row__count { font-size: 0.875rem; margin-block-start: 0.15rem; }
-.stars { position: relative; display: inline-flex; color: var(--gold); }
-.stars__base { display: inline-flex; color: var(--fill-strong); }
-.stars__fill { position: absolute; inset-block: 0; inset-inline-start: 0; display: inline-flex; overflow: hidden; white-space: nowrap; }
-.stars__fill svg { flex: none; }
 
 .treats { display: flex; flex-wrap: wrap; gap: 0.45rem; }
 .treats li {
@@ -544,3 +534,30 @@ img, svg { display: block; }
 .flash--err { background: color-mix(in srgb, var(--red) 12%, transparent); color: var(--red-text); }
 .flash--warn { background: var(--demo-bg); color: var(--demo-ink); }
 .adm .flash { margin-block-end: 1rem; }
+.adm-pre { max-inline-size: 28rem; max-block-size: 16rem; overflow: auto; font-size: 0.75rem; background: var(--fill); padding: 0.6rem; border-radius: var(--r-sm); white-space: pre-wrap; text-align: left; }
+
+/* ---- Footer ---- */
+.site-footer {
+  display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  margin-block-start: 2.5rem; padding-block: 1.5rem 1rem;
+  border-block-start: 0.5px solid var(--separator); font-size: 0.875rem;
+}
+.site-footer__title { font-size: 0.8125rem; font-weight: 600; color: var(--label-2); margin-block-end: 0.4rem; }
+.site-footer ul { display: grid; gap: 0.3rem; }
+.site-footer a { color: var(--tint); }
+.site-footer__note { grid-column: 1 / -1; color: var(--label-2); font-size: 0.8125rem; }
+
+/* ---- Long text pages (about, terms, privacy) ---- */
+.prose h2 { font-size: 1.125rem; font-weight: 700; margin-block-start: 0.6rem; }
+.prose ul { list-style: disc; padding-inline-start: 1.25rem; display: grid; gap: 0.3rem; }
+.prose a { color: var(--tint); }
+.prose .updated { color: var(--label-2); font-size: 0.875rem; }
+.placeholder { background: var(--demo-bg); color: var(--demo-ink); padding-inline: 0.25rem; border-radius: 4px; }
+.faq { display: grid; gap: 0.6rem; }
+.faq details { background: var(--bg-elevated); border-radius: var(--r-md); box-shadow: var(--shadow-card); padding: 0.85rem 1rem; }
+.faq summary { font-weight: 600; cursor: pointer; list-style-position: inside; }
+.faq details p { margin-block-start: 0.5rem; color: var(--label-2); }
+.lede { color: var(--label-2); font-size: 1.0625rem; max-inline-size: 42rem; }
+.section-link { margin-block: -0.25rem 0.75rem; font-size: 0.9375rem; }
+.breadcrumb { display: flex; align-items: center; gap: 0.6rem; font-size: 0.875rem; }
+.section-title { font-size: 1.375rem; font-weight: 700; margin-block-end: 0.75rem; }

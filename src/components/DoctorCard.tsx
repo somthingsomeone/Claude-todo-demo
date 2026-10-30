@@ -2,7 +2,7 @@ import Link from "next/link";
 import { type Doctor, displayName, specialtyName } from "@/lib/doctors";
 import { Avatar } from "./Avatar";
 import { FavoriteButton } from "./FavoriteButton";
-import { HospitalIcon, SpecialtyIcon, StarIcon } from "./Icons";
+import { BriefcaseIcon, HospitalIcon, SpecialtyIcon } from "./Icons";
 
 export function DoctorCard({ doctor }: { doctor: Doctor }) {
   const href = `/doctors/${doctor.slug}`;
@@ -28,23 +28,12 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
           <HospitalIcon size={15} />
           {doctor.hospital}
         </p>
-        <p className="doc-card__meta">
-          {doctor.rating === null ? (
-            <span className="muted">لا يوجد تقييم</span>
-          ) : (
-            <span className="doc-card__rating">
-              <StarIcon size={14} className="star-gold" />
-              <b>{doctor.rating.toFixed(1)}</b>
-              <span className="muted">({doctor.ratingCount ?? 0})</span>
-            </span>
-          )}
-          {doctor.yearsExperience !== null && (
-            <>
-              <span className="dot" aria-hidden="true" />
-              <span>{doctor.yearsExperience} سنة خبرة</span>
-            </>
-          )}
-        </p>
+        {doctor.yearsExperience !== null && (
+          <p className="doc-card__meta">
+            <BriefcaseIcon size={14} />
+            <span>{doctor.yearsExperience} سنة خبرة</span>
+          </p>
+        )}
       </div>
 
       <FavoriteButton slug={doctor.slug} name={displayName(doctor)} className="doc-card__fav" />

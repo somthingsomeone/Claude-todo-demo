@@ -15,6 +15,12 @@ import {
 } from "./core";
 
 export const TITLES = ["د.", "أخصائي علاج طبيعي", "أخصائية علاج طبيعي"] as const;
+export const STATUSES = ["draft", "published"] as const;
+export type DoctorStatus = (typeof STATUSES)[number];
+export const STATUS_LABELS: Record<DoctorStatus, string> = { draft: "مسودة", published: "منشور" };
+export const CONSENT_METHODS = ["whatsapp", "email", "paper"] as const;
+export type ConsentMethod = (typeof CONSENT_METHODS)[number];
+export const CONSENT_LABELS: Record<ConsentMethod, string> = { whatsapp: "واتساب", email: "بريد إلكتروني", paper: "ورقي" };
 const SPECIALTY_SLUGS = SPECIALTIES.map((s) => s.slug) as SpecialtySlug[];
 
 export interface AdminDoctor {
@@ -32,12 +38,13 @@ export interface AdminDoctor {
   treats: string[];
   languages: string[];
   years_experience: number | null;
-  rating: number | null;
-  rating_count: number | null;
-  rating_source: string | null;
   whatsapp: string;
   source: string;
   checked_at: string;
+  status: DoctorStatus;
+  consent_date: string | null;
+  consent_method: ConsentMethod | null;
+  consent_note: string | null;
   is_demo: boolean;
   is_hidden: boolean;
   has_photo: boolean;
@@ -53,6 +60,8 @@ export interface AdminDoctorRow {
   hospital: string;
   is_demo: boolean;
   is_hidden: boolean;
+  status: DoctorStatus;
+  has_consent: boolean;
   whatsapp: string;
   clicks_total: number;
   clicks_30d: number;
@@ -72,7 +81,8 @@ export function normalizeSaudiMobile(input: string | null): string {
 
 export async function listAdminDoctors(db: Db): Promise<AdminDoctorRow[]> {
   return db.query<AdminDoctorRow>(
-    `select d.id, d.slug, d.name, d.title, d.specialty, d.hospital, d.is_demo, d.is_hidden, d.whatsapp,
+    `select d.id, d.slug, d.name, d.title, d.specialty, d.hospital, d.is_demo, d.is_hidden, d.status,
+       (d.consent_date is not null) as has_consent, d.whatsapp,
        coalesce(sum(c.clicks), 0)::int as clicks_total,
        coalesce(sum(c.clicks) filter (where c.day > (now() at time zone 'Asia/Riyadh')::date - 30), 0)::int as clicks_30d
      from doctors d left join whatsapp_clicks c on c.doctor_id = d.id
@@ -85,8 +95,9 @@ export async function getAdminDoctor(db: Db, id: string): Promise<AdminDoctor | 
   if (!/^[0-9a-f-]{36}$/i.test(id)) return null;
   const [row] = await db.query<AdminDoctor>(
     `select d.id, d.slug, d.name, d.title, d.title_note, d.specialty, d.role, d.hospital, d.district, d.map_url, d.bio,
-       d.treats, d.languages, d.years_experience, d.rating::float8 as rating, d.rating_count, d.rating_source, d.whatsapp,
-       d.source, to_char(d.checked_at, 'YYYY-MM-DD') as checked_at,
+       d.treats, d.languages, d.years_experience, d.whatsapp,
+       d.source, to_char(d.checked_at, 'YYYY-MM-DD') as checked_at, d.status,
+       to_char(d.consent_date, 'YYYY-MM-DD') as consent_date, d.consent_method, d.consent_note,
        d.is_demo, d.is_hidden, (p.doctor_id is not null) as has_photo, p.permission_note as photo_permission_note
      from doctors d left join doctor_photos p on p.doctor_id = d.id
      where d.id = $1`,
@@ -103,6 +114,16 @@ function readDoctor(values: Record<string, unknown>) {
   if (slug.startsWith("demo-")) throw new AdminError("الرابط المختصر لا يبدأ بـ demo- (محجوز للملفات التجريبية).");
   const titleNote = text(values, "title_note", { max: 200, label: "مستند اللقب" });
   if (containsIdLikeNumber(titleNote)) throw new AdminError("لا تكتب أرقامًا طويلة في ملاحظة اللقب.");
+  const consentNote = text(values, "consent_note", { max: 300, label: "ملاحظة الموافقة" });
+  if (containsIdLikeNumber(consentNote)) throw new AdminError("لا تكتب أرقام هوية أو أرقامًا طويلة في ملاحظة الموافقة.");
+  const consentDate = dateField(values, "consent_date", { label: "تاريخ الموافقة" });
+  const consentMethod = oneOf(values, "consent_method", CONSENT_METHODS, { label: "طريقة الموافقة" });
+  if (consentDate && !consentMethod) throw new AdminError("اختر طريقة موافقة الطبيب (واتساب، بريد، ورقي).");
+  if (consentDate && consentDate > new Date().toISOString().slice(0, 10)) throw new AdminError("تاريخ الموافقة ما يكون في المستقبل.");
+  const status = oneOf(values, "status", STATUSES, { label: "الحالة" }) ?? "draft";
+  if (status === "published" && !consentDate) {
+    throw new AdminError("ما يمديك تنشر الملف بدون تاريخ موافقة الطبيب. احفظه كمسودة أو أضف تاريخ الموافقة.");
+  }
 
   return {
     slug,
@@ -121,22 +142,26 @@ function readDoctor(values: Record<string, unknown>) {
     whatsapp: normalizeSaudiMobile(text(values, "whatsapp", { max: 30, label: "واتساب" })),
     source: text(values, "source", { required: true, max: 300, label: "المصدر" })!,
     checked_at: dateField(values, "checked_at", { required: true, label: "تاريخ التحقق" })!,
+    status,
+    consent_date: consentDate,
+    consent_method: consentDate ? consentMethod : null,
+    consent_note: consentNote,
   };
 }
 
 // Ratings are not entered by admins (the profile must not "rate itself").
 const COLUMNS = [
   "slug", "name", "title", "title_note", "specialty", "role", "hospital", "district", "map_url", "bio", "treats",
-  "languages", "years_experience", "whatsapp", "source", "checked_at",
+  "languages", "years_experience", "whatsapp", "source", "checked_at", "status", "consent_date", "consent_method",
+  "consent_note",
 ] as const;
 
 export async function createDoctor(db: Db, actor: Actor, values: Record<string, unknown>): Promise<string> {
   const d = readDoctor(values);
   try {
-    // New profiles start hidden; an admin shows them after checking everything.
     const [row] = await db.query<{ id: string }>(
-      `insert into doctors (${COLUMNS.join(", ")}, is_hidden)
-       values (${COLUMNS.map((_, i) => `$${i + 1}`).join(", ")}, true) returning id`,
+      `insert into doctors (${COLUMNS.join(", ")})
+       values (${COLUMNS.map((_, i) => `$${i + 1}`).join(", ")}) returning id`,
       COLUMNS.map((c) => d[c]),
     );
     await audit(db, actor, "create", "doctors", row.id, null, d);

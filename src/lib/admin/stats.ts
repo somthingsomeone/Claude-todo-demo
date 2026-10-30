@@ -22,8 +22,8 @@ export async function dashboardStats(db: Db) {
        (select coalesce(sum(clicks), 0)::int from whatsapp_clicks, today where day >= date_trunc('month', today.d)::date) as clicks_month,
        (select coalesce(sum(clicks), 0)::int from whatsapp_clicks, today where day > today.d - 30) as clicks_30d,
        (select coalesce(sum(clicks), 0)::int from whatsapp_clicks) as clicks_total,
-       (select count(*)::int from doctors where not is_hidden and not is_demo) as doctors_public,
-       (select count(*)::int from doctors where is_hidden and not is_demo) as doctors_hidden,
+       (select count(*)::int from doctors where status = 'published' and not is_hidden and not is_demo) as doctors_public,
+       (select count(*)::int from doctors where (status = 'draft' or is_hidden) and not is_demo) as doctors_hidden,
        (select count(*)::int from doctors where is_demo) as doctors_demo,
        (select count(*)::int from correction_requests where status = 'open') as requests_open`,
   );

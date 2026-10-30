@@ -14,6 +14,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
     ["/admin", "الملخص"],
     ["/admin/doctors", "الأطباء"],
     ["/admin/requests", "طلبات التصحيح"],
+    ["/admin/history", "سجل التغييرات"],
   ];
   if (actor.role === "owner") links.push(["/admin/admins", "المشرفون"]);
   return (

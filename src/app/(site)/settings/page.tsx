@@ -3,11 +3,17 @@ import Link from "next/link";
 import { ClearFavorites } from "@/components/ClearFavorites";
 import { ChevronIcon, DocIcon, EditIcon, InfoIcon, ShieldIcon, UserIcon } from "@/components/Icons";
 import { LogoMark } from "@/components/Logo";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "الإعدادات" };
+export const metadata: Metadata = pageMetadata({
+  title: "الإعدادات",
+  description: "إعدادات باناكس وروابط الشروط والخصوصية وطلبات التصحيح.",
+  path: "/settings",
+  noindex: true,
+});
 
 const LINKS = [
-  { href: "/about", label: "عن باناكس", Icon: InfoIcon, tile: "blue" },
+  { href: "/about", label: "عن باناكس وكيف نتحقق", Icon: InfoIcon, tile: "blue" },
   { href: "/privacy", label: "سياسة الخصوصية", Icon: ShieldIcon, tile: "green" },
   { href: "/terms", label: "الشروط والأحكام", Icon: DocIcon, tile: "gray" },
   { href: "/corrections", label: "طلب تصحيح أو إزالة", Icon: EditIcon, tile: "orange" },

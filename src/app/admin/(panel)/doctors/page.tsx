@@ -44,7 +44,9 @@ export default async function AdminDoctors() {
                   {d.is_demo ? (
                     <span className="pill pill--demo">تجريبي</span>
                   ) : d.is_hidden ? (
-                    <span className="pill pill--off">مخفي</span>
+                    <span className="pill pill--off">مخفي مؤقتًا</span>
+                  ) : d.status === "draft" ? (
+                    <span className="pill pill--off">{d.has_consent ? "مسودة" : "مسودة · بدون موافقة"}</span>
                   ) : (
                     <span className="pill pill--on">ظاهر</span>
                   )}

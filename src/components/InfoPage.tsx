@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { isSiteLive } from "@/lib/site";
 import { ArrowIcon } from "./Icons";
 
 /** Simple text page (about, privacy, terms…) with a back button to settings. `bare` skips the text card. */
@@ -22,7 +23,7 @@ export function InfoPage({
         </Link>
         <h1>{title}</h1>
       </div>
-      {draft && <p className="tag tag--demo draft-pill">مسودة — بانتظار مراجعة محامٍ سعودي</p>}
+      {draft && !isSiteLive() && <p className="tag tag--demo draft-pill">مسودة — بانتظار مراجعة محامٍ سعودي</p>}
       {bare ? children : <div className="group group--text prose">{children}</div>}
     </article>
   );

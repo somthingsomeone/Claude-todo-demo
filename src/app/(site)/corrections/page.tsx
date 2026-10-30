@@ -4,9 +4,15 @@ import { InfoPage } from "@/components/InfoPage";
 import { getDb } from "@/lib/db/client";
 import { listPublicDoctors } from "@/lib/data/doctors";
 import { displayName } from "@/lib/doctors";
+import { pageMetadata } from "@/lib/seo";
 import { CorrectionForm } from "./CorrectionForm";
 
-export const metadata: Metadata = { title: "طلب تصحيح أو إزالة" };
+export const metadata: Metadata = pageMetadata({
+  title: "طلب تصحيح أو إزالة",
+  description: "اطلب تصحيح معلومة أو إزالة ملف من دليل باناكس.",
+  path: "/corrections",
+  noindex: true,
+});
 
 export default async function CorrectionsPage(props: PageProps<"/corrections">) {
   await connection();

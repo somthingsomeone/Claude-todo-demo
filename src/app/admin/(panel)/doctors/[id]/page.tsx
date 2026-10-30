@@ -2,15 +2,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DoctorForm } from "@/components/admin/DoctorForm";
 import { getDb } from "@/lib/db/client";
-import { getAdminDoctor } from "@/lib/admin/profiles";
-import { deleteDoctor, removePhoto, setHidden, updateDoctor, uploadPhoto } from "../../../actions";
+import { STATUS_LABELS, getAdminDoctor } from "@/lib/admin/profiles";
+import { deleteDoctor, removePhoto, setHidden, updateDoctorForm, uploadPhoto } from "../../../actions";
 
 export default async function EditDoctor(props: PageProps<"/admin/doctors/[id]">) {
   const { id } = await props.params;
   const doctor = await getAdminDoctor(await getDb(), id);
   if (!doctor) notFound();
   const back = `/admin/doctors/${doctor.id}`;
-  const isPublic = !doctor.is_hidden;
+  const isPublic = doctor.status === "published" && !doctor.is_hidden;
 
   return (
     <div className="adm-stack">
@@ -31,7 +31,13 @@ export default async function EditDoctor(props: PageProps<"/admin/doctors/[id]">
             <div>
               <h2 className="card__title">الظهور للزوار</h2>
               <p className="muted">
-                {isPublic ? "الملف ظاهر في الموقع." : "مخفي — راجع المعلومات ثم أظهره."}
+                الحالة: <b>{STATUS_LABELS[doctor.status]}</b>
+                {doctor.is_hidden && " · مخفي مؤقتًا"} —{" "}
+                {isPublic
+                  ? "الملف ظاهر في الموقع."
+                  : doctor.status === "draft"
+                    ? "ما يظهر للزوار. غيّر الحالة إلى «منشور» من النموذج تحت (يحتاج تاريخ موافقة)."
+                    : "مخفي مؤقتًا عن الزوار."}
               </p>
             </div>
             <form action={setHidden}>
@@ -39,12 +45,12 @@ export default async function EditDoctor(props: PageProps<"/admin/doctors/[id]">
               <input type="hidden" name="id" value={doctor.id} />
               <input type="hidden" name="hidden" value={doctor.is_hidden ? "0" : "1"} />
               <button className={doctor.is_hidden ? "btn-primary" : "btn-secondary"}>
-                {doctor.is_hidden ? "إظهار للزوار" : "إخفاء"}
+                {doctor.is_hidden ? "إلغاء الإخفاء" : "إخفاء مؤقت"}
               </button>
             </form>
           </section>
 
-          <DoctorForm action={updateDoctor} doctor={doctor} back={back} submitLabel="حفظ التعديلات" />
+          <DoctorForm action={updateDoctorForm} doctor={doctor} back={back} submitLabel="حفظ التعديلات" />
 
           <section className="glass card">
             <h2 className="card__title">الصورة</h2>
@@ -76,7 +82,7 @@ export default async function EditDoctor(props: PageProps<"/admin/doctors/[id]">
               </label>
               <label className="check">
                 <input type="checkbox" name="permission" required />
-                <span>أؤكد أن الطبيب أعطى إذنه لنشر هذه الصورة.</span>
+                <span>الطبيب وافق على الصورة.</span>
               </label>
               <button className="btn-primary">رفع الصورة</button>
             </form>

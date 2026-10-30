@@ -49,12 +49,6 @@ export const SearchIcon = (p: IconProps) => (
   </Svg>
 );
 
-export const StarIcon = ({ filled = true, ...p }: IconProps & { filled?: boolean }) => (
-  <Svg {...p} fill={filled ? "currentColor" : "none"} strokeWidth={1.4}>
-    <path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9L12 3.5Z" />
-  </Svg>
-);
-
 export const PinIcon = (p: IconProps) => (
   <Svg {...p}>
     <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z" />

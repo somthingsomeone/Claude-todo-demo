@@ -16,7 +16,8 @@ export async function makeOwner(db: Db): Promise<Actor> {
   return { id: row.id, email: "owner@example.com", displayName: "المالك", role: "owner" };
 }
 
-export const realDoctor = (over: Record<string, string> = {}) => ({
+/** A complete, consented profile (saved as draft unless status is given). */
+export const realDoctor = (over: Record<string, string | undefined> = {}) => ({
   slug: "test-doctor",
   name: "اسم تجريبي للاختبار",
   title: "د.",
@@ -31,5 +32,8 @@ export const realDoctor = (over: Record<string, string> = {}) => ({
   whatsapp: "0551234567",
   source: "موقع العيادة الرسمي",
   checked_at: "2026-10-01",
+  consent_date: "2026-10-01",
+  consent_method: "whatsapp",
+  consent_note: "وافق عبر واتساب العيادة",
   ...over,
 });

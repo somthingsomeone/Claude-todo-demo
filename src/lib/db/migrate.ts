@@ -129,6 +129,69 @@ const MIGRATIONS: [name: string, sql: string][] = [
     alter table doctors drop column if exists nationality_note;
   `,
   ],
+  [
+    "0004_status_consent_claims_ratelimit",
+    /* sql */ `
+    -- Publication status: a profile is public only when published (and not temporarily hidden).
+    alter table doctors add column status text not null default 'draft' check (status in ('draft', 'published'));
+
+    -- The doctor's consent to be listed.
+    alter table doctors add column consent_date date;
+    alter table doctors add column consent_method text check (consent_method in ('whatsapp', 'email', 'paper'));
+    alter table doctors add column consent_note text;
+    alter table doctors add constraint consent_method_with_date
+      check (consent_date is null or consent_method is not null);
+    -- Existing rows: demo profiles stay public; real ones go to draft until their consent is recorded.
+    update doctors set status = 'published' where is_demo;
+    alter table doctors add constraint published_needs_consent
+      check (status <> 'published' or is_demo or consent_date is not null);
+
+    -- Ready for "claim profile" later (NOT built yet): a doctor's own login linked to their profile.
+    alter table doctors add column claimed_by_auth_user uuid;
+    alter table doctors add column claimed_at timestamptz;
+    create table profile_claims (
+      id uuid primary key default gen_random_uuid(),
+      doctor_id uuid not null references doctors (id) on delete cascade,
+      auth_user_id uuid not null,
+      email text not null check (email = lower(email)),
+      status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
+      created_at timestamptz not null default now(),
+      decided_at timestamptz,
+      decided_by uuid references admin_users (id) on delete set null
+    );
+    create index profile_claims_doctor on profile_claims (doctor_id);
+
+    -- Abuse protection for the correction form and click counter. "key" is a keyed hash of the
+    -- visitor's IP (the IP itself is never stored); rows are deleted after a day.
+    create table rate_limits (
+      bucket text not null,
+      key text not null,
+      window_start timestamptz not null,
+      hits int not null default 0,
+      primary key (bucket, key, window_start)
+    );
+
+    -- Row Level Security on every table (including the new ones), with no public policies.
+    do $$
+    declare t text;
+    begin
+      for t in select tablename from pg_tables where schemaname = 'public' and tablename <> '_migrations'
+      loop
+        execute format('alter table public.%I enable row level security', t);
+      end loop;
+    end $$;
+
+    -- On Supabase, also take away all table rights from the public API roles.
+    do $$
+    begin
+      if exists (select 1 from pg_roles where rolname = 'anon') then
+        execute 'revoke all on all tables in schema public from anon, authenticated';
+        execute 'revoke all on all sequences in schema public from anon, authenticated';
+        execute 'alter default privileges in schema public revoke all on tables from anon, authenticated';
+      end if;
+    end $$;
+  `,
+  ],
 ];
 
 export async function migrate(db: Db) {
@@ -147,8 +210,8 @@ export async function seedDemoIfEmpty(db: Db) {
   for (const d of DEMO_DOCTORS) {
     await db.query(
       `insert into doctors (slug, name, title, specialty, role, hospital, district, bio, treats, languages,
-         years_experience, rating, rating_count, rating_source, source, checked_at, is_demo)
-       values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, true)`,
+         years_experience, rating, rating_count, rating_source, source, checked_at, is_demo, status)
+       values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, true, 'published')`,
       [
         d.slug, d.name, d.title, d.specialty, d.role, d.hospital, d.district, d.bio, d.treats, d.languages,
         d.yearsExperience, d.rating, d.ratingCount, d.ratingSource, d.source, d.checkedAt,

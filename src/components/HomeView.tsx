@@ -1,9 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { type Doctor, SPECIALTIES, type SpecialtySlug, filterDoctors, specialtyName } from "@/lib/doctors";
 import { DoctorCard } from "./DoctorCard";
 import { GridIcon, SearchIcon, SpecialtyIcon } from "./Icons";
+
+const SPECIALTY_TITLES: Record<SpecialtySlug, string> = {
+  dermatology: "أطباء الجلدية في الرياض",
+  cosmetic: "أطباء التجميل والليزر في الرياض",
+  eyes: "أطباء العيون في الرياض",
+  dental: "أطباء الأسنان في الرياض",
+  physio: "العلاج الطبيعي في الرياض",
+};
 
 function greeting(hour: number) {
   if (hour >= 4 && hour < 12) return "صباح الخير";
@@ -100,6 +109,13 @@ export function HomeView({ doctors }: { doctors: Doctor[] }) {
           <h2 id="results-title">{specialty ? specialtyName(specialty) : "كل الأطباء"}</h2>
           <span className="section-head__count">{results.length} نتيجة</span>
         </div>
+        {specialty && (
+          <p className="section-link">
+            <Link href={`/riyadh/${specialty}`} className="text-link">
+              كل شي عن {SPECIALTY_TITLES[specialty]} ←
+            </Link>
+          </p>
+        )}
 
         {results.length > 0 ? (
           <div className="card-grid" aria-live="polite">

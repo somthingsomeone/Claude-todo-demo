@@ -3,5 +3,6 @@ import path from "node:path";
 
 export default defineConfig({
   resolve: { alias: { "@": path.resolve(import.meta.dirname, "src") } },
-  test: { include: ["tests/**/*.test.ts"] },
+  // Each test starts its own in-memory database, which takes a few seconds.
+  test: { include: ["tests/**/*.test.ts"], testTimeout: 30_000 },
 });

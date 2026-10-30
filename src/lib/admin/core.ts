@@ -142,7 +142,38 @@ export function explainDbError(e: unknown): never {
   if (msg.includes("name_without_honorific")) throw new AdminError("اكتب الاسم بدون لقب (مثل د.). اللقب يُختار من قائمة اللقب.");
   if (msg.includes("doctor_title_matches_specialty")) throw new AdminError("لقب «أخصائي علاج طبيعي» للعلاج الطبيعي فقط.");
   if (msg.includes("physio_doctor_title_needs_proof")) throw new AdminError("لقب «د.» لأخصائي العلاج الطبيعي يحتاج ملاحظة عن المستند الذي يثبته.");
+  if (msg.includes("published_needs_consent")) throw new AdminError("ما يمديك تنشر الملف بدون تاريخ موافقة الطبيب.");
+  if (msg.includes("consent_method_with_date")) throw new AdminError("اختر طريقة موافقة الطبيب.");
   if (msg.includes("whatsapp")) throw new AdminError("رقم واتساب يجب أن يكون بصيغة 9665XXXXXXXX.");
   if (msg.includes("duplicate key") || msg.includes("unique")) throw new AdminError("هذا السجل موجود مسبقًا (الرابط المختصر مستخدم).");
   throw e;
+}
+
+export interface AuditRow {
+  id: number;
+  at: string;
+  admin: string | null;
+  action: string;
+  entity_table: string;
+  entity_id: string;
+  target: string | null;
+  before_data: unknown;
+  after_data: unknown;
+}
+
+/** Latest changes, newest first, with the admin's name and (for doctors) the profile's name. */
+export async function listAudit(db: Db, limit = 200): Promise<AuditRow[]> {
+  return db.query<AuditRow>(
+    `select l.id, to_char(l.created_at at time zone 'Asia/Riyadh', 'YYYY-MM-DD HH24:MI') as at,
+       coalesce(a.display_name || ' (' || a.email || ')', null) as admin,
+       l.action, l.entity_table, l.entity_id,
+       case when l.entity_table in ('doctors', 'doctor_photos') then
+         coalesce((select d.name from doctors d where d.id::text = l.entity_id),
+                  l.before_data ->> 'name', l.after_data ->> 'name')
+       end as target,
+       l.before_data, l.after_data
+     from audit_log l left join admin_users a on a.id = l.admin_id
+     order by l.id desc limit $1`,
+    [limit],
+  );
 }

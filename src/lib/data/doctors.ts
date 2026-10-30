@@ -1,17 +1,22 @@
 import type { Db } from "../db/client";
 import type { Doctor, SpecialtySlug } from "../doctors";
+import { isSiteLive } from "../site";
 
 /**
- * Public reads. A profile is shown unless an admin hid it.
- * Private fields (title note, photo permission note) never leave here.
+ * Public reads. A profile is shown only when it is published, not hidden, and has a
+ * consent date (the database enforces that last part). Demo profiles disappear when
+ * SITE_LIVE=true. Private fields (consent, title note, photo permission) never leave here,
+ * and ratings are not read at all (not displayed anywhere).
  */
-const PUBLIC_WHERE = `not d.is_hidden`;
+export function publicWhere(live = isSiteLive()) {
+  return `d.status = 'published' and not d.is_hidden${live ? " and not d.is_demo" : ""}`;
+}
 
 const PUBLIC_COLUMNS = `
   d.slug, d.name, d.title, d.specialty, d.role, d.hospital, d.district, d.map_url, d.bio, d.treats,
-  d.languages, d.years_experience, d.rating::float8 as rating, d.rating_count, d.rating_source, d.whatsapp,
-  d.source, to_char(d.checked_at, 'YYYY-MM-DD') as checked_at, d.is_demo,
-  extract(epoch from p.uploaded_at)::bigint as photo_version`;
+  d.languages, d.years_experience, d.whatsapp,
+  d.source, to_char(d.checked_at, 'YYYY-MM-DD') as checked_at, to_char(d.updated_at, 'YYYY-MM-DD') as updated_at,
+  d.is_demo, extract(epoch from p.uploaded_at)::bigint as photo_version`;
 
 interface Row {
   slug: string;
@@ -26,12 +31,10 @@ interface Row {
   treats: string[];
   languages: string[];
   years_experience: number | null;
-  rating: number | null;
-  rating_count: number | null;
-  rating_source: string | null;
   whatsapp: string;
   source: string;
   checked_at: string;
+  updated_at: string;
   is_demo: boolean;
   photo_version: number | string | null;
 }
@@ -50,13 +53,11 @@ function toDoctor(r: Row): Doctor {
     treats: r.treats,
     languages: r.languages,
     yearsExperience: r.years_experience,
-    rating: r.rating === null ? null : Number(r.rating),
-    ratingCount: r.rating_count,
-    ratingSource: r.rating_source,
     whatsapp: r.whatsapp,
     photo: r.photo_version === null ? null : `/photos/${r.slug}?v=${r.photo_version}`,
     source: r.source,
     checkedAt: r.checked_at,
+    updatedAt: r.updated_at,
     demo: r.is_demo,
   };
 }
@@ -64,8 +65,8 @@ function toDoctor(r: Row): Doctor {
 export async function listPublicDoctors(db: Db): Promise<Doctor[]> {
   const rows = await db.query<Row>(
     `select ${PUBLIC_COLUMNS} from doctors d left join doctor_photos p on p.doctor_id = d.id
-     where ${PUBLIC_WHERE}
-     order by d.is_demo, d.rating desc nulls last, d.name`,
+     where ${publicWhere()}
+     order by d.name`, // alphabetical: placement is never sold
   );
   return rows.map(toDoctor);
 }
@@ -73,7 +74,7 @@ export async function listPublicDoctors(db: Db): Promise<Doctor[]> {
 export async function getPublicDoctor(db: Db, slug: string): Promise<Doctor | null> {
   const [row] = await db.query<Row>(
     `select ${PUBLIC_COLUMNS} from doctors d left join doctor_photos p on p.doctor_id = d.id
-     where d.slug = $1 and ${PUBLIC_WHERE}`,
+     where d.slug = $1 and ${publicWhere()}`,
     [slug],
   );
   return row ? toDoctor(row) : null;
@@ -82,7 +83,7 @@ export async function getPublicDoctor(db: Db, slug: string): Promise<Doctor | nu
 export async function getPublicPhoto(db: Db, slug: string): Promise<{ mime: string; data: Uint8Array } | null> {
   const [row] = await db.query<{ mime: string; data: Uint8Array }>(
     `select p.mime, p.data from doctor_photos p join doctors d on d.id = p.doctor_id
-     where d.slug = $1 and ${PUBLIC_WHERE}`,
+     where d.slug = $1 and ${publicWhere()}`,
     [slug],
   );
   return row ?? null;
@@ -93,7 +94,7 @@ export async function recordWhatsAppClick(db: Db, slug: string): Promise<boolean
   const rows = await db.query(
     `insert into whatsapp_clicks (doctor_id, day, clicks)
      select d.id, (now() at time zone 'Asia/Riyadh')::date, 1 from doctors d
-     where d.slug = $1 and ${PUBLIC_WHERE} and d.whatsapp <> ''
+     where d.slug = $1 and ${publicWhere()} and d.whatsapp <> ''
      on conflict (doctor_id, day) do update set clicks = whatsapp_clicks.clicks + 1
      returning 1`,
     [slug],

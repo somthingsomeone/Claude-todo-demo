@@ -1,5 +1,6 @@
 "use server";
 
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getDb } from "@/lib/db/client";
 import { AdminError } from "@/lib/admin/core";
@@ -7,6 +8,8 @@ import * as A from "@/lib/admin/admins";
 import * as P from "@/lib/admin/profiles";
 import * as R from "@/lib/admin/requests";
 import { authMode, devSignIn, requireAdmin, signOut, siteOrigin, supabaseServerClient } from "@/lib/admin/session";
+import { ensureAuthUser } from "@/lib/admin/supabase-admin";
+import { LIMITS, clientIp, rateLimit } from "@/lib/rate-limit";
 
 const values = (fd: FormData) => Object.fromEntries(fd.entries());
 const back = (fd: FormData) => {
@@ -38,13 +41,21 @@ export async function requestLoginLink(fd: FormData) {
   const done = "/admin/login?sent=1";
   if (authMode() !== "supabase" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) redirect(done);
   const db = await getDb();
-  // The same message is shown whether or not the email is an admin.
+  if (!(await rateLimit(db, "login", clientIp(await headers()), LIMITS.login))) redirect(done);
+  // Only allowlisted emails get a link; the same message is shown either way.
   if (await A.mayRequestLogin(db, email, process.env.ADMIN_OWNER_EMAIL ?? null)) {
-    const supabase = await supabaseServerClient();
-    await supabase.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: `${await siteOrigin()}/admin/auth/callback`, shouldCreateUser: true },
-    });
+    try {
+      await ensureAuthUser(email);
+      const origin = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "") || (await siteOrigin());
+      const supabase = await supabaseServerClient();
+      // shouldCreateUser: false — nobody can sign themselves up.
+      await supabase.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: `${origin}/admin/auth/callback`, shouldCreateUser: false },
+      });
+    } catch (e) {
+      console.error("login link failed", e);
+    }
   }
   redirect(done);
 }
@@ -58,19 +69,29 @@ export async function logout() {
 }
 
 // ---- doctors ---------------------------------------------------------------
-export async function createDoctor(fd: FormData) {
+export type DoctorFormState = { n: number; error?: string; values?: Record<string, string> };
+
+/** Add or edit a doctor. On error the form keeps what was typed (see DoctorForm). */
+async function saveDoctor(prev: DoctorFormState, fd: FormData, isNew: boolean): Promise<DoctorFormState> {
   const actor = await requireAdmin();
-  await run(
-    fd,
-    async () => `/admin/doctors/${await P.createDoctor(await getDb(), actor, values(fd))}`,
-    "تمت الإضافة. الملف مخفي حتى تضغط «إظهار للزوار».",
-  );
+  let id = String(fd.get("id") ?? "");
+  try {
+    const db = await getDb();
+    if (isNew) id = await P.createDoctor(db, actor, values(fd));
+    else await P.updateDoctor(db, actor, id, values(fd));
+  } catch (e) {
+    const error = e instanceof AdminError ? e.message : "حدث خطأ غير متوقع. لم يُحفظ التغيير.";
+    if (!(e instanceof AdminError)) console.error(e);
+    const typed = Object.fromEntries([...fd.entries()].filter(([, v]) => typeof v === "string")) as Record<string, string>;
+    return { n: prev.n + 1, error, values: typed };
+  }
+  redirect(withMsg(`/admin/doctors/${id}`, "msg", isNew ? "تمت الإضافة." : "تم الحفظ."));
 }
-export async function updateDoctor(fd: FormData) {
-  const actor = await requireAdmin();
-  await run(fd, async () => {
-    await P.updateDoctor(await getDb(), actor, String(fd.get("id")), values(fd));
-  });
+export async function createDoctorForm(prev: DoctorFormState, fd: FormData) {
+  return saveDoctor(prev, fd, true);
+}
+export async function updateDoctorForm(prev: DoctorFormState, fd: FormData) {
+  return saveDoctor(prev, fd, false);
 }
 export async function setHidden(fd: FormData) {
   const actor = await requireAdmin();
@@ -80,7 +101,7 @@ export async function setHidden(fd: FormData) {
     async () => {
       await P.setHidden(await getDb(), actor, String(fd.get("id")), hidden);
     },
-    hidden ? "تم إخفاء الملف." : "الملف ظاهر للزوار الآن.",
+    hidden ? "تم إخفاء الملف مؤقتًا." : "تم إلغاء الإخفاء.",
   );
 }
 export async function deleteDoctor(fd: FormData) {

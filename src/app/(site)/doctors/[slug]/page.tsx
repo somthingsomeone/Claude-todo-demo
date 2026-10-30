@@ -17,12 +17,14 @@ import {
   SpecialtyIcon,
   WhatsAppIcon,
 } from "@/components/Icons";
+import { JsonLd } from "@/components/JsonLd";
 import { ShareButton } from "@/components/ShareButton";
-import { Stars } from "@/components/Stars";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { getDb } from "@/lib/db/client";
 import { getPublicDoctor } from "@/lib/data/doctors";
 import { displayName, specialtyName, whatsappLink } from "@/lib/doctors";
+import { doctorBreadcrumb, doctorDescription, doctorJsonLd, pageMetadata } from "@/lib/seo";
+import { SPECIALTY_PAGES } from "@/lib/specialty-content";
 
 async function load(props: PageProps<"/doctors/[slug]">) {
   await connection();
@@ -31,7 +33,14 @@ async function load(props: PageProps<"/doctors/[slug]">) {
 
 export async function generateMetadata(props: PageProps<"/doctors/[slug]">): Promise<Metadata> {
   const doctor = await load(props);
-  return doctor ? { title: displayName(doctor), description: doctor.bio } : {};
+  if (!doctor) return { title: "الصفحة غير موجودة", robots: { index: false, follow: false } };
+  return pageMetadata({
+    title: `${displayName(doctor)} — ${doctor.role} في الرياض`,
+    description: doctorDescription(doctor),
+    path: `/doctors/${doctor.slug}`,
+    // Demo profiles never go to search engines.
+    noindex: doctor.demo,
+  });
 }
 
 function formatDate(iso: string) {
@@ -49,6 +58,7 @@ export default async function DoctorPage(props: PageProps<"/doctors/[slug]">) {
 
   return (
     <article className={`profile tint-${doctor.specialty}`}>
+      <JsonLd data={[doctorJsonLd(doctor), doctorBreadcrumb(doctor)]} />
       <div className="profile__nav">
         <Link href={`/?specialty=${doctor.specialty}`} className="icon-btn" aria-label="رجوع">
           <ArrowIcon size={22} />
@@ -61,10 +71,10 @@ export default async function DoctorPage(props: PageProps<"/doctors/[slug]">) {
         <h1 className="profile__name">{displayName(doctor)}</h1>
         <p className="profile__role">{doctor.role}</p>
         <div className="profile__tags">
-          <span className="tag">
+          <Link href={`/riyadh/${doctor.specialty}`} className="tag" title={SPECIALTY_PAGES[doctor.specialty].title}>
             <SpecialtyIcon slug={doctor.specialty} size={14} />
             {specialtyName(doctor.specialty)}
-          </span>
+          </Link>
           {doctor.demo && <span className="tag tag--demo">ملف تجريبي</span>}
         </div>
       </header>
@@ -98,23 +108,6 @@ export default async function DoctorPage(props: PageProps<"/doctors/[slug]">) {
         <ShareButton title={displayName(doctor)} />
       </div>
       {!wa && <p className="group-footer group-footer--center">{doctor.demo ? "التواصل غير متاح في الملف التجريبي." : "رقم واتساب غير متوفر."}</p>}
-
-      <section className="group rating-row" aria-label="التقييم">
-        {doctor.rating === null ? (
-          <p className="muted">لا يوجد تقييم بعد.</p>
-        ) : (
-          <>
-            <strong className="rating-row__score">{doctor.rating.toFixed(1)}</strong>
-            <div>
-              <Stars rating={doctor.rating} size={18} />
-              <p className="muted rating-row__count">
-                من 5 · {doctor.ratingCount ?? 0} تقييم
-                {doctor.ratingSource && ` · ${doctor.ratingSource}`}
-              </p>
-            </div>
-          </>
-        )}
-      </section>
 
       {doctor.bio && (
         <section>
