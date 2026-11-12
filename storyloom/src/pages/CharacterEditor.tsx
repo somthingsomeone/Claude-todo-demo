@@ -56,7 +56,7 @@ export function CharacterEditor() {
               nav(`/characters/${c.id}`, { replace: true });
             }}>{Icon.copy}</button>
             <button className="icon-btn" title="Delete" onClick={async () => {
-              if (!confirmDelete(`${f.name} (removes them from every plot)`)) return;
+              if (!(await confirmDelete(`${f.name} (removes them from every plot)`))) return;
               await api(`/characters/${id}`, { method: "DELETE" });
               nav("/characters");
             }}>{Icon.trash}</button>

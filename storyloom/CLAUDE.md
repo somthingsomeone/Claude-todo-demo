@@ -4,10 +4,14 @@ Private, single-owner AI roleplay app. Independent of the Panax project in the r
 The owner is not a programmer: do the work yourself, explain simply, keep setup minimal.
 
 ## Architecture
-- `server/` Express + `node:sqlite` (one DB file in `DATA_DIR`, images in `DATA_DIR/uploads`). Run with `tsx`.
-- `src/` React SPA (Vite). Built into `dist/` and served by the same server.
-- Auth: `APP_PASSWORD` → signed HttpOnly cookie. Required when `NODE_ENV=production`.
-- AI: `server/llm/` (provider interface + Anthropic). API key from `ANTHROPIC_API_KEY` or Settings (server-side only).
+- Ships as ONE Claude Artifact: https://claude.ai/artifact/9UXs8hWMbHHaBYMRuqEiKH (owner wants free, no hosting).
+  Rebuild with `npm run build` and republish `dist/storyloom.html` to that URL
+  (capabilities: sample, db, user, assets, downloads).
+- `src/` React UI. `src/local/` = in-page backend: `db.ts` mirrors `server/db.ts` (sync, in memory,
+  saved to the Artifact db under `data/users/<id>/root/...`), `provider.ts` = Claude via `sample`.
+- `server/engine/` = story engine, shared. `vite.config.ts` swaps `server/db.ts` and
+  `server/llm/provider.ts` for the `src/local/` versions in the browser build. Node tests use SQLite.
+- No window.prompt/confirm/alert in the Artifact: use `src/dialog.tsx`.
 
 ## Turn pipeline (server/engine/turn.ts)
 director (interprets *asterisk* text into perceived vs private, picks beats) → one streamed call per beat,
@@ -20,6 +24,4 @@ Tests in `tests/engine.test.ts` check this — keep them passing.
 ## Rules
 - DB migrations: append to `MIGRATIONS` in `server/db.ts`; never edit one that has shipped.
 - Checks before pushing: `npm test`, `npm run typecheck`, `npm run build`.
-- `npm run test:live` needs a real key and costs ~$1.
-- `tests/e2e-server.ts` is a scripted AI for UI tests only; never wire it into the real app.
-- Default models: claude-opus-5-5 (configurable in Settings).
+- Models: `sample` tiers (default / complex); Advanced mode sends tense beats to `complex`.

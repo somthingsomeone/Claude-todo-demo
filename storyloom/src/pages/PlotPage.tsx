@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, type Character, type Persona, type Plot, type PlotCharacter, type Session } from "../api";
-import { Avatar, confirmDelete, Icon } from "../components";
+import { Avatar, confirmDelete, Icon, Img } from "../components";
+import { askText } from "../dialog";
 
 type Full = Plot & { characters: PlotCharacter[]; sessions: Session[] };
 
@@ -25,7 +26,7 @@ export function PlotPage() {
   const persona = personas.find((p) => p.id === plot.persona_id);
 
   async function newSession() {
-    const title = window.prompt("Name this save", plot!.sessions.length ? `New Beginning ${plot!.sessions.length + 1}` : "Main Story");
+    const title = await askText("Name this save", plot!.sessions.length ? `New Beginning ${plot!.sessions.length + 1}` : "Main Story");
     if (title === null) return;
     const s = await api<Session>(`/plots/${id}/sessions`, { body: { title } });
     nav(`/s/${s.id}`);
@@ -34,7 +35,7 @@ export function PlotPage() {
   return (
     <>
       <div className="plot-hero">
-        {plot.cover ? <img src={plot.cover} alt="" /> : <div className="cover-fallback" />}
+        {plot.cover ? <Img src={plot.cover} fallback={<div className="cover-fallback" />} /> : <div className="cover-fallback" />}
         <div className="shade" />
         <button className="icon-btn back" onClick={() => nav("/")} aria-label="Back">{Icon.back}</button>
         <div className="inner">
@@ -52,7 +53,7 @@ export function PlotPage() {
           }}>{Icon.copy}Duplicate</button>
           <span className="spacer" />
           <button className="btn ghost danger" onClick={async () => {
-            if (!confirmDelete(`“${plot.title}” with all its saves and memories (characters are kept)`)) return;
+            if (!(await confirmDelete(`“${plot.title}” with all its saves and memories (characters are kept)`))) return;
             await api(`/plots/${id}`, { method: "DELETE" });
             nav("/");
           }}>{Icon.trash}</button>
@@ -72,21 +73,21 @@ export function PlotPage() {
                 </div>
                 <button className="icon-btn" title="Branch (duplicate this save)" onClick={async (e) => {
                   e.stopPropagation();
-                  const title = window.prompt("Name for the copy", `${s.title} — Alternate`);
+                  const title = await askText("Name for the copy", `${s.title} — Alternate`);
                   if (title === null) return;
                   await api(`/sessions/${s.id}/duplicate`, { body: { title } });
                   load();
                 }}>{Icon.branch}</button>
                 <button className="icon-btn" title="Rename" onClick={async (e) => {
                   e.stopPropagation();
-                  const title = window.prompt("Rename save", s.title);
+                  const title = await askText("Rename save", s.title);
                   if (!title) return;
                   await api(`/sessions/${s.id}`, { method: "PUT", body: { title } });
                   load();
                 }}>{Icon.edit}</button>
                 <button className="icon-btn" title="Delete" onClick={async (e) => {
                   e.stopPropagation();
-                  if (!confirmDelete(`the save “${s.title}”`)) return;
+                  if (!(await confirmDelete(`the save “${s.title}”`))) return;
                   await api(`/sessions/${s.id}`, { method: "DELETE" });
                   load();
                 }}>{Icon.trash}</button>
@@ -103,7 +104,7 @@ export function PlotPage() {
               if (!c) return null;
               return (
                 <div key={c.id} className="char-card" onClick={() => nav(`/characters/${c.id}`)}>
-                  {c.avatar ? <img className="portrait" src={c.avatar} alt="" /> : <div className="portrait">{c.name[0]}</div>}
+                  {c.avatar ? <Img className="portrait" src={c.avatar} fallback={<div className="portrait">{c.name[0]}</div>} /> : <div className="portrait">{c.name[0]}</div>}
                   <div className="meta">
                     <div className="name">{c.name}</div>
                     <div className="desc">{pc.starts_present ? "In the opening scene" : "Appears later"}</div>

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api, streamTurn, type Character, type Message, type Persona, type Plot, type Session, type TurnEvent } from "../api";
 import { Avatar, confirmDelete, Icon, RoleplayText, Sheet } from "../components";
 import { MemorySheet } from "./MemorySheet";
+import { askConfirm, askText } from "../dialog";
 
 interface Payload { session: Session; plot: Plot; persona: Persona | null; cast: Character[]; messages: Message[] }
 interface LiveBeat { key: string; speaker: string; text: string }
@@ -166,10 +167,10 @@ export function Chat() {
     setMessages((list) => list.map((x) => (x.id === m.id ? updated : x)));
     setEditing(null);
     const isLastUser = m.kind === "user" && !messages.some((x) => x.seq > m.seq && x.kind === "user");
-    if (isLastUser && messages[messages.length - 1]?.id !== m.id && window.confirm("Regenerate the responses to your edited message?")) run("regenerate");
+    if (isLastUser && messages[messages.length - 1]?.id !== m.id && (await askConfirm("Regenerate the responses to your edited message?"))) run("regenerate");
   }
   async function del(m: Message) {
-    if (!confirmDelete("this message")) return;
+    if (!(await confirmDelete("this message"))) return;
     await api(`/messages/${m.id}`, { method: "DELETE" });
     setMessages((list) => list.filter((x) => x.id !== m.id));
   }
@@ -380,11 +381,11 @@ export function Chat() {
         <Sheet title="Story" onClose={() => setPanel(null)}>
           <div className="list">
             <div className="list-item" onClick={async () => {
-              const title = window.prompt("Rename this save", session.title);
+              const title = await askText("Rename this save", session.title);
               if (title) await updateSession({ title });
             }}>{Icon.edit}<div className="grow">Rename save</div></div>
             <div className="list-item" onClick={async () => {
-              const title = window.prompt("Name for the branch", `${session.title} — Alternate`);
+              const title = await askText("Name for the branch", `${session.title} — Alternate`);
               if (title === null) return;
               const s = await api<Session>(`/sessions/${id}/duplicate`, { body: { title } });
               setPanel(null);
@@ -392,9 +393,9 @@ export function Chat() {
             }}>{Icon.branch}<div className="grow">Branch from here<div className="desc">Copy this save (history, memories, relationships) to explore other choices.</div></div></div>
             <div className="list-item" onClick={() => nav(`/plots/${data.plot.id}`)}>{Icon.book}<div className="grow">Other saves of this plot</div></div>
           </div>
-          <h3 className="section-title">Cost so far (estimate)</h3>
+          <h3 className="section-title">Usage</h3>
           <div className="card small-text">
-            ${(session.usage.cost_usd ?? 0).toFixed(3)} · {session.usage.calls ?? 0} AI calls · {Math.round(((session.usage.input_tokens ?? 0) + (session.usage.output_tokens ?? 0)) / 1000)}k tokens
+            {session.usage.calls ?? 0} AI steps in this story so far. Free — it runs on your Claude plan.
           </div>
           <h3 className="section-title">How to write</h3>
           <div className="card small-text" style={{ lineHeight: 1.6 }}>

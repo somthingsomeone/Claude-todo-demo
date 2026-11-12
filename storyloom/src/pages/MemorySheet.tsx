@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api, type Character, type CharacterState, type Memory, type SessionState } from "../api";
 import { Avatar, Icon, Sheet } from "../components";
+import { askConfirm } from "../dialog";
 
 interface Data { state: SessionState; summary: string; memories: Memory[] }
 
@@ -107,7 +108,7 @@ export function MemorySheet({ sessionId, cast, userName, onClose }: { sessionId:
                 </select>
                 <button className={`btn small ${m.pinned ? "primary" : "ghost"}`} onClick={() => patchMem(m, { pinned: !m.pinned })}>{m.pinned ? "Pinned" : "Pin"}</button>
                 <span className="spacer" />
-                <button className="icon-btn" onClick={async () => { if (window.confirm("Delete this memory?")) { await api(`/memories/${m.id}`, { method: "DELETE" }); load(); } }}>{Icon.trash}</button>
+                <button className="icon-btn" onClick={async () => { if (await askConfirm("Delete this memory?", true)) { await api(`/memories/${m.id}`, { method: "DELETE" }); load(); } }}>{Icon.trash}</button>
               </div>
               <div className="small-text muted" style={{ marginTop: 8 }}>Known by:</div>
               <div className="row" style={{ marginTop: 4 }}>

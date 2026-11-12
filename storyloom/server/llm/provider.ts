@@ -1,7 +1,6 @@
-// Provider-neutral interface. Anthropic is the built-in provider; others can be added
-// by implementing LLMProvider and registering it in getProvider().
+// Provider interface shared by the story engine. The real app runs as a Claude Artifact and uses
+// src/local/provider.ts (your Claude account). In Node, only the automated tests use this file.
 import { getSetting } from "../db.ts";
-import { AnthropicProvider } from "./anthropic.ts";
 
 export type Effort = "low" | "medium" | "high" | "xhigh" | "max";
 
@@ -57,9 +56,8 @@ export function getApiKey(): string | undefined {
 
 export function getProvider(): LLMProvider {
   if (testProvider) return testProvider;
-  const key = getApiKey();
-  if (!key) throw new MissingCredentialsError();
-  return new AnthropicProvider(key);
+  // The app itself runs as a Claude Artifact (see src/local/provider.ts). In Node only tests run.
+  throw new MissingCredentialsError();
 }
 
 // ---------- model settings ----------

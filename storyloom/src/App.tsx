@@ -1,7 +1,9 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { BrowserRouter, NavLink, Route, Routes, useNavigate } from "react-router-dom";
-import { api, setOnUnauthorized, type Character, type Persona, type Plot } from "./api";
-import { Avatar, Icon } from "./components";
+import { useEffect, useState } from "react";
+import { MemoryRouter, NavLink, Route, Routes, useNavigate } from "react-router-dom";
+import { api, type Character, type Persona, type Plot } from "./api";
+import { boot, onSaveState, storageKind } from "./local/api";
+import { DialogHost } from "./dialog";
+import { Avatar, Icon, Img } from "./components";
 import { PlotEditor } from "./pages/PlotEditor";
 import { PlotPage } from "./pages/PlotPage";
 import { CharacterEditor } from "./pages/CharacterEditor";
@@ -10,15 +12,19 @@ import { SettingsPage } from "./pages/Settings";
 import { Chat } from "./pages/Chat";
 
 export default function App() {
-  const [auth, setAuth] = useState<"loading" | "in" | "out">("loading");
+  const [state, setState] = useState<"loading" | "ready" | "error">("loading");
+  const [err, setErr] = useState("");
+  const [saveErr, setSaveErr] = useState<string | null>(null);
   useEffect(() => {
-    setOnUnauthorized(() => setAuth("out"));
-    api<{ loggedIn: boolean }>("/auth").then((r) => setAuth(r.loggedIn ? "in" : "out")).catch(() => setAuth("out"));
+    onSaveState(setSaveErr, () => {});
+    boot().then(() => setState("ready")).catch((e) => { setErr(String(e?.message ?? e)); setState("error"); });
   }, []);
-  if (auth === "loading") return null;
-  if (auth === "out") return <Login onDone={() => setAuth("in")} />;
+  if (state === "loading") return <div className="splash"><h1 style={{ fontSize: 34 }}><span className="logo-mark">Story</span>loom</h1><span className="typing"><i /><i /><i /></span></div>;
+  if (state === "error") return <div className="splash"><p className="banner">Couldn't open your library: {err}</p></div>;
   return (
-    <BrowserRouter>
+    <MemoryRouter>
+      {storageKind() === "browser" && <div className="banner" style={{ margin: 8, borderRadius: 12 }}>Preview mode: saving in this browser only. Open Storyloom as a Claude Artifact to keep your stories safely.</div>}
+      {saveErr && <div className="banner" style={{ margin: 8, borderRadius: 12 }}>{saveErr}</div>}
       <Routes>
         <Route path="/" element={<WithTabs><PlotLibrary /></WithTabs>} />
         <Route path="/characters" element={<WithTabs><CharacterLibrary /></WithTabs>} />
@@ -34,38 +40,8 @@ export default function App() {
         <Route path="/s/:id" element={<Chat />} />
         <Route path="*" element={<WithTabs><PlotLibrary /></WithTabs>} />
       </Routes>
-    </BrowserRouter>
-  );
-}
-
-function Login({ onDone }: { onDone: () => void }) {
-  const [pw, setPw] = useState("");
-  const [err, setErr] = useState("");
-  const [busy, setBusy] = useState(false);
-  async function submit(e: FormEvent) {
-    e.preventDefault();
-    setBusy(true);
-    setErr("");
-    try {
-      await api("/login", { body: { password: pw } });
-      onDone();
-    } catch (e) {
-      setErr((e as Error).message);
-    } finally {
-      setBusy(false);
-    }
-  }
-  return (
-    <div className="login">
-      <form className="box" onSubmit={submit}>
-        <h1><span className="logo-mark">Story</span>loom</h1>
-        <p className="lead">Your private storytelling world.</p>
-        <input className="input" type="password" autoFocus placeholder="Password" value={pw} onChange={(e) => setPw(e.target.value)} autoComplete="current-password" />
-        <div style={{ height: 12 }} />
-        <button className="btn primary" style={{ width: "100%" }} disabled={busy || !pw}>Enter</button>
-        {err && <p style={{ color: "var(--danger)" }}>{err}</p>}
-      </form>
-    </div>
+      <DialogHost />
+    </MemoryRouter>
   );
 }
 
@@ -100,7 +76,7 @@ function PlotLibrary() {
         <div className="grid">
           {plots.map((p) => (
             <div key={p.id} className="plot-card" onClick={() => nav(`/plots/${p.id}`)}>
-              {p.cover ? <img className="cover" src={p.cover} alt="" /> : <div className="cover-fallback"><span>{p.title[0]}</span></div>}
+              {p.cover ? <Img className="cover" src={p.cover} fallback={<div className="cover-fallback"><span>{p.title[0]}</span></div>} /> : <div className="cover-fallback"><span>{p.title[0]}</span></div>}
               <div className="shade" />
               <div className="info">
                 <h2>{p.title}</h2>
@@ -149,7 +125,7 @@ function CharacterLibrary() {
       <div className="char-grid">
         {chars?.map((c) => (
           <div key={c.id} className="char-card" onClick={() => nav(`/characters/${c.id}`)}>
-            {c.avatar ? <img className="portrait" src={c.avatar} alt="" loading="lazy" /> : <div className="portrait">{c.name[0]}</div>}
+            {c.avatar ? <Img className="portrait" src={c.avatar} fallback={<div className="portrait">{c.name[0]}</div>} /> : <div className="portrait">{c.name[0]}</div>}
             <div className="meta">
               <div className="name">{c.name}</div>
               <div className="desc">{c.tagline || c.personality}</div>

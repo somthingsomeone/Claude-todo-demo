@@ -53,73 +53,21 @@ Every message goes through these steps:
 
 ## Run it
 
-### Option A: online, for your phone (recommended)
+Storyloom is a **Claude Artifact**: https://claude.ai/artifact/9UXs8hWMbHHaBYMRuqEiKH
 
-This uses **Railway** (about $5/month). It needs no command line.
-
-1. Get an Anthropic API key:
-   1. Go to **console.anthropic.com** and sign up.
-   2. Open **Billing** and add some credit.
-   3. Open **API Keys**, click **Create Key** and copy the key.
-2. Go to **railway.com** and sign in with GitHub.
-3. Click **New Project → Deploy from GitHub repo** and pick this repository.
-4. Click the new service and open **Settings**:
-   - **Source → Root Directory:** type `storyloom`
-   - **Source → Branch:** choose the branch that contains Storyloom
-5. Open the **Variables** tab and add:
-   - `APP_PASSWORD`: a long password that only you know (required)
-   - `ANTHROPIC_API_KEY`: your key (optional; you can also paste it later in the app's Settings)
-6. Right-click the service, choose **Attach Volume**, and set the mount path to `/data`.
-   **This is what keeps your stories and images safe across restarts.**
-7. Go to **Settings → Networking** and click **Generate Domain**. This gives you your private web address.
-8. On your iPhone, open that address in Safari, log in, then tap **Share → Add to Home Screen**. The app opens full screen like a normal app.
-
-### Option B: on your own computer
-
-You need Node.js 22.13 or newer.
-
-```bash
-cd storyloom
-npm install
-npm run build
-npm start
-```
-
-Open http://localhost:8787. Without `APP_PASSWORD` the app is open to anyone who can reach it, so only do this on your own computer. You can put the settings in a `.env` file (see `.env.example`).
-
-## Costs
-
-There is no subscription. You pay Anthropic per use, and **each story shows its running cost** in its ⋯ menu.
-
-| Mode | Typical cost per message (Claude Opus 5.5) |
-|---|---|
-| Normal | about $0.05–0.15 |
-| Advanced | roughly 2–4× Normal on tense turns |
-
-To spend less, go to Settings and switch the *Helper* model to Claude Haiku 5.5. It is much cheaper and handles the bookkeeping well. You can also switch the *Storyteller* model to Sonnet 5.5, which costs about half as much.
-
-## Your data
-
-- Everything is stored in one folder (`DATA_DIR`):
-  - `storyloom.db` holds all text
-  - `uploads/` holds the images
-- To back up, copy that folder. On Railway, open **Volume → Backups**.
-- Your text is sent only to Anthropic, to generate replies. The API key stays on the server and never reaches the browser.
+- It has no website, server or API key, and there is no extra bill.
+- The AI runs on your own Claude plan and counts toward its normal usage limits.
+- The first time a story runs, Claude asks you to **Allow** it.
+- Everything is saved inside the Artifact, in your private space.
+- Download a backup any time from Settings.
 
 ## Developer notes
 
-- **Stack:** Express and React (Vite), with SQLite built into Node (`node:sqlite`), on a single server.
+- **Stack:** React (Vite), built into one HTML file (`npm run build` → `dist/storyloom.html`).
+  - The AI runs through the Artifact `sample` capability, on the viewer's Claude account.
+  - Storage uses the Artifact `db` capability (private `data/users/<id>/` subtree), plus `assets` for images.
+  - `src/local/` is the in-page backend.
+  - The story engine in `server/engine/` is shared with the Node tests (which run on SQLite).
 - **Checks:** `npm test`, `npm run typecheck` and `npm run build`.
-- **Live AI behaviour test:** `ANTHROPIC_API_KEY=... npm run test:live`. It runs eight realistic scenarios:
-  - private thoughts stay private
-  - hidden hatred is not revealed
-  - a proud character refuses an unreasonable order
-  - a manipulator does not confess
-  - a strategist spots a contradiction
-  - an absent character doesn't know what was said
-  - a kind character keeps her boundary
-  - a multi-character scene plays out correctly
-
-  The model grades each scenario. One run costs about $1.
-- **Providers:** `server/llm/provider.ts` is the provider interface. To add another AI provider, implement `LLMProvider`.
+- **Providers:** `server/llm/provider.ts` is the provider interface. The Artifact version is `src/local/provider.ts`.
 - **Prompts:** all prompt text is in `server/engine/prompts.ts`.

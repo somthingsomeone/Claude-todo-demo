@@ -37,11 +37,11 @@ export interface Memory {
   id: string; session_id: string; kind: string; content: string; importance: number; known_by: string[]; pinned: boolean;
   turn_id: string | null; created_at: string;
 }
-export interface ModelInfo { id: string; label: string; input: number; output: number; note: string }
 export interface Settings {
-  storyModel: string; helperModel: string; responseLength: "short" | "medium" | "long"; models: ModelInfo[];
-  apiKeyConfigured: boolean; apiKeySource: "environment" | "settings" | null; apiKeyHint: string | null;
+  storyQuality: "default" | "complex"; responseLength: "short" | "medium" | "long"; storage: "claude" | "browser"; ai: boolean;
 }
+
+import * as local from "./local/api";
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
@@ -49,56 +49,43 @@ export class ApiError extends Error {
   }
 }
 
-export let onUnauthorized: () => void = () => {};
-export function setOnUnauthorized(fn: () => void) {
-  onUnauthorized = fn;
-}
-
 export async function api<T>(path: string, init?: { method?: string; body?: unknown }): Promise<T> {
-  const res = await fetch(`/api${path}`, {
-    method: init?.method ?? (init?.body !== undefined ? "POST" : "GET"),
-    headers: init?.body !== undefined ? { "Content-Type": "application/json" } : undefined,
-    body: init?.body !== undefined ? JSON.stringify(init.body) : undefined,
-    credentials: "same-origin",
-  });
-  if (res.status === 401 && !path.startsWith("/login")) onUnauthorized();
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new ApiError(res.status, (data as { error?: string }).error ?? `Request failed (${res.status})`);
-  return data as T;
+  const method = init?.method ?? (init?.body !== undefined ? "POST" : "GET");
+  try {
+    return (await local.handle(method, path, (init?.body as Record<string, unknown>) ?? {})) as T;
+  } catch (e) {
+    if (e instanceof local.LocalError) throw new ApiError(e.status, e.message);
+    throw e;
+  }
 }
 
-/** Resize in the browser (keeps uploads small and fast on mobile data), then upload. */
+/** Resize in the browser (keeps storage small), then store. */
 export async function uploadImage(file: File, maxSize = 1280): Promise<string> {
-  const dataUrl = await resizeImage(file, maxSize);
-  const r = await api<{ url: string }>("/upload", { body: { dataUrl } });
-  return r.url;
+  const img = await loadImage(file);
+  const big = await toBlob(img, maxSize);
+  const small = toCanvas(img, 320).toDataURL("image/jpeg", 0.8);
+  return local.storeImage(big, small);
 }
 
-async function resizeImage(file: File, maxSize: number): Promise<string> {
-  if (file.type === "image/gif") return readAsDataUrl(file);
-  const src = await readAsDataUrl(file);
-  const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+function loadImage(file: File): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
     const i = new Image();
     i.onload = () => resolve(i);
     i.onerror = () => reject(new Error("Could not read that image."));
-    i.src = src;
+    i.src = url;
   });
-  const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.round(img.width * scale);
-  canvas.height = Math.round(img.height * scale);
-  const ctx = canvas.getContext("2d")!;
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  return canvas.toDataURL("image/jpeg", 0.88);
 }
-
-function readAsDataUrl(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(String(r.result));
-    r.onerror = () => reject(r.error);
-    r.readAsDataURL(file);
-  });
+function toCanvas(img: HTMLImageElement, maxSize: number): HTMLCanvasElement {
+  const scale = Math.min(1, maxSize / Math.max(img.naturalWidth, img.naturalHeight));
+  const c = document.createElement("canvas");
+  c.width = Math.max(1, Math.round(img.naturalWidth * scale));
+  c.height = Math.max(1, Math.round(img.naturalHeight * scale));
+  c.getContext("2d")!.drawImage(img, 0, 0, c.width, c.height);
+  return c;
+}
+function toBlob(img: HTMLImageElement, maxSize: number): Promise<Blob> {
+  return new Promise((resolve, reject) => toCanvas(img, maxSize).toBlob((b) => (b ? resolve(b) : reject(new Error("Could not process that image."))), "image/jpeg", 0.88));
 }
 
 export type TurnEvent =
@@ -113,39 +100,11 @@ export type TurnEvent =
   | { type: "error"; text: string }
   | { type: "done" };
 
-/** POST a turn and read the newline-delimited JSON event stream. */
 export async function streamTurn(
   sessionId: string,
   body: { action: "send" | "continue" | "regenerate"; text?: string; speakers?: string[] },
   onEvent: (e: TurnEvent) => void,
   signal: AbortSignal,
 ) {
-  const res = await fetch(`/api/sessions/${sessionId}/turn`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-    signal,
-  });
-  if (res.status === 401) {
-    onUnauthorized();
-    return;
-  }
-  if (!res.ok || !res.body) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error((data as { error?: string }).error ?? `Request failed (${res.status})`);
-  }
-  const reader = res.body.getReader();
-  const dec = new TextDecoder();
-  let buf = "";
-  for (;;) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buf += dec.decode(value, { stream: true });
-    let nl: number;
-    while ((nl = buf.indexOf("\n")) >= 0) {
-      const line = buf.slice(0, nl).trim();
-      buf = buf.slice(nl + 1);
-      if (line) onEvent(JSON.parse(line) as TurnEvent);
-    }
-  }
+  await local.turn(sessionId, body, (e) => onEvent(JSON.parse(JSON.stringify(e)) as TurnEvent), signal);
 }

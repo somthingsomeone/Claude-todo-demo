@@ -1,5 +1,6 @@
 import { useRef, useState, type ReactNode } from "react";
 import { uploadImage } from "./api";
+import { askConfirm } from "./dialog";
 
 // ---------- icons (inline SVG, no icon library needed) ----------
 const p = { fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
@@ -27,11 +28,18 @@ export const Icon = {
 };
 
 export function Avatar({ src, name, size = 40 }: { src?: string | null; name: string; size?: number }) {
+  const [broken, setBroken] = useState(false);
   return (
     <span className="avatar" style={{ width: size, height: size, fontSize: size * 0.45 }} aria-hidden>
-      {src ? <img src={src} alt="" loading="lazy" /> : (name.trim()[0] ?? "?").toUpperCase()}
+      {src && !broken ? <img src={src} alt="" loading="lazy" onError={() => setBroken(true)} /> : (name.trim()[0] ?? "?").toUpperCase()}
     </span>
   );
+}
+
+/** A portrait/cover image that hides itself if it can't load. */
+export function Img({ src, className, fallback }: { src: string; className?: string; fallback: ReactNode }) {
+  const [broken, setBroken] = useState(false);
+  return broken ? <>{fallback}</> : <img className={className} src={src} alt="" loading="lazy" onError={() => setBroken(true)} />;
 }
 
 export function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
@@ -134,6 +142,6 @@ export function TopBar({ title, sub, onBack, right }: { title: string; sub?: str
   );
 }
 
-export function confirmDelete(what: string): boolean {
-  return window.confirm(`Delete ${what}? This can't be undone.`);
+export function confirmDelete(what: string): Promise<boolean> {
+  return askConfirm(`Delete ${what}? This can't be undone.`, true);
 }

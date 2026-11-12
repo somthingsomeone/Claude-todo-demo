@@ -24,7 +24,7 @@ export function PersonaEditor() {
     <>
       <TopBar title={isNew ? "New Persona" : f.name} onBack={() => nav(-1)} right={!isNew && (
         <button className="icon-btn" onClick={async () => {
-          if (!confirmDelete(f.name)) return;
+          if (!(await confirmDelete(f.name))) return;
           await api(`/personas/${id}`, { method: "DELETE" });
           nav("/personas");
         }}>{Icon.trash}</button>
