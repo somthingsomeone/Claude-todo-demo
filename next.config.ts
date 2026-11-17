@@ -36,9 +36,18 @@ const nextConfig: NextConfig = {
     // Doctor photos are uploaded through the admin page (max 1.5 MB each).
     serverActions: { bodySizeLimit: "2mb" },
   },
+  // The intro page «ما هو بانيفو؟» is a static page (public/intro/index.html), served at /intro.
+  async rewrites() {
+    return [{ source: "/intro", destination: "/intro/index.html" }];
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
+      // The static intro page cannot read SITE_LIVE itself, so it stays out of search engines by header until launch.
+      ...(process.env.SITE_LIVE === "true"
+        ? []
+        : [{ source: "/intro/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
+           { source: "/intro", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] }]),
       // Admin pages are never cached by shared caches or indexed.
       { source: "/admin/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }, { key: "Cache-Control", value: "no-store" }] },
     ];

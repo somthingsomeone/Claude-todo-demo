@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-type="software" data-radius="soft" data-buttons="solid" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ما هو بانيفو؟ دليل أطباء الرياض بموافقتهم · PANIVO</title>
+<meta name="description" content="بانيفو دليل عربي لأطباء الرياض وأخصائيي العلاج الطبيعي في خمسة تخصصات: تقرأ ملفًا موثّقًا بموافقة الطبيب، ثم تراسل العيادة عبر واتساب مباشرة.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_SA">
+<meta property="og:site_name" content="PANIVO">
+<meta property="og:title" content="ما هو بانيفو؟ دليل أطباء الرياض بموافقتهم">
+<meta property="og:description" content="ملفات موثّقة بموافقة الأطباء في خمسة تخصصات، والتواصل مع العيادة عبر واتساب مباشرة.">
+<meta property="og:image" content="/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-icon.png">
+<meta name="theme-color" content="#ffffff">
+<!-- canonical is added at launch, once the domain is pointed: <link rel="canonical" href="https://[domain]/intro"> -->
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="stylesheet" href="/intro/assets/system.css">
+<link rel="stylesheet" href="/intro/assets/ui/cards.css">
+<link rel="stylesheet" href="/intro/assets/motion/motion.css">
+<link rel="stylesheet" href="/intro/assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="/intro/assets/layout/layout.css">
+<link rel="stylesheet" href="/intro/assets/icons/icon.css">
+<!-- palette: the client's own colours through start.mjs brand (the brief: #0061F3, #14B4FF, #001A89, white and light grey).
+     type: the brief's own face, Readex Pro, self-hosted (the dealt pairing "funnel" has no Arabic letters and the
+     site loads no outside fonts). Arabic letters join, so tracking is 0, not the printed negative. -->
+<style>
+@font-face { font-family: "Readex Pro"; font-style: normal; font-display: swap; font-weight: 160 700;
+  src: url(/intro/assets/fonts/readex-pro-arabic-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+200C-200E, U+2010-2011, U+FB50-FDFF, U+FE70-FEFC; }
+@font-face { font-family: "Readex Pro"; font-style: normal; font-display: swap; font-weight: 160 700;
+  src: url(/intro/assets/fonts/readex-pro-latin-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+:root {
+  --p-bg: #ffffff; --p-surface: #f2f3f6; --p-ink: #0e1530; --p-muted: #4a5373;
+  --p-accent: #0061f3; --p-accent-ink: #ffffff; --p-action: #0061f3; --p-action-ink: #ffffff;
+  --p-inv-bg: #001a89; --p-inv-surface: #0b2697; --p-inv-ink: #ffffff; --p-inv-muted: #c9d3f5;
+  --p-inv-accent: #ffffff; --p-inv-accent-ink: #001a89; --p-inv-action: #ffffff; --p-inv-action-ink: #001a89;
+  --font-display: "Readex Pro", system-ui, sans-serif;
+  --font-text: "Readex Pro", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 500;
+  --display-tracking: 0;
+  --display-tracking-xl: 0;
+  --ly-scale: 0.98;
+}
+</style>
+<link rel="stylesheet" href="/intro/assets/ui/base.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script src="/intro/assets/backgrounds/backgrounds.js"></script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="/intro/assets/moments/moments.js">
+<link rel="modulepreload" href="/intro/assets/moments/lib.js">
+<link rel="modulepreload" href="/intro/assets/moments/liquid-type/moment.js">
+<!-- page CSS: right-to-left fixes for the kit's few physical sides, Arabic line heights, and what sits
+     inside the visuals (PANIVO's own screens as live HTML) -->
+<style>
+  /* Arabic: letters above and below the line need more leading than Latin display type */
+  h1, .t-h1 { line-height: 1.25; }
+  h2, .t-h2, h3 { line-height: 1.35; }
+  .mo-lt__type { line-height: 1.2; letter-spacing: 0; }
+  /* right to left: the kit's left/right sides, mirrored */
+  .nav__link::before { transform-origin: left; }
+  @media (max-width: 1023px) {
+    .nav__toggle { margin-left: 0; margin-right: auto; }
+    .nav:not(.is-open) .nav__actions { margin-left: 0; margin-right: auto; }
+    .nav:not(.is-open) .nav__actions + .nav__toggle { margin-right: 0; }
+  }
+  .m-arrow { transform: scaleX(-1); }
+  .link::after { content: "\2190"; }
+  html:not([data-motion="off"]) .link, html:not([data-motion="off"]) .link:is(:hover, :focus-visible) { background-position: 100% 100%, 100% 100%; }
+  html:not([data-motion="off"]) .link:is(:hover, :focus-visible)::after { transform: translateX(-3px); }
+  @media (hover: hover) and (pointer: fine) { .link:hover::after { transform: translateX(-3px); } }
+  .nav__logo img { height: 30px; width: auto; }
+  .footer .nav__logo img { height: 36px; }
+  .hero__mark { display: inline-block; height: .78em; width: auto; vertical-align: -.08em; margin-inline-end: .12em; }
+
+  /* the hero's frame: the brand blue, flat (gradients only inside the logo, so no fade mask) */
+  .hero--centred .hero__window { --ground-bg: #0061f3; background: #0061f3; -webkit-mask-image: none; mask-image: none; }
+
+  /* PANIVO's own UI, drawn as it is in the app: white slips on light grey, the ink stamp */
+  .pv { --pv-blue: #0061f3; --pv-ink: #001a89; --pv-text: #0e1530; --pv-muted: #4a5373; --pv-line: #e3e6ee; --pv-ground: #f2f3f6; --pv-wash: #eaf1ff;
+        font-family: var(--font-text); color: var(--pv-text); text-align: start; }
+  .pv-win { background: #fff; border-radius: 16px; box-shadow: 0 1px 2px rgb(14 21 48 / .08), 0 24px 48px -16px rgb(0 26 137 / .35); overflow: hidden; }
+  .pv-win__bar { display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-bottom: 1px solid var(--pv-line); font-size: 13px; color: var(--pv-muted); }
+  .pv-win__bar img { height: 20px; width: auto; }
+  .pv-win__bar .sp { flex: 1; }
+  .pv-win__body { display: grid; grid-template-columns: 300px minmax(0, 1fr); min-height: 420px; }
+  .pv-side { border-inline-end: 1px solid var(--pv-line); padding: 12px; display: grid; align-content: start; gap: 6px; background: var(--pv-ground); }
+  .pv-search { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: 12px; background: #fff; border: 1px solid var(--pv-line); font-size: 14px; color: var(--pv-text); }
+  .pv-search svg { width: 16px; height: 16px; color: var(--pv-blue); flex: none; }
+  .pv-count { font-size: 12px; color: var(--pv-muted); padding: 4px 4px 0; }
+  .pv-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; padding: 10px 12px; border-radius: 12px; font-size: 13px; }
+  .pv-row b { font-weight: 600; color: var(--pv-text); }
+  .pv-row span { grid-column: 1 / -1; color: var(--pv-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pv-row.is-on { background: #fff; box-shadow: 0 1px 2px rgb(14 21 48 / .08); }
+  .pv-row .pv-chip { color: #fff; grid-column: auto; }
+  .pv-shelf { background: var(--pv-ground); padding: 20px 24px 40px; display: grid; gap: 12px; }
+  .pv-shelf__h { font-size: 18px; font-weight: 600; }
+  .pv-chip { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: var(--pv-ink); color: #fff; font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .pv-open { padding: 20px 24px; display: grid; align-content: start; gap: 12px; }
+  .pv-slip { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; align-items: start; padding: 16px 18px; border-radius: 16px; background: #fff; border: 1px solid var(--pv-line); }
+  .pv-slip__name { font-size: 20px; font-weight: 600; color: var(--pv-text); }
+  .pv-slip__role, .pv-slip__place { font-size: 13px; color: var(--pv-muted); }
+  .pv-slip .pv-stamp { grid-row: 1 / span 4; grid-column: 2; }
+  .pv-stamp { width: 72px; height: 72px; color: var(--pv-ink); flex: none; }
+  .pv-stamp--lg { width: 96px; height: 96px; }
+  .pv-fact { display: grid; gap: 2px; padding: 10px 0; border-bottom: 1px solid var(--pv-line); font-size: 13px; }
+  .pv-fact:last-of-type { border-bottom: 0; }
+  .pv-fact small { color: var(--pv-muted); font-size: 12px; }
+  .pv-fact b { font-weight: 600; font-size: 15px; }
+  .pv-wa { display: flex; align-items: center; justify-content: center; gap: 8px; height: 48px; border-radius: 14px; background: var(--pv-ink); color: #fff; font-size: 15px; font-weight: 600; }
+  .pv-wa svg { width: 20px; height: 20px; flex: none; }
+  .pv-note { font-size: 12px; color: var(--pv-muted); }
+  .pv-bubble { justify-self: start; max-width: 92%; padding: 10px 14px; border-radius: 14px 14px 14px 4px; background: #fff; border: 1px solid var(--pv-line); font-size: 13px; line-height: 1.6; }
+  .pv-bubble small { display: block; margin-top: 4px; color: var(--pv-muted); font-size: 11px; direction: ltr; text-align: end; }
+  .pv-tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+  .pv-tile { display: grid; justify-items: center; align-content: center; gap: 8px; min-height: 104px; padding: 12px 6px; border-radius: 16px; background: #fff; color: var(--pv-text); font-size: 14px; font-weight: 500; text-align: center; line-height: 1.3; }
+  .pv-tile svg { width: 26px; height: 26px; color: var(--pv-ink); }
+  .pv-band { background: var(--pv-blue); color: #fff; padding: 28px 24px 32px; display: grid; gap: 18px; }
+  .pv-band__h { font-size: 26px; font-weight: 600; line-height: 1.3; }
+  .pv-band .pv-search { height: 48px; border: 0; }
+
+  /* the hero's window: the search, the result, the stamp, the WhatsApp button arrive step by step (data-ly-steps) */
+  .hero__window .pv-win__body { min-height: 440px; }
+  .hero__window .pv-open { gap: 8px; padding-top: 16px; }
+
+  /* the app frame (sections-library.md, app-frame), RTL: the list on the right, the open profile on the left */
+  .app.ui { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); margin-top: var(--s-7); background: var(--u-bg); border: 1px solid var(--u-border); border-radius: var(--u-r); box-shadow: var(--u-shadow); }
+  .app > .app__pane { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+  .app > .app__pane + .app__pane { border-inline-start: 1px solid var(--u-line); }
+  .app .pv-side { height: 100%; border: 0; padding-top: 36px; }
+  /* the panes run past the frame's foot and fade there, white into the window's own white (the kit's app-frame) */
+  .app > .app__pane::after { content: ""; position: absolute; inset: auto 0 0 0; height: 64px; background: linear-gradient(transparent, var(--pv-fade, #fff)); pointer-events: none; }
+  .app > .app__pane--list { --pv-fade: #f2f3f6; }
+  @media (min-width: 1024px) and (max-width: 1279px) { .app.ui { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); } }
+  @media (max-width: 1023px) {
+    .app.ui { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+    .app > .app__pane--list { max-height: 252px; }
+    .app > .app__pane + .app__pane { border-inline-start: 0; border-top: 1px solid var(--u-line); }
+  }
+  @media (max-width: 639px) {
+    .app.ui { grid-template-rows: minmax(0, 1fr); }
+    .app > .app__pane--list { display: none; }
+    .app > .app__pane + .app__pane { border-top: 0; }
+    .pv-win__body { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    .hero__window .pv-side { display: none; }
+    .hero__window .pv-win__bar .sp ~ span { display: none; }
+    .pv-open { padding: 14px; }
+    .pv-slip__name { font-size: 18px; }
+    .pv-stamp { width: 60px; height: 60px; }
+    .pv-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  .app .pv-open { padding: 28px 32px; }
+
+  /* the steps' panels: one height for the group, the piece rising from the panel's foot */
+  #steps .panel { --p-h: 300px; background: #f2f3f6; }
+  #steps .panel .pv-piece { position: absolute; inset-inline: 24px; top: 32px; }
+  @media (max-width: 639px) { #steps .panel { --p-h: 240px; } #steps .panel .pv-piece { inset-inline: 16px; top: 20px; } }
+
+  /* the specialties' frame: the app's blue search band, as on its home screen */
+  #specialties .frame { background: #0061f3; }
+  #specialties .frame .pv-piece { position: absolute; inset-inline: 40px; top: 48px; border-radius: 16px; overflow: hidden; box-shadow: 0 24px 48px -16px rgb(0 26 137 / .45); }
+  @media (max-width: 639px) { #specialties .frame .pv-piece { inset-inline: 16px; top: 24px; } .pv-band { padding: 20px 16px 24px; } .pv-band__h { font-size: 20px; } }
+
+  /* right to left: a text block takes its whole column (its words still start on the right), so every
+     block's box sits on the column lines on both sides, as a left-to-right page's would */
+  main .section :is(p, h2, h3, .section-head, .faq__item) { max-width: none; }
+  .footer__col a, .footer__legal > span { display: block; }
+
+  /* the statement: one sentence set large, its line and one link, beside the app's stamp set large */
+  #consent .grid { align-items: start; }
+  #consent .stack-4 { display: grid; gap: var(--s-5); }
+  #consent .mo-lt__type { font-size: clamp(48px, 6.4vw, 96px); }
+  #consent p { font-size: var(--t-lead); color: var(--muted); }
+  #consent .pv-seal { display: grid; place-items: center; }
+  #consent .pv-seal svg { width: min(100%, 400px); height: auto; aspect-ratio: 1; color: #001a89; }
+  #faq .pv-fix { --p-h: 168px; background: #f2f3f6; margin-top: var(--s-5); }
+  #faq .pv-fix .pv-piece { position: absolute; inset-inline: 24px; top: 50%; transform: translateY(-50%); }
+  /* the specialties' frame is square on a desktop, so the section ends level with its neighbours */
+  @media (min-width: 1024px) { #specialties .frame { aspect-ratio: 1 / 1; height: auto; } }
+  /* a phone: the open profile shows two facts whole, and the blue band its tiles whole */
+  @media (max-width: 639px) {
+    .app.ui { grid-template-rows: auto; }
+    .app .pv-fact:nth-of-type(n+3) { display: none; }
+    #specialties .frame { aspect-ratio: auto; height: auto; }
+    #specialties .frame .pv-piece { position: static; margin: 16px; }
+    #specialties .pv-shelf { display: none; }
+  }
+  @media (max-width: 639px) { #consent .pv-seal svg { width: 200px; } }
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"الرئيسية","item":"/"},{"@type":"ListItem","position":2,"name":"ما هو بانيفو؟","item":"/intro"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"هل استخدام بانيفو مجاني؟","acceptedAnswer":{"@type":"Answer","text":"نعم. البحث وقراءة الملفات ومراسلة العيادة لا تكلّفك شيئًا، ولا تحتاج إلى حساب."}},
+{"@type":"Question","name":"هل أحجز الموعد من الموقع؟","acceptedAnswer":{"@type":"Answer","text":"لا. يفتح زر واتساب محادثة مع العيادة، وتتفق معها على الموعد مباشرة."}},
+{"@type":"Question","name":"من أين تأتي معلومات الطبيب؟","acceptedAnswer":{"@type":"Answer","text":"من مصدر نذكره بجانب كل معلومة، مثل الموقع الرسمي للعيادة، مع تاريخ آخر تحقق منها."}},
+{"@type":"Question","name":"هل يعلم الطبيب أن ملفه منشور؟","acceptedAnswer":{"@type":"Answer","text":"نعم. لا ننشر أي ملف دون موافقة الطبيب، ولا نعرض صورته إلا بإذنه."}},
+{"@type":"Question","name":"وجدت معلومة خاطئة، فماذا أفعل؟","acceptedAnswer":{"@type":"Answer","text":"أرسل طلب تصحيح من صفحة الطبيب أو من صفحة طلب التصحيح، فنراجعه ونحدّث الملف."}},
+{"@type":"Question","name":"هل يصلح بانيفو للحالات الطارئة؟","acceptedAnswer":{"@type":"Answer","text":"لا. بانيفو دليل معلومات وليس جهة رعاية صحية. في الحالات الطارئة اتصل بالرقم 997 أو 911."}}]}</script>
+</head>
+<body>
+<!-- type: software (PANIVO is a web app: a directory of doctors with a WhatsApp button)
+     deal: hero centred (dealt again: triptych needs a photograph collage, and the brief allows no stock photographs of doctors),
+           nav nav-mega, close close-type, footer footer-columns, rhythm space, buttons solid, mark initial (not drawn: the client's own logo replaces it),
+           palette: the client's own (brand), type: Readex Pro (the brief's own face; the dealt funnel has no Arabic),
+           grounds: none and no effect (the brief: gradients only inside the logo; flat brand blue in the frames)
+     moments: liquid-type on the statement section #consent (dealt again: letters-assemble splits a word into letters, and
+              Arabic letters must stay joined). It moves because the sentence is the promise the page stands on.
+     plan: hero (the app window: a search, its result with the stamp, the WhatsApp button) 1 · app (app-frame: the list beside
+           the open profile) 1 · steps (three steps, each with its piece of the app) 1 · consent (the statement, liquid-type) 1 ·
+           specialties (split-text-left: the app's blue band with the five tiles) 1 · faq 1 · footer.closing 1 -->
+
+<header class="nav">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">انتقل إلى المحتوى</a>
+    <a class="nav__logo" href="#top"><img src="/brand/wordmark-header.webp" alt="بانيفو PANIVO" width="480" height="154"></a>
+    <nav class="nav__links" aria-label="الرئيسية">
+      <div class="nav__item"><a class="nav__link" href="#app">الملف</a></div>
+      <div class="nav__item"><a class="nav__link" href="#steps">الخطوات</a></div>
+      <div class="nav__item">
+        <a class="nav__link" href="#specialties">التخصصات <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav__menu">
+          <div class="wrap grid">
+            <div class="menu-col span-3">
+              <p class="t-label">الطب</p>
+              <a href="/riyadh/dermatology">جلدية<span>البشرة والشعر والأظافر</span></a>
+              <a href="/riyadh/cosmetic">تجميل وليزر<span>الليزر والعناية بالبشرة</span></a>
+              <a href="/riyadh/eyes">عيون<span>النظر وأمراض العين</span></a>
+            </div>
+            <div class="menu-col span-3">
+              <p class="t-label">الأسنان والحركة</p>
+              <a href="/riyadh/dental">أسنان<span>العلاج والتقويم والتجميل</span></a>
+              <a href="/riyadh/physio">علاج طبيعي<span>التأهيل وآلام المفاصل</span></a>
+            </div>
+            <a class="menu-card span-3 start-10" href="#consent">
+              <div class="panel"><div class="stage"><div class="at-corner" style="--ax:24px;--ay:24px"><div class="pv"><svg class="pv-stamp pv-stamp--lg" viewBox="0 0 100 100" aria-hidden="true"><use href="#stamp"/></svg></div></div></div></div>
+              <span class="t-card">الختم على كل ملف</span>
+              <span class="t-small muted">موافقة الطبيب وتاريخ التحقق</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="#faq">الأسئلة</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--primary" href="/">ابحث عن طبيبك</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="القائمة">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- the stamp, drawn once (the app's own seal) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="stamp" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="3.5"/>
+    <circle cx="50" cy="50" r="39" fill="none" stroke="currentColor" stroke-width="1.25"/>
+    <path d="M41 30l6.5 6.5L60 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="50" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">موثّق</text>
+    <text x="50" y="72" text-anchor="middle" font-size="9" font-weight="500" fill="currentColor" style="direction:ltr">2026/10/18</text>
+  </symbol>
+  <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.2a9.7 9.7 0 0 0-8.4 14.6L2.3 21.7l5-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 19.9Zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.5-.3Z"/></symbol>
+  <symbol id="find" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+</svg>
+
+<main id="top">
+  <section class="hero hero--centred" data-enter aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text">
+      <div class="hero__c">
+        <a class="pill" href="#specialties"><span>الرياض · 5 تخصصات</span><span class="muted">تعرّف إليها</span></a>
+        <h1 id="hero-h" aria-label="بانيفو: دليل أطباء الرياض بموافقتهم"><img class="hero__mark" src="/brand/mark.webp" alt="" width="256" height="256"> دليل أطباء الرياض بموافقتهم</h1>
+        <p class="hero__lead">أطباء سعوديون وأخصائيو علاج طبيعي في 5 تخصصات. تقرأ الملف الموثّق، ثم تراسل العيادة عبر واتساب مباشرة، دون حساب ودون رسوم.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="/">ابحث عن طبيبك<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a></div>
+      </div>
+      <div class="hero__window" role="img" aria-label="بانيفو يعرض نتيجة البحث عن تقويم الأسنان: ملف موثّق لطبيب، وزر مراسلة العيادة عبر واتساب">
+        <div class="ly-piece pv pv-win" aria-hidden="true">
+          <div class="pv-win__bar"><img src="/brand/wordmark-header.webp" alt="" width="480" height="154"><span class="sp"></span><span>الرياض · أسنان</span></div>
+          <div class="pv-win__body">
+            <div class="pv-side">
+              <div class="pv-search"><svg><use href="#find"/></svg>تقويم الأسنان</div>
+              <div class="pv-count">أطباء الأسنان في الرياض</div>
+              <div class="pv-row is-on"><b>د. خالد الزهراني</b><span>استشاري تقويم الأسنان · عيادات ابتسامة الرياض</span></div>
+              <div class="pv-row"><b>د. لمى الغامدي</b><span>أخصائية تجميل الأسنان · مجمع الروابي الطبي</span></div>
+            </div>
+            <div class="pv-open" data-ly-steps="900">
+              <div class="pv-slip" data-step>
+                <span class="pv-chip" style="justify-self:start">ملف تجريبي</span>
+                <span class="pv-slip__name">د. خالد الزهراني</span>
+                <span class="pv-slip__role">استشاري تقويم الأسنان · 13 سنة خبرة</span>
+                <span class="pv-slip__place">عيادات ابتسامة الرياض، حي الصحافة</span>
+                <svg class="pv-stamp" viewBox="0 0 100 100"><use href="#stamp"/></svg>
+              </div>
+              <div class="pv-note" data-step>المصدر: بيانات تجريبية للعرض فقط · تحقق 2026/10/18</div>
+              <div class="pv-wa" data-step><svg><use href="#wa"/></svg>راسل العيادة عبر واتساب</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="section" id="app" aria-labelledby="app-h">
+    <div class="wrap">
+      <div class="grid grid--top">
+        <h2 class="span-5" id="app-h">ملف كل طبيب في صفحة واحدة</h2>
+        <div class="span-6 start-7 stack-4">
+          <p class="muted">تختار التخصص فتظهر قائمة الأطباء، ثم تفتح الملف فتجد العيادة والحي وسنوات الخبرة واللغات، وبجانب كل معلومة مصدرها وتاريخ آخر تحقق منها.</p>
+          <p><a class="link" href="/riyadh/dermatology">افتح قسم الجلدية</a></p>
+        </div>
+      </div>
+      <div class="ui app fill pv" role="img" aria-label="قائمة أطباء الجلدية في الرياض بجانب ملف د. سارة القحطاني المفتوح، وعليه ختم التحقق ومصدر كل معلومة">
+        <div class="app__pane app__pane--list">
+          <div class="pv-side" aria-hidden="true">
+            <div class="pv-search"><svg><use href="#find"/></svg>جلدية</div>
+            <div class="pv-count">أطباء في الرياض</div>
+            <div class="pv-row is-on"><b>د. سارة القحطاني</b><span class="pv-chip" style="grid-column:auto">تجريبي</span><span>استشارية جلدية · مجمع الروابي الطبي</span></div>
+            <div class="pv-row"><b>د. فيصل العتيبي</b><span class="pv-chip" style="grid-column:auto">تجريبي</span><span>أخصائي جلدية · عيادات النخبة</span></div>
+            <div class="pv-row"><b>د. نورة الشهري</b><span class="pv-chip" style="grid-column:auto">تجريبي</span><span>استشارية جلدية أطفال · مركز الندى الطبي</span></div>
+            <div class="pv-row"><b>د. ريم الدوسري</b><span class="pv-chip" style="grid-column:auto">تجريبي</span><span>أخصائية تجميل وليزر · عيادات لمسة الجمال</span></div>
+            <div class="pv-row"><b>د. ماجد الحربي</b><span class="pv-chip" style="grid-column:auto">تجريبي</span><span>استشاري جلدية وتجميل · مجمع روافد الطبي</span></div>
+            <div class="pv-row"><b>د. عبدالله الشمري</b><span class="pv-chip" style="grid-column:auto">تجريبي</span><span>استشاري طب وجراحة العيون · مستشفى الرؤية التخصصي</span></div>
+            <div class="pv-row"><b>د. هند المطيري</b><span class="pv-chip" style="grid-column:auto">تجريبي</span><span>أخصائية عيون أطفال · مركز البصيرة للعيون</span></div>
+            <div class="pv-row"><b>د. خالد الزهراني</b><span class="pv-chip" style="grid-column:auto">تجريبي</span><span>استشاري تقويم الأسنان · عيادات ابتسامة الرياض</span></div>
+            <div class="pv-row"><b>د. لمى الغامدي</b><span class="pv-chip" style="grid-column:auto">تجريبي</span><span>أخصائية تجميل الأسنان · مجمع الروابي الطبي</span></div>
+            <div class="pv-row"><b>محمد القرني</b><span class="pv-chip" style="grid-column:auto">تجريبي</span><span>أخصائي علاج طبيعي · مركز حركة للعلاج الطبيعي</span></div>
+          </div>
+        </div>
+        <div class="app__pane app__pane--open">
+          <div class="pv-open" aria-hidden="true">
+            <div class="pv-slip">
+              <span class="pv-chip" style="justify-self:start">ملف تجريبي</span>
+              <span class="pv-slip__name">د. سارة القحطاني</span>
+              <span class="pv-slip__role">استشارية جلدية</span>
+              <span class="pv-slip__place">ملف موثّق: أُدرج الطبيب بموافقته، وتحققنا من معلوماته في 2026/10/18.</span>
+              <svg class="pv-stamp pv-stamp--lg" viewBox="0 0 100 100"><use href="#stamp"/></svg>
+            </div>
+            <div>
+              <div class="pv-fact"><small>العيادة</small><b>مجمع الروابي الطبي</b><small>بيانات تجريبية للعرض فقط · تحقق 2026/10/18</small></div>
+              <div class="pv-fact"><small>الحي</small><b>حي الملقا، الرياض</b><small>بيانات تجريبية للعرض فقط · تحقق 2026/10/18</small></div>
+              <div class="pv-fact"><small>الخبرة</small><b>14 سنة</b><small>بيانات تجريبية للعرض فقط · تحقق 2026/10/18</small></div>
+              <div class="pv-fact"><small>اللغات</small><b>العربية، الإنجليزية</b><small>بيانات تجريبية للعرض فقط · تحقق 2026/10/18</small></div>
+            </div>
+            <div class="pv-wa"><svg><use href="#wa"/></svg>راسل العيادة عبر واتساب</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="steps" style="--hm: 2" aria-labelledby="steps-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="steps-h">ثلاث خطوات من البحث إلى محادثة العيادة</h2>
+      </div>
+      <div class="grid">
+        <article class="card card--row card--open span-4">
+          <span class="step-num">1</span>
+          <h3>ابحث بالحالة أو بالاسم</h3>
+          <p>اكتب اسم الطبيب أو العيادة أو الحالة، مثل حب الشباب أو تقويم الأسنان.</p>
+          <div class="panel" role="img" aria-label="حقل البحث وفيه كلمة حب الشباب، وتحته طبيبتان">
+            <div class="pv-piece pv" aria-hidden="true" style="display:grid;gap:8px">
+              <div class="pv-search"><svg><use href="#find"/></svg>حب الشباب</div>
+              <div class="pv-row is-on"><b>د. سارة القحطاني</b><span>استشارية جلدية · مجمع الروابي الطبي</span></div>
+              <div class="pv-row is-on"><b>د. نورة الشهري</b><span>استشارية جلدية أطفال · مركز الندى الطبي</span></div>
+              <div class="pv-row is-on"><b>د. فيصل العتيبي</b><span>أخصائي جلدية · عيادات النخبة</span></div>
+            </div>
+          </div>
+        </article>
+        <article class="card card--row card--open span-4">
+          <span class="step-num">2</span>
+          <h3>اقرأ الملف الموثّق</h3>
+          <p>ترى العيادة والحي والخبرة، وبجانب كل معلومة مصدرها وتاريخ التحقق.</p>
+          <div class="panel" role="img" aria-label="ملف طبيب عليه ختم موثّق، وتحته العيادة مع مصدرها وتاريخ التحقق">
+            <div class="pv-piece pv" aria-hidden="true" style="display:grid;gap:8px">
+              <div class="pv-slip">
+                <span class="pv-slip__name">د. هند المطيري</span>
+                <span class="pv-slip__role">أخصائية عيون أطفال</span>
+                <span class="pv-slip__place">مركز البصيرة للعيون، حي الربيع</span>
+                <svg class="pv-stamp" viewBox="0 0 100 100"><use href="#stamp"/></svg>
+              </div>
+              <div class="pv-slip" style="grid-template-columns:1fr"><div class="pv-fact"><small>الخبرة</small><b>7 سنوات</b><small>بيانات تجريبية للعرض فقط · تحقق 2026/10/18</small></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="card card--row card--open span-4">
+          <span class="step-num">3</span>
+          <h3>راسل العيادة عبر واتساب</h3>
+          <p>يفتح الزر محادثة مع العيادة ورسالة جاهزة تذكر أنك وصلت عن طريق بانيفو.</p>
+          <div class="panel" role="img" aria-label="رسالة واتساب جاهزة: السلام عليكم، وصلت إليكم عن طريق بانيفو، وأود الاستفسار عن موعد">
+            <div class="pv-piece pv" aria-hidden="true" style="display:grid;gap:12px">
+              <div class="pv-bubble">السلام عليكم، وصلتُ إليكم عن طريق بانيفو (PANIVO)، وأودّ الاستفسار عن موعد.<small>09:41 ✓✓</small></div>
+              <div class="pv-wa"><svg><use href="#wa"/></svg>راسل العيادة عبر واتساب</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="consent" data-moment="liquid-type" aria-labelledby="consent-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-4">
+          <h2 class="mo-lt__type" id="consent-h">لا ملف دون موافقة صاحبه</h2>
+          <p>نضيف الطبيب بعد موافقته، ولا نعرض صورته إلا بإذنه، ويستطيع أي شخص أن يطلب تصحيح معلومة.</p>
+          <p><a class="link" href="/corrections">اطلب تصحيح معلومة</a></p>
+        </div>
+        <div class="pv-seal span-6 start-7" role="img" aria-label="ختم بانيفو: موثّق، مع تاريخ آخر تحقق">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#stamp"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="specialties" aria-labelledby="spec-h">
+    <div class="wrap">
+      <div class="grid grid--top">
+        <div class="span-5 stack-4">
+          <h2 id="spec-h">خمسة تخصصات في الرياض</h2>
+          <p class="t-lead">الجلدية، والتجميل والليزر، والعيون، والأسنان، والعلاج الطبيعي. لكل تخصص صفحة فيها أطباؤه وعياداته وأجوبة عن أكثر الأسئلة شيوعًا.</p>
+          <p>لا حجز ولا دفع في الموقع: تتفق على الموعد مع العيادة مباشرة.</p>
+          <p>تحفظ الأطباء في المحفوظات على جهازك، دون حساب.</p>
+          <p><a class="link" href="/riyadh/physio">افتح قسم العلاج الطبيعي</a></p>
+        </div>
+        <div class="frame frame--split span-6 start-7" role="img" aria-label="شاشة بانيفو الرئيسية: البحث وتحته التخصصات الخمسة">
+          <div class="pv-piece pv" aria-hidden="true">
+            <div class="pv-band">
+              <div class="pv-band__h">ابحث عن طبيبك في الرياض</div>
+              <div class="pv-search"><svg><use href="#find"/></svg>ابحث باسم الطبيب أو العيادة أو الحالة</div>
+              <div class="pv-tiles">
+                <div class="pv-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5s5.5 6 5.5 10a5.5 5.5 0 0 1-11 0c0-4 5.5-10 5.5-10Z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></svg>جلدية</div>
+                <div class="pv-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 11.6 8.4 16.5 10l-4.9 1.6L10 16.5l-1.6-4.9L3.5 10l4.9-1.6L10 3.5Z"/><path d="M17.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z"/></svg>تجميل وليزر</div>
+                <div class="pv-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/></svg>عيون</div>
+                <div class="pv-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.2C10.4 4.6 8.6 4 7 4.3 4.6 4.8 3.8 7.6 4.6 10.5c.6 2.1 1.1 3.6 1.4 6.4.3 2.6 1 3.6 1.9 3.6 1.2 0 1.5-1.6 1.9-3.6.3-1.4.7-2.4 2.2-2.4s1.9 1 2.2 2.4c.4 2 .7 3.6 1.9 3.6.9 0 1.6-1 1.9-3.6.3-2.8.8-4.3 1.4-6.4.8-2.9 0-5.7-2.4-6.2-1.6-.3-3.4.3-5 1.9Z"/></svg>أسنان</div>
+                <div class="pv-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="4.5" r="1.8"/><path d="M7 21l3-6 3 2.5V21"/><path d="M10 15l1.5-6 3 2.5 3.5.5"/><path d="M11.5 9 8 10.5 6.5 13.5"/></svg>علاج طبيعي</div>
+              </div>
+            </div>
+            <div class="pv-shelf">
+              <div class="pv-shelf__h">أخصائيو العلاج الطبيعي</div>
+              <div class="pv-slip">
+                <span class="pv-chip" style="justify-self:start">ملف تجريبي</span>
+                <span class="pv-slip__name">محمد القرني</span>
+                <span class="pv-slip__role">أخصائي علاج طبيعي · 10 سنوات خبرة</span>
+                <span class="pv-slip__place">مركز حركة للعلاج الطبيعي، حي الياسمين</span>
+                <svg class="pv-stamp" viewBox="0 0 100 100"><use href="#stamp"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="grid grid--top">
+        <div class="span-5 stack-4">
+          <h2 id="faq-h">أسئلة شائعة</h2>
+          <p class="muted">إن لم تجد جوابك، فاقرأ صفحة من نحن وكيف نتحقق.</p>
+          <p><a class="link" href="/about">من نحن وكيف نتحقق</a></p>
+          <div class="panel pv-fix" role="img" aria-label="سطر في صفحة الطبيب: طلب تصحيح أو إزالة، إن وجدت معلومة غير دقيقة في هذا الملف">
+            <div class="pv-piece pv" aria-hidden="true">
+              <div class="pv-slip" style="grid-template-columns:auto minmax(0,1fr) auto;align-items:center">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0061f3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/></svg>
+                <span style="display:grid;gap:2px"><b style="font-weight:600">طلب تصحيح أو إزالة</b><span class="pv-note">إن وجدت معلومة غير دقيقة في هذا الملف</span></span>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#4a5373" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="faq span-6 start-7">
+          <div class="faq__item"><h3>هل استخدام بانيفو مجاني؟</h3><p>نعم. البحث وقراءة الملفات ومراسلة العيادة لا تكلّفك شيئًا، ولا تحتاج إلى حساب.</p></div>
+          <div class="faq__item"><h3>هل أحجز الموعد من الموقع؟</h3><p>لا. يفتح زر واتساب محادثة مع العيادة، وتتفق معها على الموعد مباشرة.</p></div>
+          <div class="faq__item"><h3>من أين تأتي معلومات الطبيب؟</h3><p>من مصدر نذكره بجانب كل معلومة، مثل الموقع الرسمي للعيادة، مع تاريخ آخر تحقق منها.</p></div>
+          <div class="faq__item"><h3>هل يعلم الطبيب أن ملفه منشور؟</h3><p>نعم. لا ننشر أي ملف دون موافقة الطبيب، ولا نعرض صورته إلا بإذنه.</p></div>
+          <div class="faq__item"><h3>وجدت معلومة خاطئة، فماذا أفعل؟</h3><p>أرسل طلب تصحيح من صفحة الطبيب أو من صفحة طلب التصحيح، فنراجعه ونحدّث الملف.</p></div>
+          <div class="faq__item"><h3>هل يصلح بانيفو للحالات الطارئة؟</h3><p>لا. بانيفو دليل معلومات وليس جهة رعاية صحية. في الحالات الطارئة اتصل بالرقم 997 أو 911.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">ابحث عن طبيبك في الرياض</h2>
+        <p class="t-small muted">دون حساب ودون رسوم.</p>
+      </div>
+      <a class="btn btn--primary btn--xl btn--wide" href="/">ابحث عن طبيبك<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top"><img loading="lazy" src="/brand/wordmark-footer.webp" alt="بانيفو PANIVO" width="480" height="154"></a>
+          <p class="footer__lede">أطباء الرياض في ملفات موثّقة.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>الملف</h3><ul><li><a href="#app">ملف الطبيب</a></li><li><a href="#consent">موافقة الطبيب</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>الخطوات</h3><ul><li><a href="#steps">البحث والمراسلة</a></li><li><a href="/">الصفحة الرئيسية</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>التخصصات</h3><ul><li><a href="/riyadh/dermatology">جلدية</a></li><li><a href="/riyadh/cosmetic">تجميل وليزر</a></li><li><a href="/riyadh/eyes">عيون</a></li><li><a href="/riyadh/dental">أسنان</a></li><li><a href="/riyadh/physio">علاج طبيعي</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>الأسئلة</h3><ul><li><a href="#faq">أسئلة شائعة</a></li><li><a href="/about">من نحن</a></li><li><a href="/corrections">طلب تصحيح</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 بانيفو &nbsp; <a href="/privacy">سياسة الخصوصية</a> &nbsp; <a href="/terms">الشروط والأحكام</a></span>
+        <div class="socials"></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="/intro/assets/system.js"></script>
+<script type="module" src="/intro/assets/motion/motion.js"></script>
+<script type="module" src="/intro/assets/layout/layout.js"></script>
+</body>
+</html>
