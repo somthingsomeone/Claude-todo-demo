@@ -7,7 +7,7 @@ import { HeartIcon, HomeIcon, SettingsIcon } from "./Icons";
 
 const ITEMS = [
   { href: "/", label: "الرئيسية", Icon: HomeIcon },
-  { href: "/favorites", label: "المفضلة", Icon: HeartIcon },
+  { href: "/favorites", label: "المحفوظات", Icon: HeartIcon },
   { href: "/settings", label: "الإعدادات", Icon: SettingsIcon },
 ] as const;
 
@@ -17,33 +17,30 @@ function activeIndex(pathname: string) {
   return 0;
 }
 
-/**
- * Floating glass tab bar — it hovers above the bottom edge instead of sticking to it.
- * The highlight slides between tabs on a critically damped spring.
- */
+/** A doctor's page (/riyadh/<specialty>/<doctor>) gives the bottom edge to the contact bar instead. */
+export function isDetailPath(pathname: string) {
+  return /^\/riyadh\/[a-z]+\/[a-z0-9-]+$/.test(pathname) && !pathname.startsWith("/riyadh/clinics/");
+}
+
+/** Floating tab bar: it hovers above the bottom edge instead of sticking to it. */
 export function BottomNav() {
   const pathname = usePathname();
   const { ids } = useFavorites();
+  if (isDetailPath(pathname)) return null;
   const active = activeIndex(pathname);
   return (
-    <nav className="tabbar" aria-label="التنقل الرئيسي" style={{ "--active": active } as React.CSSProperties}>
-      <span className="tabbar__indicator" aria-hidden="true" />
+    <nav className="tabbar" aria-label="التنقل الرئيسي">
       {ITEMS.map(({ href, label, Icon }, i) => (
-        <Link
-          key={href}
-          href={href}
-          className={`tabbar__item ${i === active ? "is-active" : ""}`}
-          aria-current={i === active ? "page" : undefined}
-        >
+        <Link key={href} href={href} className="tabbar__item" aria-current={i === active ? "page" : undefined}>
           <span className="tabbar__icon">
-            <Icon size={23} />
+            <Icon size={22} />
             {href === "/favorites" && ids.length > 0 && (
               <span className="tabbar__badge" aria-label={`${ids.length} محفوظ`}>
                 {ids.length}
               </span>
             )}
           </span>
-          <span className="tabbar__label">{label}</span>
+          {label}
         </Link>
       ))}
     </nav>

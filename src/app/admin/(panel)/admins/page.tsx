@@ -12,7 +12,7 @@ export default async function AdminAdmins() {
   return (
     <div className="adm-stack">
       <h1>المشرفون</h1>
-      <div className="glass card adm-table-wrap">
+      <div className="group group--pad adm-table-wrap">
         <table className="adm-table">
           <thead>
             <tr>
@@ -44,9 +44,9 @@ export default async function AdminAdmins() {
         </table>
       </div>
 
-      <form action={addAdmin} className="glass card form">
+      <form action={addAdmin} className="group group--pad form">
         <input type="hidden" name="_back" value={back} />
-        <h2 className="card__title">إضافة مشرف</h2>
+        <h2 className="section-title">إضافة مشرف</h2>
         <label className="field">
           <span>الاسم</span>
           <input name="display_name" required maxLength={80} />
@@ -62,7 +62,7 @@ export default async function AdminAdmins() {
             <option value="owner">مالك (كل الصلاحيات)</option>
           </select>
         </label>
-        <button className="btn-primary">إضافة</button>
+        <button className="btn">إضافة</button>
       </form>
     </div>
   );

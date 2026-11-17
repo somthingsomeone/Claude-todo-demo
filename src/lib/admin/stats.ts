@@ -2,9 +2,9 @@ import type { Db } from "../db/client";
 
 /** 90-day test rule from the plan: >300 clicks/month → phase 2; 100–300 → improve marketing; <100 → rethink. */
 export function testVerdict(clicksPerMonth: number) {
-  if (clicksPerMonth > 300) return { tone: "good", text: "ممتاز — فوق 300 ضغطة: جاهزين للمرحلة الثانية." } as const;
-  if (clicksPerMonth >= 100) return { tone: "mid", text: "بين 100 و300 — نحسّن التسويق." } as const;
-  return { tone: "low", text: "أقل من 100 — نراجع الفكرة أو طريقة الوصول للناس." } as const;
+  if (clicksPerMonth > 300) return { tone: "good", text: "ممتاز: أكثر من 300 ضغطة، والمشروع جاهز للمرحلة الثانية." } as const;
+  if (clicksPerMonth >= 100) return { tone: "mid", text: "بين 100 و300 ضغطة: يحتاج التسويق إلى تحسين." } as const;
+  return { tone: "low", text: "أقل من 100 ضغطة: تحتاج الفكرة أو طريقة الوصول إلى الناس إلى مراجعة." } as const;
 }
 
 export async function dashboardStats(db: Db) {

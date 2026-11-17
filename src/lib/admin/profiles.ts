@@ -10,7 +10,6 @@ import {
   numberField,
   oneOf,
   text,
-  urlField,
   type Actor,
 } from "./core";
 
@@ -45,6 +44,8 @@ export interface AdminDoctor {
   consent_date: string | null;
   consent_method: ConsentMethod | null;
   consent_note: string | null;
+  clinic_id: string | null;
+  position: number | null;
   is_demo: boolean;
   is_hidden: boolean;
   has_photo: boolean;
@@ -62,6 +63,7 @@ export interface AdminDoctorRow {
   is_hidden: boolean;
   status: DoctorStatus;
   has_consent: boolean;
+  position: number | null;
   whatsapp: string;
   clicks_total: number;
   clicks_30d: number;
@@ -82,12 +84,12 @@ export function normalizeSaudiMobile(input: string | null): string {
 export async function listAdminDoctors(db: Db): Promise<AdminDoctorRow[]> {
   return db.query<AdminDoctorRow>(
     `select d.id, d.slug, d.name, d.title, d.specialty, d.hospital, d.is_demo, d.is_hidden, d.status,
-       (d.consent_date is not null) as has_consent, d.whatsapp,
+       (d.consent_date is not null) as has_consent, d.position, d.whatsapp,
        coalesce(sum(c.clicks), 0)::int as clicks_total,
        coalesce(sum(c.clicks) filter (where c.day > (now() at time zone 'Asia/Riyadh')::date - 30), 0)::int as clicks_30d
      from doctors d left join whatsapp_clicks c on c.doctor_id = d.id
      group by d.id
-     order by d.is_demo, d.name`,
+     order by d.is_demo, d.position nulls last, d.name`,
   );
 }
 
@@ -97,7 +99,7 @@ export async function getAdminDoctor(db: Db, id: string): Promise<AdminDoctor | 
     `select d.id, d.slug, d.name, d.title, d.title_note, d.specialty, d.role, d.hospital, d.district, d.map_url, d.bio,
        d.treats, d.languages, d.years_experience, d.whatsapp,
        d.source, to_char(d.checked_at, 'YYYY-MM-DD') as checked_at, d.status,
-       to_char(d.consent_date, 'YYYY-MM-DD') as consent_date, d.consent_method, d.consent_note,
+       to_char(d.consent_date, 'YYYY-MM-DD') as consent_date, d.consent_method, d.consent_note, d.clinic_id, d.position,
        d.is_demo, d.is_hidden, (p.doctor_id is not null) as has_photo, p.permission_note as photo_permission_note
      from doctors d left join doctor_photos p on p.doctor_id = d.id
      where d.id = $1`,
@@ -106,7 +108,7 @@ export async function getAdminDoctor(db: Db, id: string): Promise<AdminDoctor | 
   return row ?? null;
 }
 
-function readDoctor(values: Record<string, unknown>) {
+async function readDoctor(db: Db, values: Record<string, unknown>) {
   const slug = text(values, "slug", { required: true, max: 80, label: "الرابط المختصر" })!.toLowerCase();
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) {
     throw new AdminError("الرابط المختصر: أحرف إنجليزية صغيرة وأرقام وشرطات فقط، مثل sara-alqahtani");
@@ -118,12 +120,20 @@ function readDoctor(values: Record<string, unknown>) {
   if (containsIdLikeNumber(consentNote)) throw new AdminError("لا تكتب أرقام هوية أو أرقامًا طويلة في ملاحظة الموافقة.");
   const consentDate = dateField(values, "consent_date", { label: "تاريخ الموافقة" });
   const consentMethod = oneOf(values, "consent_method", CONSENT_METHODS, { label: "طريقة الموافقة" });
-  if (consentDate && !consentMethod) throw new AdminError("اختر طريقة موافقة الطبيب (واتساب، بريد، ورقي).");
-  if (consentDate && consentDate > new Date().toISOString().slice(0, 10)) throw new AdminError("تاريخ الموافقة ما يكون في المستقبل.");
+  if (consentDate && !consentMethod) throw new AdminError("اختر طريقة موافقة الطبيب (واتساب أو بريد إلكتروني أو ورقي).");
+  if (consentDate && consentDate > new Date().toISOString().slice(0, 10)) throw new AdminError("لا يمكن أن يكون تاريخ الموافقة في المستقبل.");
   const status = oneOf(values, "status", STATUSES, { label: "الحالة" }) ?? "draft";
   if (status === "published" && !consentDate) {
-    throw new AdminError("ما يمديك تنشر الملف بدون تاريخ موافقة الطبيب. احفظه كمسودة أو أضف تاريخ الموافقة.");
+    throw new AdminError("لا يمكن نشر الملف دون تاريخ موافقة الطبيب. احفظه مسودةً أو أضف تاريخ الموافقة.");
   }
+  const clinicId = text(values, "clinic_id", { required: true, label: "العيادة" })!;
+  const [clinic] = /^[0-9a-f-]{36}$/i.test(clinicId)
+    ? await db.query<{ id: string; name: string; district: string; map_url: string | null }>(
+        `select id, name, district, map_url from clinics where id = $1`,
+        [clinicId],
+      )
+    : [];
+  if (!clinic) throw new AdminError("اختر العيادة من القائمة. وإذا لم تكن موجودة فأضفها أولًا من صفحة «العيادات».");
 
   return {
     slug,
@@ -132,9 +142,12 @@ function readDoctor(values: Record<string, unknown>) {
     title_note: titleNote,
     specialty: oneOf(values, "specialty", SPECIALTY_SLUGS, { required: true, label: "التخصص" })!,
     role: text(values, "role", { required: true, max: 80, label: "المسمى" })!,
-    hospital: text(values, "hospital", { required: true, max: 120, label: "المستشفى/العيادة" })!,
-    district: text(values, "district", { required: true, max: 120, label: "الحي" })!,
-    map_url: urlField(values, "map_url", { label: "رابط الخريطة" }),
+    // Clinic details are copied from the chosen clinic record.
+    clinic_id: clinic.id,
+    hospital: clinic.name,
+    district: clinic.district,
+    map_url: clinic.map_url,
+    position: numberField(values, "position", { min: 1, max: 9999, integer: true, label: "الترتيب" }),
     bio: text(values, "bio", { max: 800, label: "النبذة" }) ?? "",
     treats: listField(values, "treats", { max: 20, label: "يعالج" }),
     languages: listField(values, "languages", { max: 8, label: "اللغات" }),
@@ -153,11 +166,11 @@ function readDoctor(values: Record<string, unknown>) {
 const COLUMNS = [
   "slug", "name", "title", "title_note", "specialty", "role", "hospital", "district", "map_url", "bio", "treats",
   "languages", "years_experience", "whatsapp", "source", "checked_at", "status", "consent_date", "consent_method",
-  "consent_note",
+  "consent_note", "clinic_id", "position",
 ] as const;
 
 export async function createDoctor(db: Db, actor: Actor, values: Record<string, unknown>): Promise<string> {
-  const d = readDoctor(values);
+  const d = await readDoctor(db, values);
   try {
     const [row] = await db.query<{ id: string }>(
       `insert into doctors (${COLUMNS.join(", ")})
@@ -175,7 +188,7 @@ export async function updateDoctor(db: Db, actor: Actor, id: string, values: Rec
   const before = await getAdminDoctor(db, id);
   if (!before) throw new AdminError("الملف غير موجود.");
   if (before.is_demo) throw new AdminError("الملفات التجريبية لا تُعدّل. أضف ملفًا حقيقيًا جديدًا.");
-  const d = readDoctor(values);
+  const d = await readDoctor(db, values);
   try {
     await db.query(
       `update doctors set ${COLUMNS.map((c, i) => `${c} = $${i + 2}`).join(", ")}, updated_at = now() where id = $1`,

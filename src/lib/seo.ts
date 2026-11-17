@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { type Doctor, displayName, specialtyName } from "./doctors";
+import { type Clinic, type Doctor, clinicPath, displayName, doctorPath, specialtyName, specialtyPath } from "./doctors";
 import { absoluteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_NAME_EN } from "./site";
 import { SPECIALTY_PAGES, type Faq } from "./specialty-content";
 
-export const OG_IMAGE = { url: "/og.png", width: 1200, height: 630, alt: "بانيفو — اعرف طبيبك قبل موعدك" };
+export const OG_IMAGE = { url: "/og.png", width: 1200, height: 630, alt: "بانيفو" };
 
 /** Per-page metadata: unique title + description, canonical URL and Open Graph tags. */
 export function pageMetadata({
@@ -55,7 +55,7 @@ export function organizationJsonLd(): JsonLdObject {
     name: SITE_NAME,
     alternateName: SITE_NAME_EN,
     url: absoluteUrl("/"),
-    logo: absoluteUrl("/logo.png"),
+    logo: absoluteUrl("/brand/panivo-mark-on-white.png"),
     description: SITE_DESCRIPTION,
     areaServed: { "@type": "City", name: "الرياض" },
   };
@@ -70,9 +70,9 @@ export function doctorJsonLd(d: Doctor): JsonLdObject {
   return {
     "@context": "https://schema.org",
     "@type": isPhysio ? "MedicalBusiness" : "Physician",
-    "@id": absoluteUrl(`/doctors/${d.slug}#profile`),
+    "@id": absoluteUrl(`${doctorPath(d)}#profile`),
     name: displayName(d),
-    url: absoluteUrl(`/doctors/${d.slug}`),
+    url: absoluteUrl(doctorPath(d)),
     description: d.bio || `${d.role} — ${d.hospital}`,
     medicalSpecialty: `https://schema.org/${SPECIALTY_PAGES[d.specialty].schemaSpecialty}`,
     ...(d.photo ? { image: absoluteUrl(d.photo) } : {}),
@@ -83,7 +83,11 @@ export function doctorJsonLd(d: Doctor): JsonLdObject {
       addressLocality: "الرياض",
       addressCountry: "SA",
     },
-    parentOrganization: { "@type": "MedicalClinic", name: d.hospital },
+    parentOrganization: {
+      "@type": "MedicalClinic",
+      name: d.hospital,
+      ...(d.clinicSlug ? { url: absoluteUrl(clinicPath(d.clinicSlug)) } : {}),
+    },
     areaServed: { "@type": "City", name: "الرياض" },
   };
 }
@@ -116,8 +120,8 @@ export function faqJsonLd(faqs: Faq[]): JsonLdObject {
 export function doctorBreadcrumb(d: Doctor) {
   return breadcrumbJsonLd([
     { name: "الرئيسية", path: "/" },
-    { name: SPECIALTY_PAGES[d.specialty].title, path: `/riyadh/${d.specialty}` },
-    { name: displayName(d), path: `/doctors/${d.slug}` },
+    { name: SPECIALTY_PAGES[d.specialty].title, path: specialtyPath(d.specialty) },
+    { name: displayName(d), path: doctorPath(d) },
   ]);
 }
 
@@ -126,4 +130,26 @@ export function doctorDescription(d: Doctor): string {
   return `${displayName(d)}، ${d.role} في ${d.hospital} (${d.district}). ${specialtyName(d.specialty)}${
     treats ? `: ${treats}` : ""
   }. تواصل مع العيادة مباشرة عبر واتساب.`.slice(0, 300);
+}
+
+/** A clinic page: schema.org MedicalClinic with its address and the specialties on offer. Never includes ratings. */
+export function clinicJsonLd(c: Clinic, doctors: Doctor[]): JsonLdObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "@id": absoluteUrl(`${clinicPath(c.slug)}#clinic`),
+    name: c.name,
+    url: absoluteUrl(clinicPath(c.slug)),
+    address: { "@type": "PostalAddress", streetAddress: c.district, addressLocality: "الرياض", addressCountry: "SA" },
+    ...(c.mapUrl ? { hasMap: c.mapUrl } : {}),
+    medicalSpecialty: [...new Set(c.specialties.map((s) => `https://schema.org/${SPECIALTY_PAGES[s].schemaSpecialty}`))],
+    employee: doctors.map((d) => ({ "@type": "Person", name: displayName(d), jobTitle: d.role, url: absoluteUrl(doctorPath(d)) })),
+  };
+}
+
+export function clinicBreadcrumb(c: Clinic) {
+  return breadcrumbJsonLd([
+    { name: "الرئيسية", path: "/" },
+    { name: c.name, path: clinicPath(c.slug) },
+  ]);
 }

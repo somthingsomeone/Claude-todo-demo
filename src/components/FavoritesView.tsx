@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { Doctor } from "@/lib/doctors";
 import { useFavorites } from "@/lib/favorites";
-import { DoctorCard } from "./DoctorCard";
+import { DoctorSlip } from "./DoctorSlip";
 import { HeartIcon } from "./Icons";
 
 export function FavoritesView({ doctors }: { doctors: Doctor[] }) {
@@ -12,34 +12,29 @@ export function FavoritesView({ doctors }: { doctors: Doctor[] }) {
   const saved = ids.map((id) => doctors.find((d) => d.slug === id)).filter((d) => d !== undefined);
 
   return (
-    <section className="page" aria-labelledby="fav-title">
-      <div className="page-head">
-        <h1 id="fav-title">المفضلة</h1>
-        <p className="page-head__sub">الأطباء اللي حفظتهم، بمكان واحد.</p>
+    <section className="wrap page" aria-labelledby="fav-title">
+      <div>
+        <h1 id="fav-title" className="page__title">
+          المحفوظات
+        </h1>
+        <p className="page__lede">الأطباء الذين حفظتهم، محفوظون على هذا الجهاز فقط.</p>
       </div>
-
       {saved.length > 0 ? (
-        <div className="card-grid">
+        <div className="stack">
           {saved.map((d) => (
-            <DoctorCard key={d.slug} doctor={d} />
+            <DoctorSlip key={d.slug} doctor={d} />
           ))}
         </div>
       ) : (
         <div className="empty">
-          <span className="empty__icon">
-            <HeartIcon size={28} />
-          </span>
-          <p className="empty__title">ما حفظت أحد للحين</p>
-          <p>اضغط على القلب في بطاقة أي طبيب عشان يظهر هنا.</p>
-          <Link href="/" className="btn-primary">
+          <HeartIcon size={28} className="icon muted" />
+          <p className="empty__title">لم تحفظ أي طبيب بعد</p>
+          <p className="muted">اضغط رمز القلب في بطاقة أي طبيب ليظهر هنا.</p>
+          <Link href="/" className="btn">
             تصفّح الأطباء
           </Link>
         </div>
       )}
-
-      <p className="note">
-        المفضلة محفوظة حاليًا على جهازك فقط. بعد تفعيل الحسابات تقدر تسجّل دخولك وتلقاها على كل أجهزتك.
-      </p>
     </section>
   );
 }

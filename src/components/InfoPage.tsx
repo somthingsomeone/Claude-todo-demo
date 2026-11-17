@@ -1,30 +1,20 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { isSiteLive } from "@/lib/site";
-import { ArrowIcon } from "./Icons";
+import { ChevronIcon } from "./Icons";
 
-/** Simple text page (about, privacy, terms…) with a back button to settings. `bare` skips the text card. */
-export function InfoPage({
-  title,
-  draft,
-  bare,
-  children,
-}: {
-  title: string;
-  draft?: boolean;
-  bare?: boolean;
-  children: ReactNode;
-}) {
+/** Text page (about, privacy, terms…) with a breadcrumb. `bare` skips the text card. */
+export function InfoPage({ title, draft, bare, children }: { title: string; draft?: boolean; bare?: boolean; children: ReactNode }) {
   return (
-    <article className="page">
-      <div className="page-head page-head--row">
-        <Link href="/settings" className="icon-btn" aria-label="رجوع">
-          <ArrowIcon size={22} />
-        </Link>
-        <h1>{title}</h1>
-      </div>
-      {draft && !isSiteLive() && <p className="tag tag--demo draft-pill">مسودة — بانتظار مراجعة محامٍ سعودي</p>}
-      {bare ? children : <div className="group group--text prose">{children}</div>}
+    <article className="wrap page">
+      <nav className="crumbs" aria-label="مسار الصفحة">
+        <Link href="/">الرئيسية</Link>
+        <ChevronIcon size={14} />
+        <span aria-current="page">{title}</span>
+      </nav>
+      <h1 className="page__title">{title}</h1>
+      {draft && !isSiteLive() && <p className="label draft-note">مسودة بانتظار مراجعة محامٍ سعودي</p>}
+      {bare ? children : <div className="group prose">{children}</div>}
     </article>
   );
 }

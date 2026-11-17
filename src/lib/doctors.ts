@@ -26,7 +26,10 @@ export interface Doctor {
   specialty: SpecialtySlug;
   /** e.g. "استشاري جلدية" */
   role: string;
+  /** Clinic or hospital name. */
   hospital: string;
+  /** The clinic's page slug, when the doctor is linked to a clinic record. */
+  clinicSlug: string | null;
   district: string;
   bio: string;
   treats: string[];
@@ -42,6 +45,27 @@ export interface Doctor {
   /** Last time the profile was edited (YYYY-MM-DD). */
   updatedAt: string;
   demo: boolean;
+}
+
+export interface Clinic {
+  slug: string;
+  name: string;
+  district: string;
+  mapUrl: string | null;
+  specialties: SpecialtySlug[];
+  doctorCount: number;
+  demo: boolean;
+}
+
+export const CITY = { slug: "riyadh", name: "الرياض" } as const;
+
+/** Clean, descriptive URLs: /riyadh/eyes/<doctor>, /riyadh/clinics/<clinic>. */
+export const doctorPath = (d: Pick<Doctor, "slug" | "specialty">) => `/${CITY.slug}/${d.specialty}/${d.slug}`;
+export const specialtyPath = (s: SpecialtySlug) => `/${CITY.slug}/${s}`;
+export const clinicPath = (slug: string) => `/${CITY.slug}/clinics/${slug}`;
+
+export function isSpecialty(value: string | null | undefined): value is SpecialtySlug {
+  return SPECIALTIES.some((s) => s.slug === value);
 }
 
 export function specialtyName(slug: SpecialtySlug): string {
@@ -81,7 +105,7 @@ export function filterDoctors(
   });
 }
 
-export const WHATSAPP_MESSAGE = "السلام عليكم، وصلت لكم عن طريق بانيفو (PANIVO) وأبغى أستفسر عن موعد.";
+export const WHATSAPP_MESSAGE = "السلام عليكم، وصلتُ إليكم عن طريق بانيفو (PANIVO)، وأودّ الاستفسار عن موعد.";
 
 export function whatsappLink(d: Doctor): string | null {
   if (!d.whatsapp) return null;

@@ -30,8 +30,8 @@ export default async function AdminHistory() {
   return (
     <div className="adm-stack">
       <h1>سجل التغييرات</h1>
-      <p className="muted adm-small">آخر 200 تغيير: مين غيّر، وش غيّر، ومتى (بتوقيت الرياض). البيانات الشخصية لأصحاب الطلبات ما تنحفظ هنا.</p>
-      <div className="glass card adm-table-wrap">
+      <p className="muted updated">آخر 200 تغيير: من غيّر، وماذا غيّر، ومتى (بتوقيت الرياض). لا تُحفظ هنا البيانات الشخصية لأصحاب الطلبات.</p>
+      <div className="group group--pad adm-table-wrap">
         <table className="adm-table">
           <thead>
             <tr>
@@ -68,7 +68,7 @@ export default async function AdminHistory() {
             ))}
           </tbody>
         </table>
-        {rows.length === 0 && <p className="muted">ما فيه تغييرات للحين.</p>}
+        {rows.length === 0 && <p className="muted">لا توجد تغييرات بعد.</p>}
       </div>
     </div>
   );

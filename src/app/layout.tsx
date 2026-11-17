@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-// Uses the device's system font (SF Arabic on Apple devices) — no web fonts to download.
+// Readex Pro, self-hosted with the site (no outside font services).
+import "@fontsource-variable/readex-pro/wght.css";
 import "./globals.css";
 import { OG_IMAGE } from "@/lib/seo";
 import { isSiteLive, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, siteUrl } from "@/lib/site";
@@ -20,11 +21,8 @@ export function generateMetadata(): Metadata {
 }
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F2F2F7" },
-    { media: "(prefers-color-scheme: dark)", color: "#000000" },
-  ],
-  colorScheme: "light dark",
+  themeColor: "#ffffff",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",

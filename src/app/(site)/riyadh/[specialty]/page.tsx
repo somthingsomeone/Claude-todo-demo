@@ -2,89 +2,111 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
-import { DoctorCard } from "@/components/DoctorCard";
-import { ArrowIcon } from "@/components/Icons";
+import { ClinicSlip } from "@/components/ClinicSlip";
+import { DoctorSlip } from "@/components/DoctorSlip";
+import { ChevronIcon, PlusIcon } from "@/components/Icons";
 import { JsonLd } from "@/components/JsonLd";
+import { SearchBand } from "@/components/SearchBand";
+import { Shelf } from "@/components/Shelf";
 import { getDb } from "@/lib/db/client";
-import { listPublicDoctors } from "@/lib/data/doctors";
-import type { SpecialtySlug } from "@/lib/doctors";
+import { listPublicClinics, listPublicDoctors } from "@/lib/data/doctors";
+import { isSpecialty, specialtyPath } from "@/lib/doctors";
 import { breadcrumbJsonLd, faqJsonLd, pageMetadata } from "@/lib/seo";
 import { SPECIALTY_ORDER, SPECIALTY_PAGES } from "@/lib/specialty-content";
-
-function pageFor(slug: string) {
-  return SPECIALTY_ORDER.includes(slug as SpecialtySlug) ? SPECIALTY_PAGES[slug as SpecialtySlug] : null;
-}
 
 export function generateStaticParams() {
   return SPECIALTY_ORDER.map((specialty) => ({ specialty }));
 }
 
 export async function generateMetadata(props: PageProps<"/riyadh/[specialty]">): Promise<Metadata> {
-  const page = pageFor((await props.params).specialty);
-  if (!page) return { title: "الصفحة غير موجودة", robots: { index: false, follow: false } };
-  return pageMetadata({ title: page.title, description: page.description, path: `/riyadh/${page.slug}` });
+  const { specialty } = await props.params;
+  if (!isSpecialty(specialty)) return { title: "الصفحة غير موجودة", robots: { index: false, follow: false } };
+  const page = SPECIALTY_PAGES[specialty];
+  return pageMetadata({ title: page.title, description: page.description, path: specialtyPath(specialty) });
 }
 
 export default async function SpecialtyLanding(props: PageProps<"/riyadh/[specialty]">) {
-  const page = pageFor((await props.params).specialty);
-  if (!page) notFound();
+  const { specialty } = await props.params;
+  if (!isSpecialty(specialty)) notFound();
+  const page = SPECIALTY_PAGES[specialty];
   await connection();
-  const doctors = (await listPublicDoctors(await getDb())).filter((d) => d.specialty === page.slug);
+  const db = await getDb();
+  const [doctors, clinics] = await Promise.all([
+    listPublicDoctors(db, { specialty }),
+    listPublicClinics(db).then((all) => all.filter((c) => c.specialties.includes(specialty))),
+  ]);
 
   return (
-    <article className="page">
+    <>
       <JsonLd
         data={[
           breadcrumbJsonLd([
             { name: "الرئيسية", path: "/" },
-            { name: page.title, path: `/riyadh/${page.slug}` },
+            { name: page.title, path: specialtyPath(specialty) },
           ]),
           faqJsonLd(page.faqs),
         ]}
       />
-      <nav className="breadcrumb" aria-label="مسار الصفحة">
-        <Link href="/" className="icon-btn" aria-label="الرئيسية">
-          <ArrowIcon size={22} />
-        </Link>
-        <span className="muted">الرئيسية / {page.title}</span>
-      </nav>
+      <SearchBand title={page.title} tiles={false} />
 
-      <header className="page-head">
-        <h1>{page.title}</h1>
-        <p className="lede">{page.intro}</p>
-      </header>
+      <div className="wrap page">
+        <nav className="crumbs" aria-label="مسار الصفحة">
+          <Link href="/">الرئيسية</Link>
+          <ChevronIcon size={14} />
+          <span aria-current="page">{page.title}</span>
+        </nav>
 
-      <section aria-labelledby="list-title">
-        <div className="section-head">
-          <h2 id="list-title">الأطباء</h2>
-          <span className="section-head__count">{doctors.length} نتيجة · الترتيب أبجدي</span>
-        </div>
-        {doctors.length > 0 ? (
-          <div className="card-grid">
-            {doctors.map((d) => (
-              <DoctorCard key={d.slug} doctor={d} />
+        <p className="page__lede">{page.intro}</p>
+
+        <section aria-labelledby="list-title">
+          <h2 id="list-title" className="section-title">
+            {doctors.length > 0 ? `${doctors.length} ${doctors.length === 1 ? "ملف" : "ملفات"} في هذا التخصص` : "الأطباء"}
+          </h2>
+          {doctors.length > 0 ? (
+            <div className="stack">
+              {doctors.map((d) => (
+                <DoctorSlip key={d.slug} doctor={d} showSpecialty={false} />
+              ))}
+            </div>
+          ) : (
+            <div className="empty">
+              <p className="empty__title">لا توجد ملفات منشورة في هذا التخصص بعد</p>
+              <p className="muted">نضيف الأطباء بعد موافقتهم والتحقق من معلوماتهم.</p>
+              <Link href="/" className="btn btn--quiet">
+                تصفّح التخصصات الأخرى
+              </Link>
+            </div>
+          )}
+        </section>
+
+        {clinics.length > 0 && (
+          <Shelf id="clinics-title" title="عيادات تقدّم هذا التخصص">
+            {clinics.map((c) => (
+              <ClinicSlip key={c.slug} clinic={c} />
+            ))}
+          </Shelf>
+        )}
+
+        <section aria-labelledby="faq-title">
+          <h2 id="faq-title" className="section-title">
+            أسئلة شائعة
+          </h2>
+          <div className="faq">
+            {page.faqs.map((f) => (
+              <details key={f.q}>
+                <summary>
+                  {f.q}
+                  <PlusIcon size={20} className="icon" />
+                </summary>
+                <p>{f.a}</p>
+              </details>
             ))}
           </div>
-        ) : (
-          <div className="empty">
-            <p className="empty__title">ما فيه ملفات منشورة في هذا التخصص للحين</p>
-            <p>نضيف أطباء جدد باستمرار بعد موافقتهم.</p>
-          </div>
-        )}
-      </section>
-
-      <section aria-labelledby="faq-title">
-        <h2 id="faq-title" className="section-title">أسئلة شائعة</h2>
-        <div className="faq">
-          {page.faqs.map((f) => (
-            <details key={f.q}>
-              <summary>{f.q}</summary>
-              <p>{f.a}</p>
-            </details>
-          ))}
-        </div>
-        <p className="note">معلومات عامة وليست نصيحة طبية. للتشخيص والعلاج راجع طبيبك. في الطوارئ اتصل بـ 997 أو 911.</p>
-      </section>
-    </article>
+          <p className="updated fact__src--spaced">
+            معلومات عامة وليست استشارة طبية. للتشخيص والعلاج راجع طبيبك، وفي الحالات الطارئة اتصل بالرقم 997 أو 911.
+          </p>
+        </section>
+      </div>
+    </>
   );
 }

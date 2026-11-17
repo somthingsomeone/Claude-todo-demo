@@ -2,10 +2,16 @@ import { createDb, type Db } from "@/lib/db/client";
 import { migrate, seedDemoIfEmpty } from "@/lib/db/migrate";
 import type { Actor } from "@/lib/admin/core";
 
+export const TEST_CLINIC_ID = "00000000-0000-4000-8000-000000000001";
+
 export async function freshDb({ demo = true } = {}): Promise<Db> {
   const db = await createDb({ dataDir: "memory://" });
   await migrate(db);
   if (demo) await seedDemoIfEmpty(db);
+  await db.query(
+    `insert into clinics (id, slug, name, district) values ($1, 'test-clinic', 'مستشفى للاختبار', 'حي للاختبار، الرياض')`,
+    [TEST_CLINIC_ID],
+  );
   return db;
 }
 
@@ -23,8 +29,7 @@ export const realDoctor = (over: Record<string, string | undefined> = {}) => ({
   title: "د.",
   specialty: "eyes",
   role: "استشاري عيون",
-  hospital: "مستشفى للاختبار",
-  district: "حي للاختبار، الرياض",
+  clinic_id: TEST_CLINIC_ID,
   bio: "نبذة",
   treats: "جفاف العين\nالمياه البيضاء",
   languages: "العربية، الإنجليزية",

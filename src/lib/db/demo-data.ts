@@ -26,6 +26,19 @@ export interface DemoDoctor {
 const DEMO_SOURCE = "بيانات تجريبية للعرض فقط";
 const DEMO_CHECKED = "2026-10-18";
 
+/** Fictional demo clinics (the doctors below point at them by name). */
+export const DEMO_CLINICS: { slug: string; name: string; district: string }[] = [
+  { slug: "demo-rawabi-medical", name: "مجمع الروابي الطبي", district: "حي الملقا، الرياض" },
+  { slug: "demo-nukhba-clinics", name: "عيادات النخبة", district: "حي الياسمين، الرياض" },
+  { slug: "demo-nada-medical", name: "مركز الندى الطبي", district: "حي النرجس، الرياض" },
+  { slug: "demo-lamsa-clinics", name: "عيادات لمسة الجمال", district: "حي الورود، الرياض" },
+  { slug: "demo-rawafid-medical", name: "مجمع روافد الطبي", district: "حي العليا، الرياض" },
+  { slug: "demo-ruya-hospital", name: "مستشفى الرؤية التخصصي", district: "حي السليمانية، الرياض" },
+  { slug: "demo-basira-eye", name: "مركز البصيرة للعيون", district: "حي الربيع، الرياض" },
+  { slug: "demo-ibtisama-clinics", name: "عيادات ابتسامة الرياض", district: "حي الصحافة، الرياض" },
+  { slug: "demo-haraka-physio", name: "مركز حركة للعلاج الطبيعي", district: "حي الياسمين، الرياض" },
+];
+
 export const DEMO_DOCTORS: DemoDoctor[] = [
   {
     slug: "demo-sara-alqahtani",

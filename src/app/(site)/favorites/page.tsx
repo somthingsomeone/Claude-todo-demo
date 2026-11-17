@@ -6,8 +6,8 @@ import { listPublicDoctors } from "@/lib/data/doctors";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "المفضلة",
-  description: "الأطباء اللي حفظتهم في بانيفو على هذا الجهاز.",
+  title: "المحفوظات",
+  description: "الأطباء الذين حفظتهم في بانيفو على هذا الجهاز.",
   path: "/favorites",
   noindex: true,
 });

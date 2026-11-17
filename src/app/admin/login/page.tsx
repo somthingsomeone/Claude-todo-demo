@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import { LogoMark } from "@/components/Logo";
 import { authMode, getCurrentAdmin } from "@/lib/admin/session";
 import { devLogin, requestLoginLink } from "../actions";
 
@@ -10,31 +9,31 @@ export default async function LoginPage(props: PageProps<"/admin/login">) {
   if (await getCurrentAdmin()) redirect("/admin");
   const mode = authMode();
   return (
-    <main className="container adm-login">
-      <div className="glass card adm-login__box">
-        <LogoMark size={44} />
+    <main className="adm-login">
+      <div className="group adm-login__box">
+        <img src="/brand/wordmark-header.webp" alt="بانيفو" width={109} height={35} />
         <h1>دخول المشرفين</h1>
         {mode === "supabase" &&
           (params.sent ? (
-            <p className="flash flash--ok">إذا كان هذا البريد مسجلًا كمشرف، بيوصلك رابط الدخول خلال دقائق.</p>
+            <p className="flash flash--ok">إن كان هذا البريد مسجَّلًا لمشرف، فسيصلك رابط الدخول خلال دقائق.</p>
           ) : (
             <form action={requestLoginLink} className="form">
-              {params.failed && <p className="flash flash--err">الرابط انتهى أو ما اشتغل. اطلب رابط جديد.</p>}
+              {params.failed && <p className="flash flash--err">انتهت صلاحية الرابط أو لم يعمل. اطلب رابطًا جديدًا.</p>}
               <label className="field">
                 <span>البريد الإلكتروني</span>
                 <input name="email" type="email" required dir="ltr" autoComplete="email" />
               </label>
-              <button className="btn-primary">أرسل لي رابط الدخول</button>
-              <p className="muted">ما فيه كلمة مرور. يوصلك رابط دخول آمن على بريدك.</p>
+              <button className="btn">أرسل رابط الدخول</button>
+              <p className="muted">لا توجد كلمة مرور، بل يصلك رابط دخول آمن على بريدك.</p>
             </form>
           ))}
         {mode === "dev" && (
           <form action={devLogin} className="form">
-            <p className="flash flash--warn">وضع التطوير على جهاز محلي. هذا الزر ما يشتغل أبدًا على الموقع الحقيقي.</p>
-            <button className="btn-primary">دخول تجريبي كمالك</button>
+            <p className="flash flash--warn">وضع التطوير على جهاز محلي. لا يعمل هذا الزر أبدًا على الموقع الحقيقي.</p>
+            <button className="btn">دخول تجريبي بصلاحية المالك</button>
           </form>
         )}
-        {mode === "disabled" && <p className="muted">لوحة الإدارة غير مفعّلة بعد. تتفعّل عند ربط Supabase.</p>}
+        {mode === "disabled" && <p className="muted">لوحة الإدارة غير مفعّلة بعد، وتُفعَّل عند ربط Supabase.</p>}
       </div>
     </main>
   );

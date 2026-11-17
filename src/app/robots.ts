@@ -1,15 +1,28 @@
 import type { MetadataRoute } from "next";
 import { absoluteUrl, isSiteLive } from "@/lib/site";
 
-/** Search engines and AI assistants may crawl only after launch (SITE_LIVE=true). */
+/**
+ * Prepared for launch: search engines and AI assistants are named and allowed, but
+ * nothing may crawl until SITE_LIVE=true (the same switch that removes noindex).
+ */
+export const CRAWLERS = [
+  "Googlebot",
+  "Bingbot",
+  "GPTBot",
+  "OAI-SearchBot",
+  "ClaudeBot",
+  "Google-Extended",
+  "PerplexityBot",
+] as const;
+
+const PRIVATE_PATHS = ["/admin", "/api/", "/favorites", "/settings", "/corrections", "/search"];
+
 export default function robots(): MetadataRoute.Robots {
   if (!isSiteLive()) return { rules: [{ userAgent: "*", disallow: "/" }] };
-  const privatePaths = ["/admin", "/api/", "/favorites", "/settings", "/corrections"];
-  const allowed = ["Googlebot", "Bingbot", "OAI-SearchBot", "ClaudeBot", "PerplexityBot"];
   return {
     rules: [
-      ...allowed.map((userAgent) => ({ userAgent, allow: "/", disallow: privatePaths })),
-      { userAgent: "*", allow: "/", disallow: privatePaths },
+      ...CRAWLERS.map((userAgent) => ({ userAgent, allow: "/", disallow: PRIVATE_PATHS })),
+      { userAgent: "*", allow: "/", disallow: PRIVATE_PATHS },
     ],
     sitemap: absoluteUrl("/sitemap.xml"),
   };

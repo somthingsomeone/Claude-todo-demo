@@ -9,7 +9,8 @@ export function ShareButton({ title }: { title: string }) {
   return (
     <button
       type="button"
-      className="action"
+      className="round-btn"
+      aria-label={copied ? "نُسخ الرابط" : "مشاركة"}
       onClick={async () => {
         const url = window.location.href;
         if (navigator.share) {
@@ -21,8 +22,7 @@ export function ShareButton({ title }: { title: string }) {
         setTimeout(() => setCopied(false), 1600);
       }}
     >
-      <span className="action__icon">{copied ? <CheckIcon size={22} /> : <ShareIcon size={22} />}</span>
-      <span className="action__label">{copied ? "تم النسخ" : "مشاركة"}</span>
+      {copied ? <CheckIcon size={20} /> : <ShareIcon size={20} />}
     </button>
   );
 }

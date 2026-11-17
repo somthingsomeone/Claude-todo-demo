@@ -139,12 +139,12 @@ export const bool = (values: Record<string, unknown>, key: string) =>
 export function explainDbError(e: unknown): never {
   if (e instanceof AdminError) throw e;
   const msg = e instanceof Error ? e.message : String(e);
-  if (msg.includes("name_without_honorific")) throw new AdminError("اكتب الاسم بدون لقب (مثل د.). اللقب يُختار من قائمة اللقب.");
+  if (msg.includes("name_without_honorific")) throw new AdminError("اكتب الاسم دون لقب (مثل «د.»)، فاللقب يُختار من قائمة اللقب.");
   if (msg.includes("doctor_title_matches_specialty")) throw new AdminError("لقب «أخصائي علاج طبيعي» للعلاج الطبيعي فقط.");
-  if (msg.includes("physio_doctor_title_needs_proof")) throw new AdminError("لقب «د.» لأخصائي العلاج الطبيعي يحتاج ملاحظة عن المستند الذي يثبته.");
-  if (msg.includes("published_needs_consent")) throw new AdminError("ما يمديك تنشر الملف بدون تاريخ موافقة الطبيب.");
+  if (msg.includes("physio_doctor_title_needs_proof")) throw new AdminError("يتطلب لقب «د.» لأخصائي العلاج الطبيعي ملاحظةً عن المستند الذي يثبته.");
+  if (msg.includes("published_needs_consent")) throw new AdminError("لا يمكن نشر الملف دون تاريخ موافقة الطبيب.");
   if (msg.includes("consent_method_with_date")) throw new AdminError("اختر طريقة موافقة الطبيب.");
-  if (msg.includes("whatsapp")) throw new AdminError("رقم واتساب يجب أن يكون بصيغة 9665XXXXXXXX.");
+  if (msg.includes("whatsapp")) throw new AdminError("يجب أن يكون رقم واتساب بالصيغة 05XXXXXXXX.");
   if (msg.includes("duplicate key") || msg.includes("unique")) throw new AdminError("هذا السجل موجود مسبقًا (الرابط المختصر مستخدم).");
   throw e;
 }

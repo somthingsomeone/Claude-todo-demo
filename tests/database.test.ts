@@ -58,7 +58,7 @@ describe("public profiles", () => {
   it("enforces the title, honorific and ID-number rules", async () => {
     const db = await freshDb();
     const owner = await makeOwner(db);
-    await expect(createDoctor(db, owner, realDoctor({ name: "د. أحمد" }))).rejects.toThrow(/بدون لقب/);
+    await expect(createDoctor(db, owner, realDoctor({ name: "د. أحمد" }))).rejects.toThrow(/دون لقب/);
     await expect(createDoctor(db, owner, realDoctor({ specialty: "physio" }))).rejects.toThrow(/المستند/);
     await expect(createDoctor(db, owner, realDoctor({ title: "أخصائي علاج طبيعي" }))).rejects.toThrow(/للعلاج الطبيعي فقط/);
     await expect(createDoctor(db, owner, realDoctor({ title_note: "رقم 1023456789", specialty: "physio" }))).rejects.toThrow(/أرقامًا/);

@@ -1,5 +1,5 @@
 import type { Db } from "./client";
-import { DEMO_DOCTORS } from "./demo-data";
+import { DEMO_CLINICS, DEMO_DOCTORS } from "./demo-data";
 
 /**
  * Database tables. Each entry runs once, in order, and is remembered in _migrations.
@@ -192,6 +192,43 @@ const MIGRATIONS: [name: string, sql: string][] = [
     end $$;
   `,
   ],
+  [
+    "0005_clinics_and_order",
+    /* sql */ `
+    -- Clinics get their own record and page. Doctors keep their clinic name/district text
+    -- (copied from the clinic) so nothing existing is lost.
+    create table clinics (
+      id uuid primary key default gen_random_uuid(),
+      slug text not null unique check (slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$'),
+      name text not null,
+      district text not null,
+      map_url text,
+      position int,
+      is_demo boolean not null default false,
+      is_hidden boolean not null default false,
+      created_at timestamptz not null default now(),
+      updated_at timestamptz not null default now()
+    );
+    alter table doctors add column clinic_id uuid references clinics (id) on delete set null;
+    -- Manual order set by the owner (smaller first). Never shown or explained publicly.
+    alter table doctors add column position int;
+
+    -- Existing doctors: one clinic per distinct name + district.
+    insert into clinics (slug, name, district, is_demo)
+    select case when bool_and(is_demo) then 'demo-clinic-' else 'clinic-' end || substr(md5(hospital || '|' || district), 1, 8),
+           hospital, district, bool_and(is_demo)
+    from doctors group by hospital, district;
+    update doctors d set clinic_id = c.id from clinics c where c.name = d.hospital and c.district = d.district;
+
+    alter table clinics enable row level security;
+    do $$
+    begin
+      if exists (select 1 from pg_roles where rolname = 'anon') then
+        execute 'revoke all on clinics from anon, authenticated';
+      end if;
+    end $$;
+  `,
+  ],
 ];
 
 export async function migrate(db: Db) {
@@ -207,14 +244,23 @@ export async function migrate(db: Db) {
 export async function seedDemoIfEmpty(db: Db) {
   const [{ n }] = await db.query<{ n: number }>(`select count(*)::int as n from doctors`);
   if (n > 0) return;
-  for (const d of DEMO_DOCTORS) {
+  const clinicIds = new Map<string, string>();
+  for (const [i, c] of DEMO_CLINICS.entries()) {
+    const [row] = await db.query<{ id: string }>(
+      `insert into clinics (slug, name, district, position, is_demo) values ($1, $2, $3, $4, true) returning id`,
+      [c.slug, c.name, c.district, i + 1],
+    );
+    clinicIds.set(c.name, row.id);
+  }
+  for (const [i, d] of DEMO_DOCTORS.entries()) {
     await db.query(
       `insert into doctors (slug, name, title, specialty, role, hospital, district, bio, treats, languages,
-         years_experience, rating, rating_count, rating_source, source, checked_at, is_demo, status)
-       values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, true, 'published')`,
+         years_experience, rating, rating_count, rating_source, source, checked_at, is_demo, status, clinic_id, position)
+       values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, true, 'published', $17, $18)`,
       [
         d.slug, d.name, d.title, d.specialty, d.role, d.hospital, d.district, d.bio, d.treats, d.languages,
         d.yearsExperience, d.rating, d.ratingCount, d.ratingSource, d.source, d.checkedAt,
+        clinicIds.get(d.hospital) ?? null, i + 1,
       ],
     );
   }

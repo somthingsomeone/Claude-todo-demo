@@ -11,7 +11,7 @@ export const SITE_NAME = "بانيفو";
 export const SITE_NAME_EN = "PANIVO";
 export const SITE_TAGLINE = "اعرف طبيبك قبل موعدك";
 export const SITE_DESCRIPTION =
-  "بانيفو دليل لأطباء وأخصائيين في الرياض: جلدية، تجميل وليزر، عيون، أسنان، وعلاج طبيعي. معلومات واضحة بمصادرها وتواصل مباشر مع العيادة عبر واتساب.";
+  "بانيفو دليل لأطباء وأخصائيين سعوديين في الرياض: الجلدية، والتجميل والليزر، والعيون، والأسنان، والعلاج الطبيعي. معلومات موثّقة بمصادرها، وتواصل مباشر مع العيادة عبر واتساب.";
 
 export function isSiteLive(env: Record<string, string | undefined> = process.env): boolean {
   return env.SITE_LIVE?.trim().toLowerCase() === "true";

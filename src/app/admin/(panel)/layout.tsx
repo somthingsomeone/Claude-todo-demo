@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { AdminNav } from "@/components/admin/AdminNav";
 import { Flash } from "@/components/admin/Flash";
-import { LogoMark } from "@/components/Logo";
 import { ROLE_LABELS } from "@/lib/admin/core";
 import { requireAdmin } from "@/lib/admin/session";
 import { logout } from "../actions";
@@ -13,6 +13,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
   const links: [string, string][] = [
     ["/admin", "الملخص"],
     ["/admin/doctors", "الأطباء"],
+    ["/admin/clinics", "العيادات"],
     ["/admin/requests", "طلبات التصحيح"],
     ["/admin/history", "سجل التغييرات"],
   ];
@@ -20,30 +21,24 @@ export default async function PanelLayout({ children }: { children: React.ReactN
   return (
     <div className="adm">
       <header className="adm__bar">
-        <div className="container adm__bar-inner">
+        <div className="wrap adm__bar-inner">
           <Link href="/admin" className="adm__brand">
-            <LogoMark size={28} />
-            لوحة الإدارة
+            <img src="/brand/wordmark-header.webp" alt="بانيفو" width={87} height={28} />
+            الإدارة
           </Link>
           <span className="adm__who">
-            {actor.displayName} <small>({ROLE_LABELS[actor.role]})</small>
+            {actor.displayName} ({ROLE_LABELS[actor.role]})
           </span>
-          <Link href="/" className="adm__site">
+          <Link href="/" className="link-btn">
             الموقع
           </Link>
           <form action={logout}>
-            <button className="link-btn">خروج</button>
+            <button className="link-btn">تسجيل الخروج</button>
           </form>
         </div>
-        <nav className="container adm__nav" aria-label="أقسام الإدارة">
-          {links.map(([href, label]) => (
-            <Link key={href} href={href}>
-              {label}
-            </Link>
-          ))}
-        </nav>
+        <AdminNav links={links} />
       </header>
-      <main className="container adm__main">
+      <main className="wrap adm__main">
         <Suspense>
           <Flash />
         </Suspense>

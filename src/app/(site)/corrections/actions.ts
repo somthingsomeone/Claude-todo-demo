@@ -11,13 +11,13 @@ export async function sendCorrection(_prev: CorrectionState, fd: FormData): Prom
   try {
     const db = await getDb();
     if (!(await rateLimit(db, "correction", clientIp(await headers()), LIMITS.correction))) {
-      return { ok: false, error: "أرسلت طلبات كثيرة. حاول مرة ثانية بعد ساعة." };
+      return { ok: false, error: "أرسلتَ طلبات كثيرة. حاول مرة أخرى بعد ساعة." };
     }
     await submitCorrection(db, Object.fromEntries(fd.entries()));
     return { ok: true };
   } catch (e) {
     if (e instanceof FormError) return { ok: false, error: e.message };
     console.error(e);
-    return { ok: false, error: "صار خطأ غير متوقع. جرّب مرة ثانية." };
+    return { ok: false, error: "حدث خطأ غير متوقع. حاول مرة أخرى." };
   }
 }

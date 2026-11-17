@@ -5,6 +5,7 @@ import { SPECIALTIES, filterDoctors, normalizeArabic, whatsappLink, type Doctor 
 const DOCTORS: Doctor[] = DEMO_DOCTORS.map(({ rating: _r, ratingCount: _c, ratingSource: _s, ...d }) => ({
   ...d,
   updatedAt: d.checkedAt,
+  clinicSlug: null,
   mapUrl: null,
   whatsapp: "",
   photo: null,

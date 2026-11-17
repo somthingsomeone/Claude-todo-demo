@@ -3,7 +3,7 @@ import type { Db } from "../db/client";
 export const RELATIONSHIPS = {
   self: "أنا الطبيب/الأخصائي نفسه",
   representative: "أمثّل الطبيب أو المنشأة",
-  patient: "مراجع/مريض",
+  patient: "مراجع أو مريض",
   other: "أخرى",
 } as const;
 export type Relationship = keyof typeof RELATIONSHIPS;

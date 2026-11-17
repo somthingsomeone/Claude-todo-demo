@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { getDb } from "@/lib/db/client";
 import { AdminError } from "@/lib/admin/core";
 import * as A from "@/lib/admin/admins";
+import * as C from "@/lib/admin/clinics";
 import * as P from "@/lib/admin/profiles";
 import * as R from "@/lib/admin/requests";
 import { authMode, devSignIn, requireAdmin, signOut, siteOrigin, supabaseServerClient } from "@/lib/admin/session";
@@ -29,7 +30,7 @@ async function run(fd: FormData, work: () => Promise<string | void>, success = "
     if (e instanceof AdminError) target = withMsg(target, "err", e.message);
     else {
       console.error(e);
-      target = withMsg(target, "err", "حدث خطأ غير متوقع. لم يُحفظ التغيير.");
+      target = withMsg(target, "err", "حدث خطأ غير متوقع، ولم يُحفظ التغيير.");
     }
   }
   redirect(target);
@@ -80,7 +81,7 @@ async function saveDoctor(prev: DoctorFormState, fd: FormData, isNew: boolean): 
     if (isNew) id = await P.createDoctor(db, actor, values(fd));
     else await P.updateDoctor(db, actor, id, values(fd));
   } catch (e) {
-    const error = e instanceof AdminError ? e.message : "حدث خطأ غير متوقع. لم يُحفظ التغيير.";
+    const error = e instanceof AdminError ? e.message : "حدث خطأ غير متوقع، ولم يُحفظ التغيير.";
     if (!(e instanceof AdminError)) console.error(e);
     const typed = Object.fromEntries([...fd.entries()].filter(([, v]) => typeof v === "string")) as Record<string, string>;
     return { n: prev.n + 1, error, values: typed };
@@ -177,7 +178,7 @@ export async function addAdmin(fd: FormData) {
     async () => {
       await A.addAdmin(await getDb(), actor, values(fd));
     },
-    "تمت إضافة المشرف. يقدر يدخل برابط على بريده.",
+    "أُضيف المشرف، ويمكنه الدخول برابط يصله على بريده.",
   );
 }
 export async function setAdminActive(fd: FormData) {
@@ -185,4 +186,40 @@ export async function setAdminActive(fd: FormData) {
   await run(fd, async () => {
     await A.setAdminActive(await getDb(), actor, String(fd.get("id")), fd.get("active") === "1");
   });
+}
+
+// ---- clinics -------------------------------------------------------------------
+export type ClinicFormState = DoctorFormState;
+
+async function saveClinic(prev: ClinicFormState, fd: FormData, isNew: boolean): Promise<ClinicFormState> {
+  const actor = await requireAdmin();
+  let id = String(fd.get("id") ?? "");
+  try {
+    const db = await getDb();
+    if (isNew) id = await C.createClinic(db, actor, values(fd));
+    else await C.updateClinic(db, actor, id, values(fd));
+  } catch (e) {
+    const error = e instanceof AdminError ? e.message : "حدث خطأ غير متوقع، ولم يُحفظ التغيير.";
+    if (!(e instanceof AdminError)) console.error(e);
+    const typed = Object.fromEntries([...fd.entries()].filter(([, v]) => typeof v === "string")) as Record<string, string>;
+    return { n: prev.n + 1, error, values: typed };
+  }
+  redirect(withMsg(`/admin/clinics/${id}`, "msg", isNew ? "أُضيفت العيادة." : "حُفظت التعديلات."));
+}
+export async function createClinicForm(prev: ClinicFormState, fd: FormData) {
+  return saveClinic(prev, fd, true);
+}
+export async function updateClinicForm(prev: ClinicFormState, fd: FormData) {
+  return saveClinic(prev, fd, false);
+}
+export async function setClinicHidden(fd: FormData) {
+  const actor = await requireAdmin();
+  const hidden = fd.get("hidden") === "1";
+  await run(
+    fd,
+    async () => {
+      await C.setClinicHidden(await getDb(), actor, String(fd.get("id")), hidden);
+    },
+    hidden ? "أُخفيت العيادة." : "أُلغي إخفاء العيادة.",
+  );
 }

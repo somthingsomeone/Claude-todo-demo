@@ -234,3 +234,17 @@ export const MapIcon = (p: IconProps) => (
     <path d="M9 4.5v13M15 6.5v13" />
   </Svg>
 );
+
+export const PlusIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 5v14M5 12h14" />
+  </Svg>
+);
+
+export const BuildingIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4.5 20.5v-15a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v15" />
+    <path d="M14.5 9.5h4a1 1 0 0 1 1 1v10" />
+    <path d="M3 20.5h18M8 8h3M8 11.5h3M8 15h3" />
+  </Svg>
+);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { CheckIcon } from "@/components/Icons";
 import { RELATIONSHIPS } from "@/lib/data/corrections";
 import { sendCorrection, type CorrectionState } from "./actions";
 
@@ -10,8 +11,9 @@ export function CorrectionForm({ profiles, initialProfile }: { profiles: { slug:
   if (state.ok) {
     return (
       <div className="empty">
-        <p className="empty__title">وصلنا طلبك ✅</p>
-        <p>بنراجعه ونرد عليك على بريدك.</p>
+        <CheckIcon size={32} className="icon" />
+        <p className="empty__title">وصلنا طلبك</p>
+        <p className="muted">سنراجعه ونرد عليك عبر بريدك الإلكتروني.</p>
       </div>
     );
   }
@@ -58,17 +60,17 @@ export function CorrectionForm({ profiles, initialProfile }: { profiles: { slug:
         </select>
       </label>
       <label className="field">
-        <span>وش تبي نصحّح أو نشيل؟</span>
+        <span>ما المعلومة التي تريد تصحيحها أو إزالتها؟</span>
         <textarea name="message" required maxLength={2000} rows={5} />
       </label>
       {/* Left empty by people; filled by simple spam bots. */}
       <input name="website" tabIndex={-1} autoComplete="off" className="sr-only" aria-hidden="true" />
       <label className="check">
         <input type="checkbox" name="consent" required />
-        <span>أوافق على حفظ اسمي وبريدي ورسالتي لمعالجة هذا الطلب فقط، وتُحذف بعد إغلاقه بمدة محددة.</span>
+        <span>أوافق على حفظ اسمي وبريدي ورسالتي لمعالجة هذا الطلب فقط، على أن تُحذف بعد إغلاقه بمدة محددة.</span>
       </label>
-      <button className="btn-primary" disabled={pending}>
-        {pending ? "جاري الإرسال…" : "أرسل الطلب"}
+      <button className="btn" disabled={pending}>
+        {pending ? "جارٍ الإرسال…" : "أرسل الطلب"}
       </button>
     </form>
   );
