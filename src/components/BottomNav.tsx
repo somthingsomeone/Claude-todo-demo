@@ -19,7 +19,7 @@ export function activeIndex(pathname: string) {
 
 /** A doctor's page (/riyadh/<specialty>/<doctor>) gives the bottom edge to the contact bar instead. */
 export function isDetailPath(pathname: string) {
-  return /^\/riyadh\/[a-z]+\/[a-z0-9-]+$/.test(pathname) && !pathname.startsWith("/riyadh/clinics/");
+  return /^\/riyadh\/[a-z]+\/[a-z0-9-]+$/.test(pathname);
 }
 
 /** Floating tab bar: it hovers above the bottom edge instead of sticking to it. */

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-17T10:15:03+00:00",
+  "generatedAt": "2026-11-17T11:13:23+00:00",
   "title": "Design System: PANIVO (بانيفو)",
   "extensions": {
     "colorMeta": {
@@ -9,15 +9,17 @@
         "displayName": "Clinic Signal Blue",
         "canonical": "#0061f3",
         "oklch": "oklch(54.4% 0.232 260.8)",
-        "purpose": "Owns whole regions: the search band, primary button, active states, badges.",
+        "theme": "both",
+        "cssVar": "--blue",
+        "purpose": "Owns whole regions in both themes: the search band, primary button, search submit, badges, chart bars; caret, focus border and checkbox accent.",
         "tonalRamp": [
-          "#00003a",
-          "#001e5e",
-          "#003898",
-          "#0154d5",
-          "#2f7afd",
-          "#70a4fe",
-          "#accafe",
+          "#000827",
+          "#001f5b",
+          "#003996",
+          "#0054d6",
+          "#2d79ff",
+          "#6fa4ff",
+          "#abcaff",
           "#e6efff"
         ]
       },
@@ -26,32 +28,36 @@
         "displayName": "Pressed Blue",
         "canonical": "#0052cc",
         "oklch": "oklch(48.0% 0.201 260.5)",
-        "purpose": "Hover/press of blue fills; blue text on Blue Wash (6.02:1).",
+        "theme": "both",
+        "cssVar": "--blue-press",
+        "purpose": "Hover and press of every blue fill, in both themes.",
         "tonalRamp": [
-          "#000136",
-          "#001e5e",
-          "#003995",
-          "#0656d0",
-          "#327bf8",
+          "#000826",
+          "#001f5a",
+          "#003994",
+          "#1458c9",
+          "#397cf0",
           "#6fa4ff",
-          "#abcafe",
+          "#abcaff",
           "#e6efff"
         ]
       },
-      "ink": {
-        "role": "secondary",
-        "displayName": "Stamp Ink",
-        "canonical": "#001a89",
-        "oklch": "oklch(31.0% 0.180 264.0)",
-        "purpose": "The stamp, demo-marker outlines, and the one reversed plate per screen (doctor page WhatsApp contact bar).",
+      "blue-text": {
+        "role": "primary",
+        "displayName": "Blue Text",
+        "canonical": "#0052cc",
+        "oklch": "oklch(48.0% 0.201 260.5)",
+        "theme": "light",
+        "cssVar": "--blue-text",
+        "purpose": "Every blue word and line icon on light grounds (6.02:1 on Blue Wash).",
         "tonalRamp": [
-          "#000232",
-          "#041b61",
-          "#133794",
-          "#2957c6",
-          "#497bed",
-          "#77a2ff",
-          "#afc9fe",
+          "#000826",
+          "#001f5a",
+          "#003994",
+          "#1458c9",
+          "#397cf0",
+          "#6fa4ff",
+          "#abcaff",
           "#e6efff"
         ]
       },
@@ -60,16 +66,74 @@
         "displayName": "Focus Sky",
         "canonical": "#14b4ff",
         "oklch": "oklch(73.1% 0.159 237.9)",
-        "purpose": "Focus rings and selection only. White on it fails (2.33:1).",
+        "theme": "both",
+        "cssVar": "--sky",
+        "purpose": "Focus rings and selection only, in both themes. White on it fails (2.33:1).",
         "tonalRamp": [
-          "#000d1b",
-          "#00283f",
+          "#000d18",
+          "#00283e",
           "#004769",
-          "#0c6895",
-          "#158cc6",
-          "#39b0f2",
-          "#90d2fe",
-          "#dff2ff"
+          "#006997",
+          "#008cc9",
+          "#4bb0eb",
+          "#8ed2ff",
+          "#def2ff"
+        ]
+      },
+      "ink": {
+        "role": "secondary",
+        "displayName": "Outline Ink",
+        "canonical": "#001a89",
+        "oklch": "oklch(31.0% 0.180 264.0)",
+        "theme": "light",
+        "cssVar": "--ink",
+        "purpose": "Outline and text of demo markers, demo notice text, selection text (light).",
+        "tonalRamp": [
+          "#000232",
+          "#051c5e",
+          "#183a8d",
+          "#2e59bf",
+          "#4d7ce6",
+          "#76a2ff",
+          "#aec9ff",
+          "#e6efff"
+        ]
+      },
+      "plate": {
+        "role": "secondary",
+        "displayName": "WhatsApp Plate",
+        "canonical": "#001a89",
+        "oklch": "oklch(31.0% 0.180 264.0)",
+        "theme": "light",
+        "cssVar": "--plate",
+        "purpose": "The one reversed plate per screen: the doctor page's WhatsApp contact bar (white on it 13.92:1).",
+        "tonalRamp": [
+          "#000232",
+          "#051c5e",
+          "#183a8d",
+          "#2e59bf",
+          "#4d7ce6",
+          "#76a2ff",
+          "#aec9ff",
+          "#e6efff"
+        ]
+      },
+      "on-blue": {
+        "role": "neutral",
+        "displayName": "On-Blue White",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "theme": "both",
+        "purpose": "Literal #fff for text and icons on Clinic Signal Blue and on the plate; constant across themes (not a custom property).",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
         ]
       },
       "ground": {
@@ -77,6 +141,8 @@
         "displayName": "Counter Gray",
         "canonical": "#f2f3f6",
         "oklch": "oklch(96.4% 0.004 271.4)",
+        "theme": "light",
+        "cssVar": "--ground",
         "purpose": "Page ground the slips lie on; chips, unavailable stub, row hover.",
         "tonalRamp": [
           "#0a0b0d",
@@ -93,17 +159,19 @@
         "role": "neutral",
         "displayName": "Slip White",
         "canonical": "#ffffff",
-        "oklch": "oklch(100.0% 0.006 271.4)",
-        "purpose": "Slips, groups, top bar, tab bar, tiles, search field; white text on blue and ink.",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "theme": "light",
+        "cssVar": "--slip",
+        "purpose": "Slips, groups, top bar, tab bar, tiles, search field, segmented track.",
         "tonalRamp": [
-          "#0a0b0e",
-          "#242528",
-          "#414245",
-          "#606165",
-          "#818286",
-          "#a3a5a9",
-          "#c8c9cd",
-          "#edeef3"
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
         ]
       },
       "wash": {
@@ -111,16 +179,37 @@
         "displayName": "Blue Wash",
         "canonical": "#eaf1ff",
         "oklch": "oklch(95.7% 0.020 264.5)",
-        "purpose": "Tinted fill for labels, active tabs, quiet buttons, the stub WhatsApp action, row icons.",
+        "theme": "light",
+        "cssVar": "--wash",
+        "purpose": "Tinted fill for labels, active tabs and segments, quiet buttons, the stub WhatsApp action, row icons, the empty photo circle, the demo notice.",
         "tonalRamp": [
           "#090b10",
           "#22252c",
-          "#3d424c",
-          "#5b616d",
-          "#7c828f",
-          "#9fa5b1",
-          "#c4c9d3",
+          "#3e424b",
+          "#5c616c",
+          "#7d828e",
+          "#a0a5b0",
+          "#c5c9d2",
           "#ebeff6"
+        ]
+      },
+      "wash-press": {
+        "role": "neutral",
+        "displayName": "Wash Press",
+        "canonical": "#dce8ff",
+        "oklch": "oklch(92.9% 0.034 263.6)",
+        "theme": "light",
+        "cssVar": "--wash-press",
+        "purpose": "Quiet-button hover.",
+        "tonalRamp": [
+          "#070b13",
+          "#1f2530",
+          "#3b4251",
+          "#586174",
+          "#798396",
+          "#9ca5b7",
+          "#c2c9d8",
+          "#e8effb"
         ]
       },
       "line": {
@@ -128,16 +217,18 @@
         "displayName": "Hairline",
         "canonical": "#e3e6ee",
         "oklch": "oklch(92.5% 0.011 269.5)",
+        "theme": "light",
+        "cssVar": "--line",
         "purpose": "1px dividers, field borders, top bar and tab bar edges.",
         "tonalRamp": [
-          "#090b10",
-          "#23252b",
-          "#3f4248",
-          "#5f6168",
-          "#7f8289",
-          "#a2a5ac",
-          "#c6c9d1",
-          "#ebeef6"
+          "#0a0b0e",
+          "#232529",
+          "#404247",
+          "#5f6167",
+          "#808289",
+          "#a3a5ab",
+          "#c7c9ce",
+          "#edeef3"
         ]
       },
       "tear": {
@@ -145,16 +236,18 @@
         "displayName": "Tear-Line Gray",
         "canonical": "#c9cedb",
         "oklch": "oklch(85.1% 0.019 269.1)",
-        "purpose": "The 1.5px dashed tear line on slips and the profile seal.",
+        "theme": "light",
+        "cssVar": "--tear",
+        "purpose": "The 1.5px dashed tear line on slips; thin shelf scrollbar from 48rem.",
         "tonalRamp": [
-          "#080b13",
-          "#21252e",
-          "#3e424c",
+          "#090b0f",
+          "#22252b",
+          "#3f424a",
           "#5d616c",
-          "#7e828e",
-          "#a0a5b1",
-          "#c4c9d6",
-          "#e9eefc"
+          "#7e828d",
+          "#a1a5af",
+          "#c6c9d2",
+          "#eceef5"
         ]
       },
       "text": {
@@ -162,15 +255,17 @@
         "displayName": "Night Text",
         "canonical": "#0e1530",
         "oklch": "oklch(20.6% 0.054 270.1)",
+        "theme": "light",
+        "cssVar": "--text",
         "purpose": "Primary text.",
         "tonalRamp": [
           "#070a17",
-          "#1e2438",
-          "#38415c",
-          "#556081",
-          "#7581a4",
-          "#99a4c4",
-          "#bfc9e3",
+          "#1e2437",
+          "#394159",
+          "#56607f",
+          "#7681a2",
+          "#9aa4c1",
+          "#c0c9e1",
           "#e8eeff"
         ]
       },
@@ -179,15 +274,36 @@
         "displayName": "Slate Meta",
         "canonical": "#4a5373",
         "oklch": "oklch(44.8% 0.054 272.0)",
-        "purpose": "Secondary text: roles, addresses, cell labels, sources, inactive tabs.",
+        "theme": "light",
+        "cssVar": "--text-2",
+        "purpose": "Secondary text: roles, addresses, cell labels, sources, inactive tabs, search placeholder.",
         "tonalRamp": [
           "#070a17",
-          "#1f2438",
-          "#39415c",
-          "#566080",
-          "#7781a3",
-          "#9aa4c4",
-          "#c0c8e3",
+          "#1f2437",
+          "#3a4159",
+          "#57607e",
+          "#7781a1",
+          "#9ba4c1",
+          "#c1c8e1",
+          "#e9eeff"
+        ]
+      },
+      "text-3": {
+        "role": "neutral",
+        "displayName": "Placeholder Gray",
+        "canonical": "#666e8c",
+        "oklch": "oklch(54.3% 0.048 273.1)",
+        "theme": "light",
+        "cssVar": "--text-3",
+        "purpose": "Form-field placeholders only.",
+        "tonalRamp": [
+          "#080a16",
+          "#202435",
+          "#3b4157",
+          "#59607b",
+          "#79819e",
+          "#9da4be",
+          "#c2c8df",
           "#e9eeff"
         ]
       },
@@ -196,15 +312,17 @@
         "displayName": "Danger",
         "canonical": "#b4232f",
         "oklch": "oklch(50.3% 0.180 22.9)",
-        "purpose": "Errors and destructive actions (forms, admin).",
+        "theme": "light",
+        "cssVar": "--danger",
+        "purpose": "Errors and destructive actions (admin).",
         "tonalRamp": [
-          "#220000",
+          "#1f0001",
           "#4d0009",
-          "#7f0317",
-          "#b11f2c",
-          "#d9494d",
-          "#f87875",
-          "#feb3ae",
+          "#7d0d1a",
+          "#ac2831",
+          "#d44f51",
+          "#f17d7a",
+          "#ffb2ae",
           "#ffe8e7"
         ]
       },
@@ -213,16 +331,18 @@
         "displayName": "Danger Wash",
         "canonical": "#fdecee",
         "oklch": "oklch(95.7% 0.019 9.3)",
-        "purpose": "Fill behind Danger text. Literal value in globals.css, not a custom property.",
+        "theme": "light",
+        "cssVar": "--danger-wash",
+        "purpose": "Fill behind Danger text.",
         "tonalRamp": [
-          "#120809",
-          "#2d2123",
-          "#4b3e40",
+          "#0f090a",
+          "#2b2324",
+          "#493f40",
           "#6b5d5f",
-          "#8d7e80",
-          "#b0a0a2",
-          "#d5c4c6",
-          "#fbeaec"
+          "#8c7e80",
+          "#aea1a3",
+          "#d1c6c7",
+          "#f5eced"
         ]
       },
       "ok": {
@@ -230,15 +350,17 @@
         "displayName": "OK",
         "canonical": "#0f7a3d",
         "oklch": "oklch(50.9% 0.130 151.5)",
-        "purpose": "Success and published state (forms, admin).",
+        "theme": "light",
+        "cssVar": "--ok",
+        "purpose": "Success and published state (admin).",
         "tonalRamp": [
-          "#001102",
+          "#001003",
           "#002e12",
-          "#045025",
-          "#027538",
-          "#399859",
-          "#6aba80",
-          "#9ddbab",
+          "#005024",
+          "#17743c",
+          "#41975c",
+          "#71b884",
+          "#9fdaad",
           "#cefcd8"
         ]
       },
@@ -247,16 +369,398 @@
         "displayName": "OK Wash",
         "canonical": "#e6f4ec",
         "oklch": "oklch(95.5% 0.018 161.1)",
-        "purpose": "Fill behind OK text. Literal value in globals.css, not a custom property.",
+        "theme": "light",
+        "cssVar": "--ok-wash",
+        "purpose": "Fill behind OK text.",
         "tonalRamp": [
-          "#050e09",
-          "#1d2822",
-          "#3a453f",
-          "#59655e",
-          "#79867f",
-          "#9ca9a1",
-          "#bfcdc5",
-          "#e5f2eb"
+          "#080c0a",
+          "#202723",
+          "#3c443f",
+          "#59645e",
+          "#7a867f",
+          "#9ea8a2",
+          "#c3ccc7",
+          "#e9f1ec"
+        ]
+      },
+      "warn": {
+        "role": "status",
+        "displayName": "Warn",
+        "canonical": "#5c4300",
+        "oklch": "oklch(39.9% 0.082 84.4)",
+        "theme": "light",
+        "cssVar": "--warn",
+        "purpose": "Text of highlighted blanks in legal drafts.",
+        "tonalRamp": [
+          "#110a00",
+          "#312200",
+          "#523f13",
+          "#765d29",
+          "#987f4b",
+          "#b8a276",
+          "#dac7a1",
+          "#fcedce"
+        ]
+      },
+      "warn-wash": {
+        "role": "status",
+        "displayName": "Warn Wash",
+        "canonical": "#fff3c4",
+        "oklch": "oklch(96.2% 0.062 95.4)",
+        "theme": "light",
+        "cssVar": "--warn-wash",
+        "purpose": "Fill behind highlighted blanks in legal drafts.",
+        "tonalRamp": [
+          "#0f0b00",
+          "#2b250c",
+          "#4a4222",
+          "#6b613a",
+          "#8d825a",
+          "#aea582",
+          "#d1c9ac",
+          "#f5efd7"
+        ]
+      },
+      "blue-text-dark": {
+        "role": "primary",
+        "displayName": "Blue Text (dark)",
+        "canonical": "#8db4ff",
+        "oklch": "oklch(77.1% 0.116 262.9)",
+        "theme": "dark",
+        "lightToken": "blue-text",
+        "purpose": "Blue words and line icons in dark (7.02:1 on dark Blue Wash, 8.26:1 on the dark slip).",
+        "tonalRamp": [
+          "#010824",
+          "#10234a",
+          "#274073",
+          "#3f5f9e",
+          "#5f81c3",
+          "#86a5e0",
+          "#afcafc",
+          "#e6efff"
+        ]
+      },
+      "ink-dark": {
+        "role": "secondary",
+        "displayName": "Outline Ink (dark)",
+        "canonical": "#9db8ff",
+        "oklch": "oklch(78.9% 0.106 268.0)",
+        "theme": "dark",
+        "lightToken": "ink",
+        "purpose": "Demo outlines and notice text in dark (7.46:1 on dark Blue Wash). Selection text too, where it fails on sky (1.19:1; drift).",
+        "tonalRamp": [
+          "#030822",
+          "#162247",
+          "#2f3f6f",
+          "#495e99",
+          "#6980be",
+          "#8ea4db",
+          "#b5c8f8",
+          "#e8eeff"
+        ]
+      },
+      "plate-dark": {
+        "role": "secondary",
+        "displayName": "WhatsApp Plate (dark)",
+        "canonical": "#0061f3",
+        "oklch": "oklch(54.4% 0.232 260.8)",
+        "theme": "dark",
+        "lightToken": "plate",
+        "purpose": "The plate in dark: Clinic Signal Blue, since deep ink vanishes on near-black (white on it 5.24:1).",
+        "tonalRamp": [
+          "#000827",
+          "#001f5b",
+          "#003996",
+          "#0054d6",
+          "#2d79ff",
+          "#6fa4ff",
+          "#abcaff",
+          "#e6efff"
+        ]
+      },
+      "ground-dark": {
+        "role": "neutral",
+        "displayName": "Counter Gray (dark)",
+        "canonical": "#0b0f1a",
+        "oklch": "oklch(17.0% 0.024 268.5)",
+        "theme": "dark",
+        "lightToken": "ground",
+        "purpose": "Near-black page ground.",
+        "tonalRamp": [
+          "#090b11",
+          "#22252d",
+          "#3e424d",
+          "#5c616e",
+          "#7d8290",
+          "#a0a5b1",
+          "#c5c9d4",
+          "#ebeef7"
+        ]
+      },
+      "slip-dark": {
+        "role": "neutral",
+        "displayName": "Slip White (dark)",
+        "canonical": "#151b2b",
+        "oklch": "oklch(22.4% 0.033 268.0)",
+        "theme": "dark",
+        "lightToken": "slip",
+        "purpose": "Navy slips, groups, bars, tiles and the search field.",
+        "tonalRamp": [
+          "#080b13",
+          "#202530",
+          "#3c4250",
+          "#5a6173",
+          "#7a8295",
+          "#9ea5b6",
+          "#c3c9d8",
+          "#e9eefb"
+        ]
+      },
+      "wash-dark": {
+        "role": "neutral",
+        "displayName": "Blue Wash (dark)",
+        "canonical": "#17284a",
+        "oklch": "oklch(28.2% 0.067 262.8)",
+        "theme": "dark",
+        "lightToken": "wash",
+        "purpose": "Tinted fill for labels, active tabs and segments, quiet buttons, the stub WhatsApp action, row icons, the empty photo circle, the demo notice.",
+        "tonalRamp": [
+          "#040b1a",
+          "#19253b",
+          "#33425f",
+          "#4e6185",
+          "#6f83a8",
+          "#93a6c7",
+          "#bacae7",
+          "#e6efff"
+        ]
+      },
+      "wash-press-dark": {
+        "role": "neutral",
+        "displayName": "Wash Press (dark)",
+        "canonical": "#1e3463",
+        "oklch": "oklch(33.4% 0.087 263.5)",
+        "theme": "dark",
+        "lightToken": "wash-press",
+        "purpose": "Quiet-button hover.",
+        "tonalRamp": [
+          "#030a1e",
+          "#162441",
+          "#2e4167",
+          "#496090",
+          "#6982b4",
+          "#8fa5d2",
+          "#b6caf0",
+          "#e6efff"
+        ]
+      },
+      "line-dark": {
+        "role": "neutral",
+        "displayName": "Hairline (dark)",
+        "canonical": "#273049",
+        "oklch": "oklch(31.3% 0.047 268.5)",
+        "theme": "dark",
+        "lightToken": "line",
+        "purpose": "1px dividers, field borders, top bar and tab bar edges.",
+        "tonalRamp": [
+          "#070b16",
+          "#1f2534",
+          "#3a4156",
+          "#57617b",
+          "#77829d",
+          "#9ba5bd",
+          "#c1c9de",
+          "#e8eeff"
+        ]
+      },
+      "tear-dark": {
+        "role": "neutral",
+        "displayName": "Tear-Line Gray (dark)",
+        "canonical": "#3b4662",
+        "oklch": "oklch(39.7% 0.050 267.6)",
+        "theme": "dark",
+        "lightToken": "tear",
+        "purpose": "The 1.5px dashed tear line on slips; thin shelf scrollbar from 48rem.",
+        "tonalRamp": [
+          "#070b16",
+          "#1e2535",
+          "#394158",
+          "#56617c",
+          "#76829f",
+          "#9aa5bf",
+          "#c0c9df",
+          "#e7eeff"
+        ]
+      },
+      "text-dark": {
+        "role": "neutral",
+        "displayName": "Night Text (dark)",
+        "canonical": "#eef1f8",
+        "oklch": "oklch(95.8% 0.010 267.4)",
+        "theme": "dark",
+        "lightToken": "text",
+        "purpose": "Primary text in dark (16.92:1 on the dark ground).",
+        "tonalRamp": [
+          "#090b0f",
+          "#23252a",
+          "#404247",
+          "#5f6167",
+          "#808288",
+          "#a2a5ab",
+          "#c6c9d0",
+          "#ebeef5"
+        ]
+      },
+      "text-2-dark": {
+        "role": "neutral",
+        "displayName": "Slate Meta (dark)",
+        "canonical": "#aab2c9",
+        "oklch": "oklch(76.5% 0.034 270.3)",
+        "theme": "dark",
+        "lightToken": "text-2",
+        "purpose": "Secondary text in dark (8.11:1 on the dark slip).",
+        "tonalRamp": [
+          "#080b13",
+          "#212530",
+          "#3c4151",
+          "#5a6174",
+          "#7b8296",
+          "#9ea5b7",
+          "#c3c9d8",
+          "#eaeefb"
+        ]
+      },
+      "text-3-dark": {
+        "role": "neutral",
+        "displayName": "Placeholder Gray (dark)",
+        "canonical": "#8d96b0",
+        "oklch": "oklch(67.5% 0.040 270.2)",
+        "theme": "dark",
+        "lightToken": "text-3",
+        "purpose": "Placeholders in dark (5.82:1 on the dark slip).",
+        "tonalRamp": [
+          "#080b14",
+          "#202532",
+          "#3b4153",
+          "#596177",
+          "#7a8299",
+          "#9da5ba",
+          "#c2c9db",
+          "#e9eefd"
+        ]
+      },
+      "danger-dark": {
+        "role": "status",
+        "displayName": "Danger (dark)",
+        "canonical": "#ff8f98",
+        "oklch": "oklch(77.2% 0.135 15.6)",
+        "theme": "dark",
+        "lightToken": "danger",
+        "purpose": "Errors and destructive actions (admin).",
+        "tonalRamp": [
+          "#1f0004",
+          "#470a16",
+          "#70232e",
+          "#9c3d49",
+          "#c25f69",
+          "#e0888e",
+          "#feb2b6",
+          "#ffe8e9"
+        ]
+      },
+      "danger-wash-dark": {
+        "role": "status",
+        "displayName": "Danger Wash (dark)",
+        "canonical": "#3a161b",
+        "oklch": "oklch(25.7% 0.057 13.4)",
+        "theme": "dark",
+        "lightToken": "danger-wash",
+        "purpose": "Fill behind Danger text.",
+        "tonalRamp": [
+          "#160608",
+          "#351d20",
+          "#58383b",
+          "#7d5558",
+          "#a07679",
+          "#c09a9d",
+          "#e1c0c2",
+          "#ffe8e9"
+        ]
+      },
+      "ok-dark": {
+        "role": "status",
+        "displayName": "OK (dark)",
+        "canonical": "#74d6a0",
+        "oklch": "oklch(80.2% 0.122 157.9)",
+        "theme": "dark",
+        "lightToken": "ok",
+        "purpose": "Success and published state (admin).",
+        "tonalRamp": [
+          "#001006",
+          "#002e19",
+          "#00502f",
+          "#067447",
+          "#3b9768",
+          "#6eb88e",
+          "#9ddab5",
+          "#cbfcde"
+        ]
+      },
+      "ok-wash-dark": {
+        "role": "status",
+        "displayName": "OK Wash (dark)",
+        "canonical": "#11301f",
+        "oklch": "oklch(28.0% 0.049 157.1)",
+        "theme": "dark",
+        "lightToken": "ok-wash",
+        "purpose": "Fill behind OK text.",
+        "tonalRamp": [
+          "#030e07",
+          "#172a1f",
+          "#30483a",
+          "#4c6957",
+          "#6c8b78",
+          "#92ad9b",
+          "#b9d0c1",
+          "#e1f4e8"
+        ]
+      },
+      "warn-dark": {
+        "role": "status",
+        "displayName": "Warn (dark)",
+        "canonical": "#ffd98a",
+        "oklch": "oklch(90.1% 0.106 84.7)",
+        "theme": "dark",
+        "lightToken": "warn",
+        "purpose": "Text of highlighted blanks in legal drafts.",
+        "tonalRamp": [
+          "#110a00",
+          "#312200",
+          "#553e00",
+          "#7b5c05",
+          "#9e7d34",
+          "#bea166",
+          "#dfc695",
+          "#ffecc7"
+        ]
+      },
+      "warn-wash-dark": {
+        "role": "status",
+        "displayName": "Warn Wash (dark)",
+        "canonical": "#3a2e0c",
+        "oklch": "oklch(30.7% 0.052 89.3)",
+        "theme": "dark",
+        "lightToken": "warn-wash",
+        "purpose": "Fill behind highlighted blanks in legal drafts.",
+        "tonalRamp": [
+          "#100a01",
+          "#2c2410",
+          "#4b4128",
+          "#6c6041",
+          "#8e8161",
+          "#afa488",
+          "#d2c9b0",
+          "#f6eeda"
         ]
       }
     },
@@ -264,7 +768,7 @@
       "display": {
         "displayName": "Display",
         "token": "--fs-xl",
-        "purpose": "Screen titles, search band title, the doctor's name on the profile slip, admin stat numbers."
+        "purpose": "Screen titles, search band title, the doctor's name on the profile header, the first letter in an empty photo circle, admin stat numbers."
       },
       "title": {
         "displayName": "Title",
@@ -279,46 +783,70 @@
       "body-strong": {
         "displayName": "Body Strong",
         "token": "--fs-m",
-        "purpose": "Buttons, contact plate, active top tab (700); fact values and FAQ questions (500)."
+        "purpose": "Buttons, contact plate, active top tab and segment (700); fact values, FAQ questions, inactive segments (500)."
       },
       "label": {
         "displayName": "Label",
         "token": "--fs-s",
-        "purpose": "Meta, stub cells, labels, chips, tab labels, breadcrumbs, footer."
+        "purpose": "Meta, the stub cell, labels, chips, tab labels, breadcrumbs, «عرض الكل», source lines, footer."
       }
+    },
+    "themes": {
+      "light": {
+        "selector": ":root",
+        "colorScheme": "light",
+        "themeColor": "#ffffff"
+      },
+      "dark": {
+        "selector": ":root[data-theme=\"dark\"], and @media (prefers-color-scheme: dark) :root:not([data-theme=\"light\"])",
+        "colorScheme": "dark",
+        "themeColor": "#0b0f1a"
+      },
+      "picker": "Settings → المظهر (تلقائي / فاتح / داكن), src/components/ThemePicker.tsx; stored in localStorage \"panivo-theme\" (light | dark; auto removes it); applied before paint by an inline script in src/app/layout.tsx.",
+      "logo": "src/components/Wordmark.tsx renders both supplied artworks; .logo-light (wordmark-header.webp, made for white) shows in light, .logo-dark (wordmark-footer.webp, transparent) in dark. The footer always uses the transparent artwork.",
+      "unchangedInDark": [
+        "blue",
+        "blue-press",
+        "sky",
+        "on-blue",
+        "the search band",
+        "field-on-blue shadow"
+      ]
     },
     "shadows": [
       {
         "name": "shadow",
         "value": "0 1px 2px rgba(0, 26, 137, 0.06), 0 10px 24px -14px rgba(0, 26, 137, 0.22)",
-        "purpose": "Resting slips, groups, FAQ items, empty states, round buttons."
+        "dark": "0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 24px -14px rgba(0, 0, 0, 0.7)",
+        "purpose": "Resting slips, groups, FAQ items, empty states, round buttons, the segmented track."
       },
       {
         "name": "slip-hover",
         "value": "0 1px 2px rgba(0, 26, 137, 0.06), 0 16px 32px -14px rgba(0, 26, 137, 0.3)",
-        "purpose": "Slip hover under a fine pointer only."
+        "purpose": "Slip hover under a fine pointer only. Literal in globals.css; not themed (drift in dark)."
       },
       {
         "name": "shadow-float",
         "value": "0 2px 6px rgba(0, 26, 137, 0.08), 0 16px 32px -12px rgba(0, 26, 137, 0.28)",
+        "dark": "0 2px 6px rgba(0, 0, 0, 0.45), 0 16px 32px -12px rgba(0, 0, 0, 0.75)",
         "purpose": "Floating tab bar and the contact plate."
       },
       {
         "name": "field-on-blue",
         "value": "0 8px 20px -10px rgba(0, 26, 137, 0.55)",
-        "purpose": "The search field lifting off the blue band."
+        "purpose": "The search field lifting off the blue band, both themes."
       },
       {
         "name": "focus-ring",
         "value": "outline: 3px solid #14b4ff; outline-offset: 2px",
-        "purpose": "All keyboard focus; fields use 0 0 0 3px rgba(20, 180, 255, 0.35) with a blue border."
+        "purpose": "All keyboard focus, both themes; fields use 0 0 0 3px rgba(20, 180, 255, 0.35) with a blue border."
       }
     ],
     "motion": [
       {
         "name": "ease-out",
         "value": "cubic-bezier(0.16, 1, 0.3, 1)",
-        "purpose": "Spring-like settle for press feedback and the FAQ plus-icon rotation."
+        "purpose": "Spring-like settle for press feedback and the FAQ plus-icon rotation (200ms)."
       },
       {
         "name": "press",
@@ -327,25 +855,25 @@
       },
       {
         "name": "state",
-        "value": "150ms ease (colour), 200ms ease (tab background, slip shadow)",
+        "value": "150ms ease (colour, segments), 200ms ease (tab background, slip shadow)",
         "purpose": "Colour and shadow state changes."
       },
       {
-        "name": "stamp-press",
-        "value": "keyframes from { scale: 1.14; opacity: 0.2; filter: blur(1.5px) } to { scale: 1; opacity: 1; filter: blur(0) }; animation-timeline: view(); animation-range: entry 10% entry 70%",
-        "purpose": "The stamp presses onto the slip as it scrolls into view; only with animation-timeline support and prefers-reduced-motion: no-preference."
+        "name": "theme-switch",
+        "value": "instant",
+        "purpose": "Theme changes apply at once by toggling data-theme; no cross-fade."
       },
       {
         "name": "reduced-motion",
         "value": "transition-duration: 0.01ms; animation: none",
-        "purpose": "Global under prefers-reduced-motion: reduce; the stamp is static."
+        "purpose": "Global under prefers-reduced-motion: reduce."
       }
     ],
     "breakpoints": [
       {
         "name": "tablet",
         "value": "48rem",
-        "purpose": "Gutter 1.5rem; band content capped at 44rem; shelves become minmax(21rem, 1fr); tiles go to 16px; doctor page centres at 44rem; slip addresses truncate to one line."
+        "purpose": "Gutter 1.5rem; band content capped at 44rem; shelves become minmax(21rem, 1fr) with a thin scrollbar; tiles go to 16px; doctor page centres at 44rem; slip addresses truncate to one line."
       },
       {
         "name": "wide",
@@ -355,14 +883,26 @@
     ],
     "openDecisions": [
       {
-        "name": "dark-mode",
-        "status": "open",
-        "note": "Project rules list dark mode as a design aim; owner specified white and light gray. Build ships color-scheme: light only. Owner to decide."
-      },
-      {
         "name": "perforation-notches",
         "status": "deferred",
         "note": "Notches on the slip's tear line were considered and deferred; the tear is a dashed line only."
+      }
+    ],
+    "retired": [
+      {
+        "name": "verification-stamp",
+        "date": "2026-11-17",
+        "note": "Stamp component, its CSS and the «موثّق» wording removed by the owner; the doctor's photo leads the slip and the doctor page instead."
+      },
+      {
+        "name": "clinic-pages",
+        "date": "2026-11-17",
+        "note": "No public clinic pages or clinic slips; clinics exist in admin as the doctor's workplace."
+      },
+      {
+        "name": "correction-form",
+        "date": "2026-11-17",
+        "note": "Corrections go by email (CONTACT_EMAIL); the public form is gone."
       }
     ],
     "outOfSystem": [
@@ -377,83 +917,91 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Solid Clinic Signal Blue action; Pressed Blue on hover, scale 0.97 on press.",
-      "html": "<button class=\"ds-btn\" dir=\"rtl\">إرسال الطلب</button>",
-      "css": ":host { --blue:#0061f3; --blue-press:#0052cc; --sky:#14b4ff; --ink:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } .ds-btn { display:inline-flex; align-items:center; justify-content:center; gap:0.5rem; min-block-size:3rem; padding-inline:1.25rem; border:0; border-radius:var(--r-ctl); background:var(--blue); color:#fff; font:700 var(--fs-m)/1.65 var(--font); cursor:pointer; transition:background-color 150ms ease, transform var(--press); } .ds-btn:hover { background:var(--blue-press); } .ds-btn:active { transform:scale(0.97); } .ds-btn:focus-visible { outline:3px solid var(--sky); outline-offset:2px; border-radius:8px; } .ds-btn:disabled { opacity:0.5; cursor:default; }"
+      "description": "Solid Clinic Signal Blue action with white text in both themes; Pressed Blue on hover, scale 0.97 on press.",
+      "html": "<button class=\"ds-btn\" dir=\"rtl\">عرض الكل</button>",
+      "css": ":host { color-scheme:light; --blue:#0061f3; --blue-press:#0052cc; --blue-text:#0052cc; --sky:#14b4ff; --ink:#001a89; --plate:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --wash-press:#dce8ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --text-3:#666e8c; --danger:#b4232f; --danger-wash:#fdecee; --ok:#0f7a3d; --ok-wash:#e6f4ec; --warn:#5c4300; --warn-wash:#fff3c4; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } @media (prefers-color-scheme: dark) { :host { color-scheme:dark; --blue-text:#8db4ff; --ink:#9db8ff; --plate:#0061f3; --ground:#0b0f1a; --slip:#151b2b; --wash:#17284a; --wash-press:#1e3463; --line:#273049; --tear:#3b4662; --text:#eef1f8; --text-2:#aab2c9; --text-3:#8d96b0; --danger:#ff8f98; --danger-wash:#3a161b; --ok:#74d6a0; --ok-wash:#11301f; --warn:#ffd98a; --warn-wash:#3a2e0c; --shadow:0 1px 2px rgba(0,0,0,0.4),0 10px 24px -14px rgba(0,0,0,0.7); --shadow-float:0 2px 6px rgba(0,0,0,0.45),0 16px 32px -12px rgba(0,0,0,0.75); } } .ds-btn { display:inline-flex; align-items:center; justify-content:center; gap:0.5rem; min-block-size:3rem; padding-inline:1.25rem; border:0; border-radius:var(--r-ctl); background:var(--blue); color:#fff; font:700 var(--fs-m)/1.65 var(--font); cursor:pointer; transition:background-color 150ms ease, transform var(--press); } .ds-btn:hover { background:var(--blue-press); } .ds-btn:active { transform:scale(0.97); } .ds-btn:focus-visible { outline:3px solid var(--sky); outline-offset:2px; border-radius:8px; } .ds-btn:disabled { opacity:0.5; cursor:default; }"
     },
     {
       "name": "Quiet Button",
       "kind": "button",
       "refersTo": "button-quiet",
-      "description": "Blue Wash secondary action with Pressed Blue text.",
+      "description": "Blue Wash secondary action with Blue Text; Wash Press on hover.",
       "html": "<button class=\"ds-btn-quiet\" dir=\"rtl\">تصفح التخصصات</button>",
-      "css": ":host { --blue:#0061f3; --blue-press:#0052cc; --sky:#14b4ff; --ink:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } .ds-btn-quiet { display:inline-flex; align-items:center; justify-content:center; min-block-size:3rem; padding-inline:1.25rem; border:0; border-radius:var(--r-ctl); background:var(--wash); color:var(--blue-press); font:700 var(--fs-m)/1.65 var(--font); cursor:pointer; transition:background-color 150ms ease, transform var(--press); } .ds-btn-quiet:hover { background:#dce8ff; } .ds-btn-quiet:active { transform:scale(0.97); } .ds-btn-quiet:focus-visible { outline:3px solid var(--sky); outline-offset:2px; border-radius:8px; }"
+      "css": ":host { color-scheme:light; --blue:#0061f3; --blue-press:#0052cc; --blue-text:#0052cc; --sky:#14b4ff; --ink:#001a89; --plate:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --wash-press:#dce8ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --text-3:#666e8c; --danger:#b4232f; --danger-wash:#fdecee; --ok:#0f7a3d; --ok-wash:#e6f4ec; --warn:#5c4300; --warn-wash:#fff3c4; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } @media (prefers-color-scheme: dark) { :host { color-scheme:dark; --blue-text:#8db4ff; --ink:#9db8ff; --plate:#0061f3; --ground:#0b0f1a; --slip:#151b2b; --wash:#17284a; --wash-press:#1e3463; --line:#273049; --tear:#3b4662; --text:#eef1f8; --text-2:#aab2c9; --text-3:#8d96b0; --danger:#ff8f98; --danger-wash:#3a161b; --ok:#74d6a0; --ok-wash:#11301f; --warn:#ffd98a; --warn-wash:#3a2e0c; --shadow:0 1px 2px rgba(0,0,0,0.4),0 10px 24px -14px rgba(0,0,0,0.7); --shadow-float:0 2px 6px rgba(0,0,0,0.45),0 16px 32px -12px rgba(0,0,0,0.75); } } .ds-btn-quiet { display:inline-flex; align-items:center; justify-content:center; min-block-size:3rem; padding-inline:1.25rem; border:0; border-radius:var(--r-ctl); background:var(--wash); color:var(--blue-text); font:700 var(--fs-m)/1.65 var(--font); cursor:pointer; transition:background-color 150ms ease, transform var(--press); } .ds-btn-quiet:hover { background:var(--wash-press); } .ds-btn-quiet:active { transform:scale(0.97); } .ds-btn-quiet:focus-visible { outline:3px solid var(--sky); outline-offset:2px; border-radius:8px; }"
     },
     {
       "name": "Search Band",
       "kind": "input",
       "refersTo": "search-field",
-      "description": "Full-bleed blue region owning the large white search field and the specialty tiles.",
+      "description": "Full-bleed brand-blue region (blue in both themes) owning the large search field and the five specialty tiles.",
       "html": "<section class=\"ds-band\" dir=\"rtl\" lang=\"ar\"><h1 class=\"ds-band__title\">ابحث عن طبيبك في الرياض</h1><form class=\"ds-search\" role=\"search\"><input type=\"search\" placeholder=\"ابحث باسم الطبيب أو العيادة أو الحالة\" aria-label=\"ابحث عن طبيب\"><button type=\"submit\" class=\"ds-search__go\" aria-label=\"ابحث\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"6.5\"/><path d=\"m20 20-4.2-4.2\"/></svg></button></form><ul class=\"ds-tiles\"><li><a class=\"ds-tile\" href=\"#\">جلدية</a></li><li><a class=\"ds-tile\" href=\"#\">تجميل وليزر</a></li><li><a class=\"ds-tile\" href=\"#\">عيون</a></li><li><a class=\"ds-tile\" href=\"#\">أسنان</a></li><li><a class=\"ds-tile\" href=\"#\">علاج طبيعي</a></li></ul></section>",
-      "css": ":host { --blue:#0061f3; --blue-press:#0052cc; --sky:#14b4ff; --ink:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } .ds-band { background:var(--blue); color:#fff; padding:1.25rem 1rem 1.5rem; font-family:var(--font); } .ds-band__title { margin:0 0 1rem; font-size:var(--fs-xl); font-weight:700; line-height:1.3; } .ds-search { display:flex; align-items:center; gap:0.5rem; block-size:3.5rem; padding-inline:1rem 0.375rem; border-radius:var(--r-ctl); background:var(--slip); color:var(--text); box-shadow:0 8px 20px -10px rgba(0,26,137,0.55); } .ds-search:focus-within { outline:3px solid var(--sky); outline-offset:2px; } .ds-search input { flex:1; min-inline-size:0; block-size:100%; border:0; background:transparent; outline:none; font:400 var(--fs-m) var(--font); color:inherit; caret-color:var(--blue); } .ds-search input::placeholder { color:var(--text-2); } .ds-search__go { display:grid; place-items:center; inline-size:2.75rem; block-size:2.75rem; border:0; border-radius:10px; background:var(--blue); color:#fff; cursor:pointer; transition:background-color 150ms ease; } .ds-search__go:hover { background:var(--blue-press); } .ds-tiles { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:0.5rem; margin:1rem 0 0; padding:0; list-style:none; } .ds-tiles li { display:flex; } .ds-tile { flex:1; display:flex; align-items:center; justify-content:center; padding:0.75rem 0.25rem 0.625rem; border-radius:14px; background:var(--slip); color:var(--text); font-size:var(--fs-s); font-weight:500; line-height:1.3; text-align:center; text-decoration:none; transition:transform var(--press), background-color 150ms ease; } .ds-tile:hover { background:var(--wash); } .ds-tile:active { transform:scale(0.96); } .ds-tile:focus-visible { outline:3px solid var(--sky); outline-offset:2px; }"
+      "css": ":host { color-scheme:light; --blue:#0061f3; --blue-press:#0052cc; --blue-text:#0052cc; --sky:#14b4ff; --ink:#001a89; --plate:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --wash-press:#dce8ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --text-3:#666e8c; --danger:#b4232f; --danger-wash:#fdecee; --ok:#0f7a3d; --ok-wash:#e6f4ec; --warn:#5c4300; --warn-wash:#fff3c4; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } @media (prefers-color-scheme: dark) { :host { color-scheme:dark; --blue-text:#8db4ff; --ink:#9db8ff; --plate:#0061f3; --ground:#0b0f1a; --slip:#151b2b; --wash:#17284a; --wash-press:#1e3463; --line:#273049; --tear:#3b4662; --text:#eef1f8; --text-2:#aab2c9; --text-3:#8d96b0; --danger:#ff8f98; --danger-wash:#3a161b; --ok:#74d6a0; --ok-wash:#11301f; --warn:#ffd98a; --warn-wash:#3a2e0c; --shadow:0 1px 2px rgba(0,0,0,0.4),0 10px 24px -14px rgba(0,0,0,0.7); --shadow-float:0 2px 6px rgba(0,0,0,0.45),0 16px 32px -12px rgba(0,0,0,0.75); } } .ds-band { background:var(--blue); color:#fff; padding:1.25rem 1rem 1.5rem; font-family:var(--font); } .ds-band__title { margin:0 0 1rem; font-size:var(--fs-xl); font-weight:700; line-height:1.3; } .ds-search { display:flex; align-items:center; gap:0.5rem; block-size:3.5rem; padding-inline:1rem 0.375rem; border-radius:var(--r-ctl); background:var(--slip); color:var(--text); box-shadow:0 8px 20px -10px rgba(0,26,137,0.55); } .ds-search:focus-within { outline:3px solid var(--sky); outline-offset:2px; } .ds-search input { flex:1; min-inline-size:0; block-size:100%; border:0; background:transparent; outline:none; font:400 var(--fs-m) var(--font); color:inherit; caret-color:var(--blue); } .ds-search input::placeholder { color:var(--text-2); } .ds-search__go { display:grid; place-items:center; inline-size:2.75rem; block-size:2.75rem; border:0; border-radius:10px; background:var(--blue); color:#fff; cursor:pointer; transition:background-color 150ms ease; } .ds-search__go:hover { background:var(--blue-press); } .ds-tiles { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:0.5rem; margin:1rem 0 0; padding:0; list-style:none; } .ds-tiles li { display:flex; } .ds-tile { flex:1; display:flex; align-items:center; justify-content:center; padding:0.75rem 0.25rem 0.625rem; border-radius:14px; background:var(--slip); color:var(--text); font-size:var(--fs-s); font-weight:500; line-height:1.3; text-align:center; text-decoration:none; transition:transform var(--press), background-color 150ms ease; } .ds-tile:hover { background:var(--wash); } .ds-tile:active { transform:scale(0.96); } .ds-tile:focus-visible { outline:3px solid var(--sky); outline-offset:2px; }"
     },
     {
       "name": "Doctor Slip",
       "kind": "card",
       "refersTo": "slip",
-      "description": "Signature card: facts and the ink stamp above a dashed tear line; stub of fixed cells (experience | last checked) and the WhatsApp action.",
-      "html": "<article class=\"ds-slip\" dir=\"rtl\" lang=\"ar\"><div class=\"ds-slip__body\"><h3 class=\"ds-slip__name\"><a href=\"#\">د. سارة المثال</a></h3><p class=\"ds-slip__role\">استشارية جلدية</p><p class=\"ds-slip__where\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z\"/><circle cx=\"12\" cy=\"10\" r=\"2.3\"/></svg><span>عيادة تجريبية، حي الملقا</span></p><p class=\"ds-slip__demo\"><span class=\"ds-label-demo\">ملف تجريبي</span></p><div class=\"ds-slip__stamp\"><svg class=\"ds-stamp\" viewBox=\"0 0 100 100\" role=\"img\" aria-label=\"ملف موثّق، آخر تحقق 2026/10/18\"><circle cx=\"50\" cy=\"50\" r=\"46\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.5\"/><circle cx=\"50\" cy=\"50\" r=\"39\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.25\"/><path d=\"M41 30l6.5 6.5L60 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"50\" y=\"57\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"700\" fill=\"currentColor\">موثّق</text><text x=\"50\" y=\"73\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"600\" fill=\"currentColor\" style=\"direction:ltr\">2026/10/18</text></svg></div><button class=\"ds-fav\" aria-pressed=\"false\" aria-label=\"حفظ\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.2a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20Z\"/></svg></button></div><div class=\"ds-slip__stub\"><dl class=\"ds-slip__cells\"><div class=\"ds-slip__cell\"><dt>الخبرة</dt><dd>12 سنة</dd></div><div class=\"ds-slip__cell\"><dt>آخر تحقق</dt><dd dir=\"ltr\">2026/10/18</dd></div></dl><a class=\"ds-slip__wa\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M12 2.2a9.7 9.7 0 0 0-8.4 14.6L2.3 21.7l5-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 19.9Zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.5-.3Z\"/></svg>واتساب</a></div></article>",
-      "css": ":host { --blue:#0061f3; --blue-press:#0052cc; --sky:#14b4ff; --ink:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } .ds-slip { position:relative; display:flex; flex-direction:column; max-inline-size:21rem; border-radius:var(--r-slip); background:var(--slip); color:var(--text); box-shadow:var(--shadow); font:400 var(--fs-m)/1.65 var(--font); font-variant-numeric:tabular-nums; transition:transform var(--press), box-shadow 200ms ease; } .ds-slip:hover { box-shadow:0 1px 2px rgba(0,26,137,0.06),0 16px 32px -14px rgba(0,26,137,0.3); } .ds-slip:active { transform:scale(0.985); } .ds-slip:focus-within { outline:3px solid var(--sky); outline-offset:2px; } .ds-slip__body { display:grid; grid-template-columns:1fr auto; gap:0.25rem 0.75rem; padding:1rem 1rem 0.875rem; } .ds-slip__name { grid-column:1; margin:0; font-size:var(--fs-l); font-weight:700; line-height:1.35; } .ds-slip__name a { color:inherit; text-decoration:none; outline:none; } .ds-slip__role, .ds-slip__where { grid-column:1; margin:0; color:var(--text-2); font-size:var(--fs-s); } .ds-slip__where { display:flex; align-items:center; gap:0.3rem; } .ds-slip__demo { grid-column:1; justify-self:start; margin:0.375rem 0 0; } .ds-slip__stamp { grid-column:2; grid-row:1 / span 3; } .ds-stamp { display:block; inline-size:4.75rem; block-size:4.75rem; color:var(--ink); rotate:-8deg; font-family:var(--font); } @supports (animation-timeline: view()) { @media (prefers-reduced-motion: no-preference) { .ds-stamp { animation:ds-press linear both; animation-timeline:view(); animation-range:entry 10% entry 70%; } } } @keyframes ds-press { from { scale:1.14; opacity:0.2; filter:blur(1.5px); } to { scale:1; opacity:1; filter:blur(0); } } .ds-label-demo { display:inline-flex; padding:0.15rem 0.6rem; border-radius:999px; color:var(--ink); box-shadow:inset 0 0 0 1px var(--ink); font-size:var(--fs-s); font-weight:500; line-height:1.6; } .ds-fav { grid-column:2; grid-row:4; justify-self:center; display:grid; place-items:center; inline-size:2.75rem; block-size:2.75rem; border:0; border-radius:50%; background:transparent; color:var(--text-2); cursor:pointer; transition:transform var(--press), color 150ms ease; } .ds-fav[aria-pressed=\"true\"] { color:var(--blue); } .ds-fav:active { transform:scale(0.88); } .ds-fav:focus-visible { outline:3px solid var(--sky); outline-offset:2px; } .ds-slip__stub { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:0.5rem; padding:0.625rem 1rem 0.625rem 0.75rem; border-block-start:1.5px dashed var(--tear); font-size:var(--fs-s); } .ds-slip__cells { display:flex; margin:0; } .ds-slip__cell { display:grid; padding-inline:0.5rem; line-height:1.35; white-space:nowrap; } .ds-slip__cell:first-child { padding-inline-start:0; } .ds-slip__cell + .ds-slip__cell { border-inline-start:1px solid var(--line); } .ds-slip__cell dt { color:var(--text-2); } .ds-slip__cell dd { margin:0; font-weight:700; } .ds-slip__wa { display:inline-flex; align-items:center; gap:0.375rem; min-block-size:2.75rem; padding-inline:0.75rem; border-radius:10px; background:var(--wash); color:var(--blue-press); font-weight:700; text-decoration:none; transition:transform var(--press); } .ds-slip__wa:active { transform:scale(0.96); } .ds-slip__wa:focus-visible { outline:3px solid var(--sky); outline-offset:2px; }"
+      "description": "Signature card: name, role, address and demo label at the start, the doctor's round photo at the end; below the dashed tear, the «الخبرة» cell and the heart plus WhatsApp actions.",
+      "html": "<article class=\"ds-slip\" dir=\"rtl\" lang=\"ar\"><div class=\"ds-slip__body\"><h3 class=\"ds-slip__name\"><a href=\"#\">د. سارة المثال</a></h3><p class=\"ds-slip__role\">استشارية جلدية</p><p class=\"ds-slip__where\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z\"/><circle cx=\"12\" cy=\"10\" r=\"2.3\"/></svg><span>عيادة تجريبية، حي الملقا</span></p><p class=\"ds-slip__demo\"><span class=\"ds-label-demo\">ملف تجريبي</span></p><div class=\"ds-slip__photo\"><span class=\"ds-avatar ds-avatar--empty\" aria-hidden=\"true\">س</span></div></div><div class=\"ds-slip__stub\"><dl class=\"ds-slip__cells\"><div class=\"ds-slip__cell\"><dt>الخبرة</dt><dd>12 سنة</dd></div></dl><span class=\"ds-slip__actions\"><button class=\"ds-fav\" aria-pressed=\"false\" aria-label=\"حفظ\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.2a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20Z\"/></svg></button><a class=\"ds-slip__wa\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M12 2.2a9.7 9.7 0 0 0-8.4 14.6L2.3 21.7l5-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 19.9Zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.5-.3Z\"/></svg>واتساب</a></span></div></article>",
+      "css": ":host { color-scheme:light; --blue:#0061f3; --blue-press:#0052cc; --blue-text:#0052cc; --sky:#14b4ff; --ink:#001a89; --plate:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --wash-press:#dce8ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --text-3:#666e8c; --danger:#b4232f; --danger-wash:#fdecee; --ok:#0f7a3d; --ok-wash:#e6f4ec; --warn:#5c4300; --warn-wash:#fff3c4; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } @media (prefers-color-scheme: dark) { :host { color-scheme:dark; --blue-text:#8db4ff; --ink:#9db8ff; --plate:#0061f3; --ground:#0b0f1a; --slip:#151b2b; --wash:#17284a; --wash-press:#1e3463; --line:#273049; --tear:#3b4662; --text:#eef1f8; --text-2:#aab2c9; --text-3:#8d96b0; --danger:#ff8f98; --danger-wash:#3a161b; --ok:#74d6a0; --ok-wash:#11301f; --warn:#ffd98a; --warn-wash:#3a2e0c; --shadow:0 1px 2px rgba(0,0,0,0.4),0 10px 24px -14px rgba(0,0,0,0.7); --shadow-float:0 2px 6px rgba(0,0,0,0.45),0 16px 32px -12px rgba(0,0,0,0.75); } } .ds-slip { position:relative; display:flex; flex-direction:column; max-inline-size:21rem; border-radius:var(--r-slip); background:var(--slip); color:var(--text); box-shadow:var(--shadow); font:400 var(--fs-m)/1.65 var(--font); font-variant-numeric:tabular-nums; transition:transform var(--press), box-shadow 200ms ease; } .ds-slip:hover { box-shadow:0 1px 2px rgba(0,26,137,0.06),0 16px 32px -14px rgba(0,26,137,0.3); } .ds-slip:active { transform:scale(0.985); } .ds-slip:focus-within { outline:3px solid var(--sky); outline-offset:2px; } .ds-slip__body { display:grid; grid-template-columns:1fr auto; gap:0.25rem 0.75rem; padding:1rem 1rem 0.875rem; } .ds-slip__name { grid-column:1; margin:0; font-size:var(--fs-l); font-weight:700; line-height:1.35; } .ds-slip__name a { color:inherit; text-decoration:none; outline:none; } .ds-slip__role, .ds-slip__where { grid-column:1; margin:0; color:var(--text-2); font-size:var(--fs-s); } .ds-slip__where { display:flex; align-items:center; gap:0.3rem; } .ds-slip__demo { grid-column:1; justify-self:start; margin:0.375rem 0 0; } .ds-slip__photo { grid-column:2; grid-row:1 / span 4; align-self:start; } .ds-avatar { display:block; inline-size:4.75rem; block-size:4.75rem; border-radius:50%; object-fit:cover; background:var(--wash); } .ds-avatar--empty { display:grid; place-items:center; color:var(--blue-text); font-size:var(--fs-xl); font-weight:700; line-height:1; } .ds-label-demo { display:inline-flex; padding:0.15rem 0.6rem; border-radius:999px; color:var(--ink); box-shadow:inset 0 0 0 1px var(--ink); font-size:var(--fs-s); font-weight:500; line-height:1.6; } .ds-slip__stub { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:0.5rem; padding:0.625rem 1rem 0.625rem 0.75rem; border-block-start:1.5px dashed var(--tear); font-size:var(--fs-s); } .ds-slip__cells { display:flex; margin:0; } .ds-slip__cell { display:grid; line-height:1.35; white-space:nowrap; } .ds-slip__cell dt { color:var(--text-2); } .ds-slip__cell dd { margin:0; font-weight:700; color:var(--text); } .ds-slip__actions { display:flex; align-items:center; gap:0.25rem; } .ds-fav { display:grid; place-items:center; inline-size:2.75rem; block-size:2.75rem; border:0; border-radius:50%; background:transparent; color:var(--text-2); cursor:pointer; transition:transform var(--press), color 150ms ease; } .ds-fav[aria-pressed=\"true\"] { color:var(--blue-text); } .ds-fav:active { transform:scale(0.88); } .ds-fav:focus-visible { outline:3px solid var(--sky); outline-offset:2px; } .ds-slip__wa { display:inline-flex; align-items:center; gap:0.375rem; min-block-size:2.75rem; padding-inline:0.75rem; white-space:nowrap; border-radius:10px; background:var(--wash); color:var(--blue-text); font-weight:700; text-decoration:none; transition:transform var(--press); } .ds-slip__wa:active { transform:scale(0.96); } .ds-slip__wa:focus-visible { outline:3px solid var(--sky); outline-offset:2px; }"
+    },
+    {
+      "name": "Profile Header",
+      "kind": "custom",
+      "refersTo": "doctor-photo-large",
+      "description": "Doctor page header: the 6.5rem round photo (or first-letter circle) beside name, role and tags. No seal row.",
+      "html": "<header class=\"ds-profile\" dir=\"rtl\" lang=\"ar\"><span class=\"ds-avatar-lg\" aria-hidden=\"true\">س</span><div><h1 class=\"ds-profile__name\">د. سارة المثال</h1><p class=\"ds-profile__role\">استشارية جلدية</p><p class=\"ds-profile__tags\"><a class=\"ds-label\" href=\"#\">جلدية</a><span class=\"ds-label ds-label--demo\">ملف تجريبي</span></p></div></header>",
+      "css": ":host { color-scheme:light; --blue:#0061f3; --blue-press:#0052cc; --blue-text:#0052cc; --sky:#14b4ff; --ink:#001a89; --plate:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --wash-press:#dce8ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --text-3:#666e8c; --danger:#b4232f; --danger-wash:#fdecee; --ok:#0f7a3d; --ok-wash:#e6f4ec; --warn:#5c4300; --warn-wash:#fff3c4; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } @media (prefers-color-scheme: dark) { :host { color-scheme:dark; --blue-text:#8db4ff; --ink:#9db8ff; --plate:#0061f3; --ground:#0b0f1a; --slip:#151b2b; --wash:#17284a; --wash-press:#1e3463; --line:#273049; --tear:#3b4662; --text:#eef1f8; --text-2:#aab2c9; --text-3:#8d96b0; --danger:#ff8f98; --danger-wash:#3a161b; --ok:#74d6a0; --ok-wash:#11301f; --warn:#ffd98a; --warn-wash:#3a2e0c; --shadow:0 1px 2px rgba(0,0,0,0.4),0 10px 24px -14px rgba(0,0,0,0.7); --shadow-float:0 2px 6px rgba(0,0,0,0.45),0 16px 32px -12px rgba(0,0,0,0.75); } } .ds-profile { display:grid; grid-template-columns:auto 1fr; gap:0.75rem; align-items:start; max-inline-size:44rem; padding:1.25rem 1rem 1rem; border-radius:var(--r-slip); background:var(--slip); color:var(--text); box-shadow:var(--shadow); font:400 var(--fs-m)/1.65 var(--font); } .ds-avatar-lg { align-self:center; display:grid; place-items:center; inline-size:6.5rem; block-size:6.5rem; border-radius:50%; background:var(--wash); color:var(--blue-text); font-size:var(--fs-xl); font-weight:700; line-height:1; } .ds-profile__name { margin:0.5rem 0 0.25rem; font-size:var(--fs-xl); font-weight:700; line-height:1.25; } .ds-profile__role { margin:0; color:var(--text-2); } .ds-profile__tags { display:flex; flex-wrap:wrap; gap:0.375rem; margin:0.625rem 0 0; } .ds-label { display:inline-flex; align-items:center; padding:0.15rem 0.6rem; border-radius:999px; background:var(--wash); color:var(--blue-text); font-size:var(--fs-s); font-weight:500; line-height:1.6; white-space:nowrap; text-decoration:none; } a.ds-label:focus-visible { outline:3px solid var(--sky); outline-offset:2px; } .ds-label--demo { background:transparent; color:var(--ink); box-shadow:inset 0 0 0 1px var(--ink); }"
     },
     {
       "name": "Labels",
       "kind": "chip",
       "refersTo": "label",
-      "description": "Blue Wash specialty label beside the outlined Stamp Ink demo marker (never filled).",
-      "html": "<p class=\"ds-labels\" dir=\"rtl\" lang=\"ar\"><a class=\"ds-label\" href=\"#\">جلدية</a><span class=\"ds-label ds-label--demo\">ملف تجريبي</span></p>",
-      "css": ":host { --blue:#0061f3; --blue-press:#0052cc; --sky:#14b4ff; --ink:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } .ds-labels { display:flex; flex-wrap:wrap; gap:0.375rem; margin:0; font-family:var(--font); } .ds-label { display:inline-flex; align-items:center; gap:0.3rem; padding:0.15rem 0.6rem; border-radius:999px; background:var(--wash); color:var(--blue-press); font-size:var(--fs-s); font-weight:500; line-height:1.6; white-space:nowrap; text-decoration:none; } a.ds-label:hover { background:#dce8ff; } a.ds-label:focus-visible { outline:3px solid var(--sky); outline-offset:2px; } .ds-label--demo { background:transparent; color:var(--ink); box-shadow:inset 0 0 0 1px var(--ink); }"
+      "description": "Blue Wash specialty label beside the outlined Outline Ink demo marker (never filled), and a Counter Gray chip.",
+      "html": "<p class=\"ds-labels\" dir=\"rtl\" lang=\"ar\"><a class=\"ds-label\" href=\"#\">جلدية</a><span class=\"ds-label ds-label--demo\">ملف تجريبي</span><span class=\"ds-chip\">حب الشباب</span></p>",
+      "css": ":host { color-scheme:light; --blue:#0061f3; --blue-press:#0052cc; --blue-text:#0052cc; --sky:#14b4ff; --ink:#001a89; --plate:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --wash-press:#dce8ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --text-3:#666e8c; --danger:#b4232f; --danger-wash:#fdecee; --ok:#0f7a3d; --ok-wash:#e6f4ec; --warn:#5c4300; --warn-wash:#fff3c4; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } @media (prefers-color-scheme: dark) { :host { color-scheme:dark; --blue-text:#8db4ff; --ink:#9db8ff; --plate:#0061f3; --ground:#0b0f1a; --slip:#151b2b; --wash:#17284a; --wash-press:#1e3463; --line:#273049; --tear:#3b4662; --text:#eef1f8; --text-2:#aab2c9; --text-3:#8d96b0; --danger:#ff8f98; --danger-wash:#3a161b; --ok:#74d6a0; --ok-wash:#11301f; --warn:#ffd98a; --warn-wash:#3a2e0c; --shadow:0 1px 2px rgba(0,0,0,0.4),0 10px 24px -14px rgba(0,0,0,0.7); --shadow-float:0 2px 6px rgba(0,0,0,0.45),0 16px 32px -12px rgba(0,0,0,0.75); } } .ds-labels { display:flex; flex-wrap:wrap; gap:0.375rem; margin:0; font-family:var(--font); } .ds-label { display:inline-flex; align-items:center; gap:0.3rem; padding:0.15rem 0.6rem; border-radius:999px; background:var(--wash); color:var(--blue-text); font-size:var(--fs-s); font-weight:500; line-height:1.6; white-space:nowrap; text-decoration:none; } a.ds-label:hover { background:var(--wash-press); } a.ds-label:focus-visible { outline:3px solid var(--sky); outline-offset:2px; } .ds-label--demo { background:transparent; color:var(--ink); box-shadow:inset 0 0 0 1px var(--ink); } .ds-chip { padding:0.35rem 0.8rem; border-radius:999px; background:var(--ground); color:var(--text); font-size:var(--fs-s); }"
     },
     {
       "name": "Floating Tab Bar",
       "kind": "nav",
       "refersTo": "tab-bar",
-      "description": "Phone and tablet navigation: a white pill hovering above the bottom edge; active tab is a Blue Wash pill. From 64rem these tabs move into the top bar.",
+      "description": "Phone and tablet navigation: a Slip White pill hovering above the bottom edge; active tab is a Blue Wash pill with Blue Text. From 64rem these tabs move into the top bar.",
       "html": "<nav class=\"ds-tabbar\" dir=\"rtl\" lang=\"ar\" aria-label=\"التنقل الرئيسي\"><a class=\"ds-tab\" href=\"#\" aria-current=\"page\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3.5 10.5 12 3.5l8.5 7\"/><path d=\"M5.5 9v10.5h4.5v-6h4v6h4.5V9\"/></svg>الرئيسية</a><a class=\"ds-tab\" href=\"#\"><span class=\"ds-tab__icon\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.2a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20Z\"/></svg><span class=\"ds-badge\">3</span></span>المحفوظات</a><a class=\"ds-tab\" href=\"#\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z\"/></svg>الإعدادات</a></nav>",
-      "css": ":host { --blue:#0061f3; --blue-press:#0052cc; --sky:#14b4ff; --ink:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } .ds-tabbar { display:grid; grid-template-columns:repeat(3,1fr); gap:0.25rem; inline-size:min(calc(100% - 2rem),22rem); margin-inline:auto; padding:0.375rem; border:1px solid var(--line); border-radius:999px; background:var(--slip); box-shadow:var(--shadow-float); font-family:var(--font); } .ds-tab { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.1rem; min-block-size:3.25rem; border-radius:999px; color:var(--text-2); font-size:var(--fs-s); font-weight:500; text-decoration:none; transition:background-color 200ms ease, color 200ms ease, transform var(--press); } .ds-tab:hover { color:var(--text); } .ds-tab:active { transform:scale(0.94); } .ds-tab:focus-visible { outline:3px solid var(--sky); outline-offset:2px; } .ds-tab[aria-current=\"page\"] { background:var(--wash); color:var(--blue-press); font-weight:700; } .ds-tab__icon { position:relative; } .ds-badge { position:absolute; inset-block-start:-0.35rem; inset-inline-end:-0.7rem; min-inline-size:1.35rem; block-size:1.35rem; padding-inline:0.3rem; border-radius:999px; background:var(--blue); color:#fff; font-size:var(--fs-s); font-weight:700; line-height:1.35rem; text-align:center; }"
+      "css": ":host { color-scheme:light; --blue:#0061f3; --blue-press:#0052cc; --blue-text:#0052cc; --sky:#14b4ff; --ink:#001a89; --plate:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --wash-press:#dce8ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --text-3:#666e8c; --danger:#b4232f; --danger-wash:#fdecee; --ok:#0f7a3d; --ok-wash:#e6f4ec; --warn:#5c4300; --warn-wash:#fff3c4; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } @media (prefers-color-scheme: dark) { :host { color-scheme:dark; --blue-text:#8db4ff; --ink:#9db8ff; --plate:#0061f3; --ground:#0b0f1a; --slip:#151b2b; --wash:#17284a; --wash-press:#1e3463; --line:#273049; --tear:#3b4662; --text:#eef1f8; --text-2:#aab2c9; --text-3:#8d96b0; --danger:#ff8f98; --danger-wash:#3a161b; --ok:#74d6a0; --ok-wash:#11301f; --warn:#ffd98a; --warn-wash:#3a2e0c; --shadow:0 1px 2px rgba(0,0,0,0.4),0 10px 24px -14px rgba(0,0,0,0.7); --shadow-float:0 2px 6px rgba(0,0,0,0.45),0 16px 32px -12px rgba(0,0,0,0.75); } } .ds-tabbar { display:grid; grid-template-columns:repeat(3,1fr); gap:0.25rem; inline-size:min(calc(100% - 2rem),22rem); margin-inline:auto; padding:0.375rem; border:1px solid var(--line); border-radius:999px; background:var(--slip); box-shadow:var(--shadow-float); font-family:var(--font); } .ds-tab { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.1rem; min-block-size:3.25rem; border-radius:999px; color:var(--text-2); font-size:var(--fs-s); font-weight:500; text-decoration:none; transition:background-color 200ms ease, color 200ms ease, transform var(--press); } .ds-tab:hover { color:var(--text); } .ds-tab:active { transform:scale(0.94); } .ds-tab:focus-visible { outline:3px solid var(--sky); outline-offset:2px; } .ds-tab[aria-current=\"page\"] { background:var(--wash); color:var(--blue-text); font-weight:700; } .ds-tab__icon { position:relative; } .ds-badge { position:absolute; inset-block-start:-0.35rem; inset-inline-end:-0.7rem; min-inline-size:1.35rem; block-size:1.35rem; padding-inline:0.3rem; border-radius:999px; background:var(--blue); color:#fff; font-size:var(--fs-s); font-weight:700; line-height:1.35rem; text-align:center; }"
     },
     {
       "name": "Contact Plate",
       "kind": "button",
       "refersTo": "contact-plate",
-      "description": "The doctor page's single reversed Stamp Ink plate: the WhatsApp contact bar floating above the bottom edge.",
+      "description": "The doctor page's single reversed plate: the WhatsApp contact bar; deep ink in light, Clinic Signal Blue in dark.",
       "html": "<a class=\"ds-plate\" dir=\"rtl\" lang=\"ar\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M12 2.2a9.7 9.7 0 0 0-8.4 14.6L2.3 21.7l5-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 19.9Zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.5-.3Z\"/></svg>تواصل مع العيادة عبر واتساب</a>",
-      "css": ":host { --blue:#0061f3; --blue-press:#0052cc; --sky:#14b4ff; --ink:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } .ds-plate { display:flex; align-items:center; justify-content:center; gap:0.625rem; inline-size:min(calc(100% - 2rem),30rem); min-block-size:3.5rem; margin-inline:auto; border-radius:999px; background:var(--ink); color:#fff; font:700 var(--fs-m)/1.65 var(--font); text-decoration:none; box-shadow:var(--shadow-float); transition:transform var(--press); } .ds-plate:active { transform:scale(0.97); } .ds-plate:focus-visible { outline:3px solid var(--sky); outline-offset:2px; }"
-    },
-    {
-      "name": "Text Field",
-      "kind": "input",
-      "refersTo": "text-field",
-      "description": "Form field: 13px Slate Meta label over a white 3rem input; focus is a blue border with a sky glow.",
-      "html": "<label class=\"ds-field\" dir=\"rtl\" lang=\"ar\">الاسم<input type=\"text\" placeholder=\"اكتب اسمك\"></label>",
-      "css": ":host { --blue:#0061f3; --blue-press:#0052cc; --sky:#14b4ff; --ink:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } .ds-field { display:flex; flex-direction:column; gap:0.35rem; font:500 var(--fs-s) var(--font); color:var(--text-2); } .ds-field input { min-block-size:3rem; padding:0.625rem 0.875rem; border:1px solid var(--line); border-radius:var(--r-ctl); background:var(--slip); color:var(--text); font:400 var(--fs-m) var(--font); caret-color:var(--blue); outline:none; transition:border-color 150ms ease, box-shadow 150ms ease; } .ds-field input:hover { border-color:var(--tear); } .ds-field input:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(20,180,255,0.35); }"
+      "css": ":host { color-scheme:light; --blue:#0061f3; --blue-press:#0052cc; --blue-text:#0052cc; --sky:#14b4ff; --ink:#001a89; --plate:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --wash-press:#dce8ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --text-3:#666e8c; --danger:#b4232f; --danger-wash:#fdecee; --ok:#0f7a3d; --ok-wash:#e6f4ec; --warn:#5c4300; --warn-wash:#fff3c4; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } @media (prefers-color-scheme: dark) { :host { color-scheme:dark; --blue-text:#8db4ff; --ink:#9db8ff; --plate:#0061f3; --ground:#0b0f1a; --slip:#151b2b; --wash:#17284a; --wash-press:#1e3463; --line:#273049; --tear:#3b4662; --text:#eef1f8; --text-2:#aab2c9; --text-3:#8d96b0; --danger:#ff8f98; --danger-wash:#3a161b; --ok:#74d6a0; --ok-wash:#11301f; --warn:#ffd98a; --warn-wash:#3a2e0c; --shadow:0 1px 2px rgba(0,0,0,0.4),0 10px 24px -14px rgba(0,0,0,0.7); --shadow-float:0 2px 6px rgba(0,0,0,0.45),0 16px 32px -12px rgba(0,0,0,0.75); } } .ds-plate { display:flex; align-items:center; justify-content:center; gap:0.625rem; inline-size:min(calc(100% - 2rem),30rem); min-block-size:3.5rem; margin-inline:auto; border-radius:999px; background:var(--plate); color:#fff; font:700 var(--fs-m)/1.65 var(--font); text-decoration:none; box-shadow:var(--shadow-float); transition:transform var(--press); } .ds-plate:active { transform:scale(0.97); } .ds-plate:focus-visible { outline:3px solid var(--sky); outline-offset:2px; }"
     },
     {
       "name": "Fact Row",
       "kind": "custom",
       "refersTo": "group-row",
       "description": "Grouped-list fact on the doctor page: Blue Wash icon tile, label, value, and the source with its check date beside it.",
-      "html": "<ul class=\"ds-group\" dir=\"rtl\" lang=\"ar\"><li class=\"ds-fact\"><span class=\"ds-fact__icon\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4.5 20.5v-15a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v15\"/><path d=\"M14.5 9.5h4a1 1 0 0 1 1 1v10\"/><path d=\"M3 20.5h18M8 8h3M8 11.5h3M8 15h3\"/></svg></span><span class=\"ds-fact__label\">العيادة</span><span class=\"ds-fact__value\"><a href=\"#\">مجمع تجريبي</a></span><span class=\"ds-fact__src\">موقع العيادة · تحقق 2026/10/18</span></li><li class=\"ds-fact\"><span class=\"ds-fact__icon\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z\"/><circle cx=\"12\" cy=\"10\" r=\"2.3\"/></svg></span><span class=\"ds-fact__label\">الحي</span><span class=\"ds-fact__value\">حي الملقا</span><span class=\"ds-fact__src\">موقع العيادة · تحقق 2026/10/18</span></li></ul>",
-      "css": ":host { --blue:#0061f3; --blue-press:#0052cc; --sky:#14b4ff; --ink:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } .ds-group { margin:0; padding:0; list-style:none; border-radius:var(--r-slip); background:var(--slip); box-shadow:var(--shadow); overflow:hidden; font:400 var(--fs-m)/1.65 var(--font); color:var(--text); font-variant-numeric:tabular-nums; } .ds-fact { display:grid; grid-template-columns:auto 1fr; gap:0.15rem 0.875rem; padding:0.875rem 1rem; } .ds-fact + .ds-fact { border-block-start:1px solid var(--line); } .ds-fact__icon { grid-row:span 3; display:grid; place-items:center; inline-size:2.25rem; block-size:2.25rem; border-radius:10px; background:var(--wash); color:var(--blue); } .ds-fact__label, .ds-fact__src { font-size:var(--fs-s); color:var(--text-2); } .ds-fact__value { font-weight:500; } .ds-fact__value a { color:var(--blue-press); text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:1px; } .ds-fact__value a:focus-visible { outline:3px solid var(--sky); outline-offset:2px; border-radius:8px; }"
+      "html": "<ul class=\"ds-group\" dir=\"rtl\" lang=\"ar\"><li class=\"ds-fact\"><span class=\"ds-fact__icon\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4.5 20.5v-15a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v15\"/><path d=\"M14.5 9.5h4a1 1 0 0 1 1 1v10\"/><path d=\"M3 20.5h18M8 8h3M8 11.5h3M8 15h3\"/></svg></span><span class=\"ds-fact__label\">العيادة</span><span class=\"ds-fact__value\">مجمع تجريبي</span><span class=\"ds-fact__src\">موقع العيادة · تحقق 2026/10/18</span></li><li class=\"ds-fact\"><span class=\"ds-fact__icon\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z\"/><circle cx=\"12\" cy=\"10\" r=\"2.3\"/></svg></span><span class=\"ds-fact__label\">الحي</span><span class=\"ds-fact__value\">حي الملقا</span><span class=\"ds-fact__src\">موقع العيادة · تحقق 2026/10/18</span></li></ul>",
+      "css": ":host { color-scheme:light; --blue:#0061f3; --blue-press:#0052cc; --blue-text:#0052cc; --sky:#14b4ff; --ink:#001a89; --plate:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --wash-press:#dce8ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --text-3:#666e8c; --danger:#b4232f; --danger-wash:#fdecee; --ok:#0f7a3d; --ok-wash:#e6f4ec; --warn:#5c4300; --warn-wash:#fff3c4; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } @media (prefers-color-scheme: dark) { :host { color-scheme:dark; --blue-text:#8db4ff; --ink:#9db8ff; --plate:#0061f3; --ground:#0b0f1a; --slip:#151b2b; --wash:#17284a; --wash-press:#1e3463; --line:#273049; --tear:#3b4662; --text:#eef1f8; --text-2:#aab2c9; --text-3:#8d96b0; --danger:#ff8f98; --danger-wash:#3a161b; --ok:#74d6a0; --ok-wash:#11301f; --warn:#ffd98a; --warn-wash:#3a2e0c; --shadow:0 1px 2px rgba(0,0,0,0.4),0 10px 24px -14px rgba(0,0,0,0.7); --shadow-float:0 2px 6px rgba(0,0,0,0.45),0 16px 32px -12px rgba(0,0,0,0.75); } } .ds-group { margin:0; padding:0; list-style:none; border-radius:var(--r-slip); background:var(--slip); box-shadow:var(--shadow); overflow:hidden; font:400 var(--fs-m)/1.65 var(--font); color:var(--text); font-variant-numeric:tabular-nums; } .ds-fact { display:grid; grid-template-columns:auto 1fr; gap:0.15rem 0.875rem; padding:0.875rem 1rem; } .ds-fact + .ds-fact { border-block-start:1px solid var(--line); } .ds-fact__icon { grid-row:span 3; display:grid; place-items:center; inline-size:2.25rem; block-size:2.25rem; border-radius:10px; background:var(--wash); color:var(--blue-text); } .ds-fact__label, .ds-fact__src { font-size:var(--fs-s); color:var(--text-2); } .ds-fact__value { font-weight:500; } .ds-fact__value a { color:var(--blue-text); text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:1px; } .ds-fact__value a:focus-visible { outline:3px solid var(--sky); outline-offset:2px; border-radius:8px; }"
+    },
+    {
+      "name": "Theme Picker",
+      "kind": "custom",
+      "refersTo": "segmented-control",
+      "description": "Settings → المظهر: three segments (تلقائي / فاتح / داكن); the chosen one is Blue Wash with Blue Text.",
+      "html": "<fieldset class=\"ds-seg\" dir=\"rtl\" lang=\"ar\"><legend class=\"ds-seg__legend\">المظهر</legend><div class=\"ds-seg__track\"><label class=\"ds-seg__item\"><input type=\"radio\" name=\"ds-theme\" checked><span>تلقائي</span></label><label class=\"ds-seg__item\"><input type=\"radio\" name=\"ds-theme\"><span>فاتح</span></label><label class=\"ds-seg__item\"><input type=\"radio\" name=\"ds-theme\"><span>داكن</span></label></div></fieldset>",
+      "css": ":host { color-scheme:light; --blue:#0061f3; --blue-press:#0052cc; --blue-text:#0052cc; --sky:#14b4ff; --ink:#001a89; --plate:#001a89; --ground:#f2f3f6; --slip:#ffffff; --wash:#eaf1ff; --wash-press:#dce8ff; --line:#e3e6ee; --tear:#c9cedb; --text:#0e1530; --text-2:#4a5373; --text-3:#666e8c; --danger:#b4232f; --danger-wash:#fdecee; --ok:#0f7a3d; --ok-wash:#e6f4ec; --warn:#5c4300; --warn-wash:#fff3c4; --shadow:0 1px 2px rgba(0,26,137,0.06),0 10px 24px -14px rgba(0,26,137,0.22); --shadow-float:0 2px 6px rgba(0,26,137,0.08),0 16px 32px -12px rgba(0,26,137,0.28); --fs-s:0.8125rem; --fs-m:1rem; --fs-l:1.25rem; --fs-xl:1.75rem; --r-slip:18px; --r-ctl:12px; --ease-out:cubic-bezier(0.16,1,0.3,1); --press:120ms var(--ease-out); --font:\"Readex Pro Variable\",\"Readex Pro\",Tahoma,sans-serif; } @media (prefers-color-scheme: dark) { :host { color-scheme:dark; --blue-text:#8db4ff; --ink:#9db8ff; --plate:#0061f3; --ground:#0b0f1a; --slip:#151b2b; --wash:#17284a; --wash-press:#1e3463; --line:#273049; --tear:#3b4662; --text:#eef1f8; --text-2:#aab2c9; --text-3:#8d96b0; --danger:#ff8f98; --danger-wash:#3a161b; --ok:#74d6a0; --ok-wash:#11301f; --warn:#ffd98a; --warn-wash:#3a2e0c; --shadow:0 1px 2px rgba(0,0,0,0.4),0 10px 24px -14px rgba(0,0,0,0.7); --shadow-float:0 2px 6px rgba(0,0,0,0.45),0 16px 32px -12px rgba(0,0,0,0.75); } } .ds-seg { margin:0; padding:0; border:0; font:400 var(--fs-m)/1.65 var(--font); max-inline-size:24rem; } .ds-seg__legend { margin-block-end:0.5rem; color:var(--text-2); font-size:var(--fs-s); font-weight:500; } .ds-seg__track { display:grid; grid-template-columns:repeat(3,1fr); gap:0.25rem; padding:0.25rem; border-radius:var(--r-ctl); background:var(--slip); box-shadow:var(--shadow); } .ds-seg__item { position:relative; } .ds-seg__item input { position:absolute; opacity:0; inset:0; margin:0; cursor:pointer; } .ds-seg__item span { display:grid; place-items:center; min-block-size:2.75rem; border-radius:9px; color:var(--text-2); font-weight:500; transition:background-color 150ms ease, color 150ms ease; } .ds-seg__item input:checked + span { background:var(--wash); color:var(--blue-text); font-weight:700; } .ds-seg__item input:focus-visible + span { outline:3px solid var(--sky); outline-offset:1px; }"
     }
   ],
   "narrative": {
-    "northStar": "The Stamped Appointment Slip",
-    "overview": "Every doctor in PANIVO is a white appointment slip lying on a light-gray counter, and every slip carries a round ink-blue verification stamp holding the date the facts were last checked. The stamp is the system's one ornament and its whole argument: trust is shown next to the facts it vouches for, not claimed in a headline. Everything else stays quiet so the stamp and the WhatsApp action are the two things a patient sees.\n\nThe world is Arabic-first and right-to-left, set in one sturdy sans (Readex Pro) at exactly four sizes, in Modern Standard Arabic. Brand blue does not sprinkle; it owns whole regions (the search band, active tabs, the primary button). Stamp ink is used as ink, and once per screen as a reversed plate. Density follows the delivery-app reference the owner named: large cards, swipeable shelves, very few words. The interface is light only for now: white and light gray around the three owner-fixed brand blues.\n\nThe category default this world refuses is a white list of interchangeable doctor cards with star ratings and stock portraits. There are no ratings, no rank numbers and no portraits that the doctor did not approve. The separate static intro page (`public/intro/index.html`) was built with a different kit and is outside this system; do not take values from it.",
+    "northStar": "The Appointment Slip",
+    "overview": "Every doctor in PANIVO is a white appointment slip lying on a light-gray counter, and every slip leads with the doctor's own face: a round photo the doctor approved, or, until one is approved, a quiet Blue Wash circle holding the first letter of the name. There is no verification badge. Every listed doctor has consented, so the system does not decorate trust; it shows it as plain facts, each with its source and the date it was last checked. Everything else stays quiet so the face, the name and the WhatsApp action are the three things a patient sees.\n\nThe world is Arabic-first and right-to-left, set in one sturdy sans (Readex Pro) at exactly four sizes, in Modern Standard Arabic. Brand blue does not sprinkle; it owns whole regions (the search band, the primary button, badges), and that band stays brand blue in both themes. Deep ink blue is the one reversed plate per screen (the doctor page's WhatsApp bar) and the outline of demo markers. Density follows the delivery-app reference the owner named: large cards, one swipeable shelf per specialty, very few words. The site lists doctors only; clinics are a doctor's workplace, named on the slip, never a page of their own.\n\nThere are two themes. Light is white slips on cool light gray around the owner's three blues. Dark follows the phone unless the visitor picks a theme in Settings (المظهر: تلقائي / فاتح / داكن): deep navy slips on a near-black ground, light blue for words and outlines, and the plate turning Signal Blue. The category default this world refuses is a white list of interchangeable doctor cards with star ratings and stock portraits: no ratings, no rank numbers, no portrait the doctor did not approve. The separate static intro page (`public/intro/index.html`) was built with a different kit and is outside this system; do not take values from it.",
     "keyCharacteristics": [
-      "White slips (18px corners, soft ink-tinted shadow) on a counter-gray ground.",
-      "A dashed tear line separates the facts from the stub of fixed cells and the WhatsApp action.",
-      "One round ink-blue stamp per slip, rotated -8°, pressing in as it scrolls into view.",
-      "Brand blue owns regions; sky blue appears only as focus and selection.",
+      "White slips (18px corners, soft tinted shadow) on a counter-gray ground; in dark, navy slips on near-black.",
+      "Every slip and the doctor page lead with the doctor's round photo (or the first-letter circle).",
+      "A dashed tear line separates the facts from the stub: one «الخبرة» cell, then the heart and WhatsApp.",
+      "Brand blue owns regions in both themes; words in blue use Blue Text; sky blue appears only as focus and selection.",
       "One face, four sizes, three weights (400, 500, 700); tabular numerals everywhere.",
       "Floating pill tab bar on phones and tablets; from 64rem the three tabs move into the top bar.",
       "Logical (inline/block) properties throughout, so the layout is native RTL."
@@ -461,7 +1009,17 @@
     "rules": [
       {
         "name": "The Three Blues, Three Jobs Rule",
-        "body": "Clinic Signal Blue owns regions, Stamp Ink is ink, Focus Sky is focus. A blue that is doing another blue's job is wrong.",
+        "body": "Clinic Signal Blue owns regions, deep ink is the plate and the demo outline, Focus Sky is focus. A blue doing another blue's job is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The Blue Words Rule",
+        "body": "Blue text and blue line icons always take Blue Text, never Clinic Signal Blue, so they stay legible on white, on Blue Wash and on the dark slip.",
+        "section": "colors"
+      },
+      {
+        "name": "The Band Stays Blue Rule",
+        "body": "The search band, the primary button and the badges keep Clinic Signal Blue with white in both themes; dark mode changes the ground around them, not the brand.",
         "section": "colors"
       },
       {
@@ -471,7 +1029,7 @@
       },
       {
         "name": "The One Plate Rule",
-        "body": "At most one reversed Stamp Ink plate per screen, and on the public site that plate is the doctor page's WhatsApp contact bar. Demo markers are outlined in ink, never filled.",
+        "body": "At most one reversed plate per screen, and on the public site that plate is the doctor page's WhatsApp contact bar. Demo markers are outlined in ink, never filled.",
         "section": "colors"
       },
       {
@@ -491,12 +1049,12 @@
       },
       {
         "name": "The Latin-Date Rule",
-        "body": "Dates are written YYYY/MM/DD in Latin digits, in an LTR run (`dir=\"ltr\"`), as on Saudi forms, so stamp, stub and source line read identically.",
+        "body": "Dates are written YYYY/MM/DD in Latin digits, as on Saudi forms, in the source line beside every fact: «المصدر · تحقق YYYY/MM/DD».",
         "section": "typography"
       },
       {
-        "name": "The Ink Shadow Rule",
-        "body": "Shadows are tinted with Stamp Ink (rgba 0, 26, 137), soft and negative-spread. No grey-black shadows, no hard offsets.",
+        "name": "The Tinted Shadow Rule",
+        "body": "Light shadows are tinted with deep ink (rgba 0, 26, 137), dark shadows are black; both are soft and negative-spread. No hard offsets.",
         "section": "elevation"
       },
       {
@@ -506,23 +1064,26 @@
       }
     ],
     "dos": [
-      "**Do** keep blue in whole regions (band, primary button, active state) and use Pressed Blue (#0052cc) for any blue text on Blue Wash.",
-      "**Do** put the consent stamp on every slip and the source plus last-checked date beside every fact.",
-      "**Do** keep the slip's anatomy: facts and stamp above a 1.5px dashed tear line, fixed stub cells «الخبرة» | «آخر تحقق», WhatsApp action at the end of the stub.",
+      "**Do** keep blue in whole regions (band, primary button, badges) in both themes, and use Blue Text for every blue word or line icon.",
+      "**Do** lead every slip and the doctor page with the doctor's round photo, or the first-letter circle until an approved photo exists.",
+      "**Do** put the source plus last-checked date («المصدر · تحقق YYYY/MM/DD») beside every fact on the doctor page.",
+      "**Do** keep the slip's anatomy: name, role, address and demo label at the start, photo at the end, a 1.5px dashed tear line, then the «الخبرة» cell and the heart plus WhatsApp action in the stub.",
+      "**Do** define every colour as a custom property with a light value and a dark value, and set dark values in both the `data-theme=\"dark\"` block and the `prefers-color-scheme: dark` block.",
       "**Do** use only the four sizes (13, 16, 20, 28px) and the weights 400, 500 and 700 of Readex Pro.",
-      "**Do** keep the stamp static under reduced motion, and keep press feedback to small scales on a 120ms `cubic-bezier(0.16, 1, 0.3, 1)`.",
+      "**Do** keep press feedback to small scales on a 120ms `cubic-bezier(0.16, 1, 0.3, 1)`, and let `prefers-reduced-motion: reduce` cut transitions and animations.",
       "**Do** keep touch targets at 2.75rem or larger and write every edge with logical properties.",
-      "**Do** mark demo profiles with the outlined Stamp Ink label and the «تجريبي» notice strip."
+      "**Do** mark demo profiles with the outlined Outline Ink label and the «تجريبي» notice strip."
     ],
     "donts": [
-      "**Don't** put white text on Focus Sky (#14b4ff, 2.33:1) or use it for anything but focus and selection.",
-      "**Don't** add a second reversed Stamp Ink plate to a screen, and don't fill demo markers.",
-      "**Don't** use gradients anywhere outside the supplied logo artwork, and don't recolour, stretch, shadow or add effects to the logo or wordmark.",
+      "**Don't** put white text on Focus Sky (2.33:1) or use it for anything but focus and selection.",
+      "**Don't** use Clinic Signal Blue for small blue text; it is a fill colour.",
+      "**Don't** add a second reversed plate to a screen, and don't fill demo markers.",
+      "**Don't** use gradients anywhere outside the supplied logo artwork, and don't recolour, stretch, shadow, filter or add effects to the logo or wordmark; dark mode swaps to the supplied transparent artwork instead.",
       "**Don't** show star ratings, rating numbers, review counts, rank numbers, \"top\" ribbons or any visual that implies an order of merit; public order is set by the owner and never described.",
-      "**Don't** use stock photos of doctors or any portrait without the doctor's recorded approval.",
-      "**Don't** add ornament beyond the stamp: no illustrations, patterns, badges or decorative icons on slips.",
-      "**Don't** add a fifth type size or a second typeface.",
-      "**Don't** ship a dark theme until the owner decides; the system is light only today."
+      "**Don't** add verification badges, seals, stamps or «موثّق» wording; every listed doctor consented, and the facts with their sources carry the trust.",
+      "**Don't** use stock photos, generated faces or any portrait without the doctor's recorded approval.",
+      "**Don't** give clinics public pages or slips; a clinic appears only as the doctor's workplace in the address line and the facts.",
+      "**Don't** add a fifth type size or a second typeface."
     ]
   }
 }
