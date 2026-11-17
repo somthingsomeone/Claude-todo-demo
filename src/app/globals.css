@@ -1080,7 +1080,7 @@ textarea {
 }
 .field input::placeholder,
 .field textarea::placeholder {
-  color: #8a91aa;
+  color: #666e8c;
 }
 .field input:focus,
 .field select:focus,
@@ -1375,7 +1375,7 @@ textarea {
 }
 .bars__val,
 .bars__day {
-  font-size: 0.6875rem;
+  font-size: var(--fs-s);
   color: var(--text-2);
 }
 .adm-list {
@@ -1428,8 +1428,9 @@ textarea {
   color: var(--text-2);
 }
 .state--demo {
-  background: var(--ink);
-  color: #fff;
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
 }
 .adm-table-wrap {
   overflow-x: auto;

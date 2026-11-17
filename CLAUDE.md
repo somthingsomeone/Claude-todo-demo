@@ -15,7 +15,7 @@ The owner is a **complete beginner** (no programming, Git, terminal, database or
 ## What PANIVO is
 
 Brand: **PANIVO**, Arabic **بانيفو** (renamed from Panax / باناكس on 2026-11-17; trademark check with SAIP still needed).
-Logo: the owner's P mark + lowercase geometric "panivo" wordmark (`src/components/Logo.tsx`). Keep its geometry.
+Logo: the owner's P mark + lowercase geometric "panivo" wordmark, as supplied artwork in `public/brand/` (black backgrounds made transparent). Never recolour, stretch or shadow it.
 
 Arabic-first (RTL) directory of Saudi doctors and physiotherapists in **Riyadh**, for patients of any nationality. Product truth lives in `PRODUCT.md`. Specialties:
 جلدية، تجميل وليزر، عيون، أسنان، علاج طبيعي. Phase 1 = directory + WhatsApp button only. No booking, no payment.
@@ -41,7 +41,7 @@ Arabic-first (RTL) directory of Saudi doctors and physiotherapists in **Riyadh**
 - Next.js (App Router, `src/app`), Postgres (local PGlite in `.data/`, Supabase in production), Vercel hosting.
 - Read `node_modules/next/dist/docs/` before using a Next.js API you're unsure of (this Next version has breaking changes).
 - DB migrations live in `src/lib/db/migrate.ts` — never edit one that already ran; add a new one.
-- Design: Apple-style (system font, grouped lists, translucent bars, spring motion, dark mode, reduced-motion support).
+- Design: the system is recorded in `DESIGN.md` (verification-stamp direction: Readex Pro self-hosted, four type sizes, brand blues on white and light gray, grouped lists, spring motion, reduced-motion support). Light only for now; dark mode is an open decision for the owner.
 - Checks before pushing: `npm test`, `npm run typecheck`, `npm run build`.
 
 ## Environment variables
