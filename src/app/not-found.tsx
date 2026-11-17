@@ -4,8 +4,8 @@ import { Wordmark } from "@/components/Logo";
 export default function NotFound() {
   return (
     <main className="container page">
-      <Link href="/" aria-label="باناكس — الرئيسية" className="site-header__brand">
-        <Wordmark height={28} />
+      <Link href="/" aria-label="بانيفو — الرئيسية" className="site-header__brand">
+        <Wordmark height={36} />
       </Link>
       <div className="empty">
         <p className="empty__title">الصفحة غير موجودة</p>

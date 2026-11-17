@@ -81,7 +81,7 @@ export function filterDoctors(
   });
 }
 
-export const WHATSAPP_MESSAGE = "السلام عليكم، وصلت لكم عن طريق باناكس (Panax) وأبغى أستفسر عن موعد.";
+export const WHATSAPP_MESSAGE = "السلام عليكم، وصلت لكم عن طريق بانيفو (PANIVO) وأبغى أستفسر عن موعد.";
 
 export function whatsappLink(d: Doctor): string | null {
   if (!d.whatsapp) return null;

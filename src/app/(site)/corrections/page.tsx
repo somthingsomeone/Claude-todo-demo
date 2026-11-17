@@ -9,7 +9,7 @@ import { CorrectionForm } from "./CorrectionForm";
 
 export const metadata: Metadata = pageMetadata({
   title: "طلب تصحيح أو إزالة",
-  description: "اطلب تصحيح معلومة أو إزالة ملف من دليل باناكس.",
+  description: "اطلب تصحيح معلومة أو إزالة ملف من دليل بانيفو.",
   path: "/corrections",
   noindex: true,
 });

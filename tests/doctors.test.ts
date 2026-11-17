@@ -54,6 +54,6 @@ describe("whatsapp", () => {
     expect(whatsappLink(base)).toBeNull();
     const link = whatsappLink({ ...base, whatsapp: "966500000000" });
     expect(link).toMatch(/^https:\/\/wa\.me\/966500000000\?text=/);
-    expect(decodeURIComponent(link!.split("text=")[1])).toContain("باناكس (Panax)");
+    expect(decodeURIComponent(link!.split("text=")[1])).toContain("بانيفو (PANIVO)");
   });
 });

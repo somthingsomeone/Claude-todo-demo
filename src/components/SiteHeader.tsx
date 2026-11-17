@@ -20,8 +20,8 @@ export function SiteHeader() {
   return (
     <header className="navbar" data-scrolled={scrolled || undefined}>
       <div className="container navbar__inner">
-        <Link href="/" className="navbar__brand" aria-label="باناكس — الرئيسية">
-          <Wordmark height={24} />
+        <Link href="/" className="navbar__brand" aria-label="بانيفو — الرئيسية">
+          <Wordmark height={30} />
         </Link>
         <span className="navbar__city">
           <PinIcon size={15} />

@@ -25,7 +25,7 @@ async function createPglite(dataDir?: string): Promise<Db> {
     pg = new PGlite();
   } else {
     // On Vercel only /tmp is writable: a preview without Supabase gets a fresh demo database there.
-    const dir = dataDir ?? (process.env.VERCEL ? "/tmp/panax-pglite" : path.join(process.cwd(), ".data", "pglite"));
+    const dir = dataDir ?? (process.env.VERCEL ? "/tmp/panivo-pglite" : path.join(process.cwd(), ".data", "pglite"));
     fs.mkdirSync(path.dirname(dir), { recursive: true });
     pg = new PGlite(dir);
   }
@@ -63,10 +63,10 @@ export function createDb(options: { url?: string; dataDir?: string } = {}): Prom
 
 /**
  * Demo profiles are added automatically only on the local database, or when
- * PANAX_SEED_DEMO=1 is set (e.g. a preview site before real doctors are added).
+ * PANIVO_SEED_DEMO=1 is set (e.g. a preview site before real doctors are added).
  */
 function shouldSeedDemo() {
-  return !process.env.DATABASE_URL || process.env.PANAX_SEED_DEMO === "1";
+  return !process.env.DATABASE_URL || process.env.PANIVO_SEED_DEMO === "1";
 }
 
 // One shared, ready-to-use connection per server process.

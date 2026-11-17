@@ -7,13 +7,13 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "الإعدادات",
-  description: "إعدادات باناكس وروابط الشروط والخصوصية وطلبات التصحيح.",
+  description: "إعدادات بانيفو وروابط الشروط والخصوصية وطلبات التصحيح.",
   path: "/settings",
   noindex: true,
 });
 
 const LINKS = [
-  { href: "/about", label: "عن باناكس وكيف نتحقق", Icon: InfoIcon, tile: "blue" },
+  { href: "/about", label: "عن بانيفو وكيف نتحقق", Icon: InfoIcon, tile: "blue" },
   { href: "/privacy", label: "سياسة الخصوصية", Icon: ShieldIcon, tile: "green" },
   { href: "/terms", label: "الشروط والأحكام", Icon: DocIcon, tile: "gray" },
   { href: "/corrections", label: "طلب تصحيح أو إزالة", Icon: EditIcon, tile: "orange" },
@@ -58,7 +58,7 @@ export default function SettingsPage() {
 
       <div className="settings-foot">
         <LogoMark size={30} />
-        <p>باناكس · نسخة تجريبية 0.1</p>
+        <p>بانيفو · نسخة تجريبية 0.1</p>
       </div>
     </section>
   );

@@ -7,11 +7,11 @@
  * NEXT_PUBLIC_SITE_URL: the public address (change it after buying a domain, then redeploy).
  */
 
-export const SITE_NAME = "باناكس";
-export const SITE_NAME_EN = "Panax";
+export const SITE_NAME = "بانيفو";
+export const SITE_NAME_EN = "PANIVO";
 export const SITE_TAGLINE = "اعرف طبيبك قبل موعدك";
 export const SITE_DESCRIPTION =
-  "باناكس دليل لأطباء وأخصائيين في الرياض: جلدية، تجميل وليزر، عيون، أسنان، وعلاج طبيعي. معلومات واضحة بمصادرها وتواصل مباشر مع العيادة عبر واتساب.";
+  "بانيفو دليل لأطباء وأخصائيين في الرياض: جلدية، تجميل وليزر، عيون، أسنان، وعلاج طبيعي. معلومات واضحة بمصادرها وتواصل مباشر مع العيادة عبر واتساب.";
 
 export function isSiteLive(env: Record<string, string | undefined> = process.env): boolean {
   return env.SITE_LIVE?.trim().toLowerCase() === "true";

@@ -22,7 +22,7 @@ describe("launch switch", () => {
   });
 
   it("reads the site URL from NEXT_PUBLIC_SITE_URL", () => {
-    expect(siteUrl({ NEXT_PUBLIC_SITE_URL: "https://panax.sa/" })).toBe("https://panax.sa");
+    expect(siteUrl({ NEXT_PUBLIC_SITE_URL: "https://panivo.sa/" })).toBe("https://panivo.sa");
     expect(siteUrl({})).toBe("http://localhost:3000");
   });
 
@@ -43,11 +43,11 @@ describe("launch switch", () => {
     vi.stubEnv("SITE_LIVE", "false");
     expect(robots().rules).toEqual([{ userAgent: "*", disallow: "/" }]);
     vi.stubEnv("SITE_LIVE", "true");
-    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://panax.sa");
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://panivo.sa");
     const live = robots();
     const agents = (Array.isArray(live.rules) ? live.rules : [live.rules]).map((r) => r.userAgent);
     for (const bot of ["Googlebot", "Bingbot", "OAI-SearchBot", "ClaudeBot", "PerplexityBot"]) expect(agents).toContain(bot);
-    expect(live.sitemap).toBe("https://panax.sa/sitemap.xml");
+    expect(live.sitemap).toBe("https://panivo.sa/sitemap.xml");
   });
 });
 

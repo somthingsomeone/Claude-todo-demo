@@ -7,7 +7,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "المفضلة",
-  description: "الأطباء اللي حفظتهم في باناكس على هذا الجهاز.",
+  description: "الأطباء اللي حفظتهم في بانيفو على هذا الجهاز.",
   path: "/favorites",
   noindex: true,
 });

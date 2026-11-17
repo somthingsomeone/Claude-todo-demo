@@ -15,11 +15,11 @@ export function SiteFooter() {
           ))}
         </ul>
       </nav>
-      <nav aria-label="عن باناكس">
-        <h2 className="site-footer__title">باناكس</h2>
+      <nav aria-label="عن بانيفو">
+        <h2 className="site-footer__title">بانيفو</h2>
         <ul>
           <li>
-            <Link href="/about">عن باناكس وكيف نتحقق</Link>
+            <Link href="/about">عن بانيفو وكيف نتحقق</Link>
           </li>
           <li>
             <Link href="/terms">الشروط والأحكام</Link>
@@ -33,7 +33,7 @@ export function SiteFooter() {
         </ul>
       </nav>
       <p className="site-footer__note">
-        باناكس دليل معلومات وليس جهة رعاية صحية، ولا يقدّم نصائح طبية. في الطوارئ اتصل بـ 997 أو 911. الترتيب لا يُباع.
+        بانيفو دليل معلومات وليس جهة رعاية صحية، ولا يقدّم نصائح طبية. في الطوارئ اتصل بـ 997 أو 911. الترتيب لا يُباع.
       </p>
     </footer>
   );

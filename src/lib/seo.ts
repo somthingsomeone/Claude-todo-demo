@@ -3,7 +3,7 @@ import { type Doctor, displayName, specialtyName } from "./doctors";
 import { absoluteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_NAME_EN } from "./site";
 import { SPECIALTY_PAGES, type Faq } from "./specialty-content";
 
-export const OG_IMAGE = { url: "/og.png", width: 1200, height: 630, alt: "باناكس — اعرف طبيبك قبل موعدك" };
+export const OG_IMAGE = { url: "/og.png", width: 1200, height: 630, alt: "بانيفو — اعرف طبيبك قبل موعدك" };
 
 /** Per-page metadata: unique title + description, canonical URL and Open Graph tags. */
 export function pageMetadata({

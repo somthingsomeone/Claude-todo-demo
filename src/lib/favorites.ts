@@ -9,6 +9,7 @@
  */
 import { useCallback, useSyncExternalStore } from "react";
 
+// Storage key from before the rename to PANIVO, kept so visitors don't lose their saved doctors.
 const KEY = "panax:favorites";
 const EMPTY: string[] = [];
 const listeners = new Set<() => void>();

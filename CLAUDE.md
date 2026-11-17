@@ -1,4 +1,4 @@
-# Panax (باناكس) — rules for Claude Code
+# PANIVO (بانيفو) — rules for Claude Code
 
 The owner is a **complete beginner** (no programming, Git, terminal, database or deployment knowledge).
 
@@ -11,7 +11,10 @@ The owner is a **complete beginner** (no programming, Git, terminal, database or
 - Ask only when a decision is truly his; otherwise pick the sensible option and say so.
 - **Do not launch** (do not set `SITE_LIVE=true`, do not point a domain) until the owner says so.
 
-## What Panax is
+## What PANIVO is
+
+Brand: **PANIVO**, Arabic **بانيفو** (renamed from Panax / باناكس on 2026-11-17; trademark check with SAIP still needed).
+Logo: the owner's P mark + lowercase geometric "panivo" wordmark (`src/components/Logo.tsx`). Keep its geometry.
 
 Arabic-first (RTL) directory of doctors and physiotherapists in **Riyadh**. Specialties:
 جلدية، تجميل وليزر، عيون، أسنان، علاج طبيعي. Phase 1 = directory + WhatsApp button only. No booking, no payment.
