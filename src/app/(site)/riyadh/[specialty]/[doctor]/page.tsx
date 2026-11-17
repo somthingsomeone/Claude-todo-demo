@@ -15,11 +15,11 @@ import {
 } from "@/components/Icons";
 import { JsonLd } from "@/components/JsonLd";
 import { ShareButton } from "@/components/ShareButton";
-import { Stamp, stampDate } from "@/components/Stamp";
+import { DoctorPhoto } from "@/components/DoctorPhoto";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { getDb } from "@/lib/db/client";
 import { getPublicDoctor } from "@/lib/data/doctors";
-import { clinicPath, displayName, doctorPath, specialtyName, specialtyPath, whatsappLink } from "@/lib/doctors";
+import { displayName, formatDate, doctorPath, specialtyName, specialtyPath, whatsappLink } from "@/lib/doctors";
 import { doctorBreadcrumb, doctorDescription, doctorJsonLd, pageMetadata } from "@/lib/seo";
 import { SPECIALTY_PAGES } from "@/lib/specialty-content";
 
@@ -48,7 +48,7 @@ export default async function DoctorPage(props: PageProps<"/riyadh/[specialty]/[
 
   const wa = whatsappLink(d);
   const mapUrl = d.mapUrl;
-  const src = `${d.source} · تحقق ${stampDate(d.checkedAt)}`;
+  const src = `${d.source} · تحقق ${formatDate(d.checkedAt)}`;
   const page = SPECIALTY_PAGES[d.specialty];
 
   return (
@@ -76,6 +76,7 @@ export default async function DoctorPage(props: PageProps<"/riyadh/[specialty]/[
       <div className="page">
         <header className="profile-slip">
           <div className="profile-slip__top">
+            <DoctorPhoto doctor={d} size="lg" />
             <div>
               <h1 className="profile-slip__name">{displayName(d)}</h1>
               <p className="profile-slip__role">{d.role}</p>
@@ -87,15 +88,6 @@ export default async function DoctorPage(props: PageProps<"/riyadh/[specialty]/[
                 {d.demo && <span className="label label--demo">ملف تجريبي</span>}
               </p>
             </div>
-            {d.photo ? <img className="profile-slip__photo" src={d.photo} alt={`صورة ${d.name}`} /> : null}
-          </div>
-          <div className="profile-slip__seal">
-            <Stamp checkedAt={d.checkedAt} large />
-            <p>
-              <b>ملف موثّق.</b> أُدرج الطبيب بموافقته، وتحققنا من معلوماته في {stampDate(d.checkedAt)}.
-              <br />
-              المصدر: {d.source}
-            </p>
           </div>
         </header>
 
@@ -109,15 +101,7 @@ export default async function DoctorPage(props: PageProps<"/riyadh/[specialty]/[
                 <BuildingIcon size={18} />
               </span>
               <span className="fact__label">العيادة</span>
-              <span className="fact__value">
-                {d.clinicSlug ? (
-                  <Link href={clinicPath(d.clinicSlug)} className="link">
-                    {d.hospital}
-                  </Link>
-                ) : (
-                  d.hospital
-                )}
-              </span>
+              <span className="fact__value">{d.hospital}</span>
               <span className="fact__src">{src}</span>
             </li>
             <li className="fact">
@@ -199,7 +183,7 @@ export default async function DoctorPage(props: PageProps<"/riyadh/[specialty]/[
               </span>
               <span className="row__text">
                 طلب تصحيح أو إزالة
-                <small>إن وجدت معلومة غير دقيقة في هذا الملف</small>
+                <small>راسلنا بالبريد إن وجدت معلومة غير دقيقة في هذا الملف</small>
               </span>
               <ChevronIcon size={18} className="row__chev" />
             </Link>

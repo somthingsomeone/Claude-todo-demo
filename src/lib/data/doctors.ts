@@ -1,5 +1,5 @@
 import type { Db } from "../db/client";
-import type { Clinic, Doctor, SpecialtySlug } from "../doctors";
+import type { Doctor, SpecialtySlug } from "../doctors";
 import { isSiteLive } from "../site";
 
 /**
@@ -77,16 +77,12 @@ function toDoctor(r: Row): Doctor {
   };
 }
 
-export async function listPublicDoctors(db: Db, opts: { specialty?: SpecialtySlug; clinicSlug?: string } = {}): Promise<Doctor[]> {
+export async function listPublicDoctors(db: Db, opts: { specialty?: SpecialtySlug } = {}): Promise<Doctor[]> {
   const params: unknown[] = [];
   let extra = "";
   if (opts.specialty) {
     params.push(opts.specialty);
     extra += ` and d.specialty = $${params.length}`;
-  }
-  if (opts.clinicSlug) {
-    params.push(opts.clinicSlug);
-    extra += ` and c.slug = $${params.length} and ${clinicWhere()}`;
   }
   const rows = await db.query<Row>(`select ${PUBLIC_COLUMNS} ${FROM} where ${publicWhere()}${extra} ${ORDER}`, params);
   return rows.map(toDoctor);
@@ -95,43 +91,6 @@ export async function listPublicDoctors(db: Db, opts: { specialty?: SpecialtySlu
 export async function getPublicDoctor(db: Db, slug: string): Promise<Doctor | null> {
   const [row] = await db.query<Row>(`select ${PUBLIC_COLUMNS} ${FROM} where d.slug = $1 and ${publicWhere()}`, [slug]);
   return row ? toDoctor(row) : null;
-}
-
-interface ClinicRow {
-  slug: string;
-  name: string;
-  district: string;
-  map_url: string | null;
-  specialties: SpecialtySlug[];
-  doctor_count: number;
-  is_demo: boolean;
-}
-
-const CLINIC_SELECT = `
-  select c.slug, c.name, c.district, c.map_url, c.is_demo,
-    array_agg(distinct d.specialty) as specialties, count(d.id)::int as doctor_count
-  from clinics c join doctors d on d.clinic_id = c.id and ${publicWhere()}
-  where ${clinicWhere()}`;
-
-const toClinic = (r: ClinicRow): Clinic => ({
-  slug: r.slug,
-  name: r.name,
-  district: r.district,
-  mapUrl: r.map_url,
-  specialties: r.specialties,
-  doctorCount: r.doctor_count,
-  demo: r.is_demo,
-});
-
-/** Clinics that have at least one public doctor, in the owner's order. */
-export async function listPublicClinics(db: Db): Promise<Clinic[]> {
-  const rows = await db.query<ClinicRow>(`${CLINIC_SELECT} group by c.id order by c.position nulls last, c.name`);
-  return rows.map(toClinic);
-}
-
-export async function getPublicClinic(db: Db, slug: string): Promise<Clinic | null> {
-  const [row] = await db.query<ClinicRow>(`${CLINIC_SELECT} and c.slug = $1 group by c.id`, [slug]);
-  return row ? toClinic(row) : null;
 }
 
 export async function getPublicPhoto(db: Db, slug: string): Promise<{ mime: string; data: Uint8Array } | null> {

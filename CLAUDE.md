@@ -17,7 +17,7 @@ The owner is a **complete beginner** (no programming, Git, terminal, database or
 Brand: **PANIVO**, Arabic **بانيفو** (renamed from Panax / باناكس on 2026-11-17; trademark check with SAIP still needed).
 Logo: the owner's P mark + lowercase geometric "panivo" wordmark, as supplied artwork in `public/brand/` (black backgrounds made transparent). Never recolour, stretch or shadow it.
 
-Arabic-first (RTL) directory of Saudi doctors and physiotherapists in **Riyadh**, for patients of any nationality. Product truth lives in `PRODUCT.md`. Specialties:
+Arabic-first (RTL) directory of Saudi doctors and physiotherapists in **Riyadh**, for patients of any nationality. Doctors only for now: no public clinic pages (the clinic is shown as the doctor's workplace). Product truth lives in `PRODUCT.md`. Specialties:
 جلدية، تجميل وليزر، عيون، أسنان، علاج طبيعي. Phase 1 = directory + WhatsApp button only. No booking, no payment.
 
 ## Hard rules
@@ -30,7 +30,7 @@ Arabic-first (RTL) directory of Saudi doctors and physiotherapists in **Riyadh**
 - Physiotherapists are «أخصائي/أخصائية علاج طبيعي», never «د.» unless a documented title supports it.
 - Listed doctors are Saudi nationals (owner's selection). Nationality data is **not** stored. Never infer it from name/photo.
 - **Placement is never sold. No paid ads for doctors.** Public order is set manually by the owner in admin; the site never mentions or explains any ranking/ordering method (no "how we rank" page for now).
-- Never sell or share personal data. Correction requests keep only: name, email, relationship, profile, message (+ consent time); erased after the retention period the lawyer sets (`CORRECTION_RETENTION_DAYS`).
+- Never sell or share personal data. Corrections and removals come **by email only** (`CONTACT_EMAIL`); the site has no correction form. Older form requests in the database keep only name, email, relationship, profile, message (+ consent time) and are erased after the retention period the lawyer sets (`CORRECTION_RETENTION_DAYS`).
 - The WhatsApp click counter stores **count + date per profile only**.
 - Legal pages (privacy, terms) must describe what the code **actually** does. Re-audit them whenever data collection changes.
 - No scraping, no bypassing terms of service.
@@ -48,4 +48,4 @@ Arabic-first (RTL) directory of Saudi doctors and physiotherapists in **Riyadh**
 
 See `.env.example`. Key ones: `SITE_LIVE`, `NEXT_PUBLIC_SITE_URL`, `DATABASE_URL`,
 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_OWNER_EMAIL`,
-`RATE_LIMIT_SECRET`, `CORRECTION_RETENTION_DAYS`.
+`RATE_LIMIT_SECRET`, `CORRECTION_RETENTION_DAYS`, `CONTACT_EMAIL`.

@@ -17,7 +17,7 @@ PANIVO (بانيفو) is a mobile-first directory of **Saudi** doctors and physi
 
 ## Positioning
 
-- Every published profile has the doctor's consent, a source for each fact, and a last-checked date.
+- Every published profile has the doctor's consent, a source for each fact, and a last-checked date. Because every profile is consented, no «موثّق» badge is shown: the doctor's photo (with approval) leads each profile.
 - Placement is never sold and there are no paid ads for doctors.
 - Contact goes straight from the patient to the clinic.
 
@@ -26,7 +26,7 @@ PANIVO (بانيفو) is a mobile-first directory of **Saudi** doctors and physi
 - Specialties: جلدية، تجميل وليزر، عيون، أسنان، علاج طبيعي.
 - Launch city: Riyadh only. Every specialty × city page needs its own written text.
 - Contact is a WhatsApp deep link with a prefilled message; only click count + date per profile is stored.
-- Admin workflow: draft → published (publishing needs a consent date), temporary hide, photo upload only with the doctor's approval, correction/removal requests, audit log.
+- Admin workflow: draft → published (publishing needs a consent date), temporary hide, photo upload only with the doctor's approval, audit log. Correction/removal requests arrive by email (`CONTACT_EMAIL`); the site has no correction form.
 
 ## Capabilities and Constraints
 
@@ -36,14 +36,14 @@ PANIVO (بانيفو) is a mobile-first directory of **Saudi** doctors and physi
 - Doctors listed are Saudi nationals (owner's selection policy). The site stores no nationality data and never infers nationality from a name or photo.
 - No "nearest to you" or location features until a native app exists.
 - Server-rendered pages, readable without JavaScript; built for search engines and AI assistants. `SITE_LIVE=false` keeps everything `noindex` and shows demo data.
-- Clinics are currently a text field on each doctor; clinic pages need a clinic record.
+- Doctors only for now (owner, 2026-11-17): no public clinic pages. Clinics exist in admin as the doctor's workplace; the home page is one shelf per specialty.
 - Stack: Next.js (App Router) + Postgres (Supabase in production) on Vercel.
 
 ## Brand Commitments
 
 - Name: PANIVO, Arabic بانيفو. Trademark check with SAIP still pending.
 - Logo: the owner's P mark (bar + D bowl + circle) and the lowercase geometric "panivo" wordmark, supplied as images (`public/brand/`). Do not recolor, stretch or add effects.
-- Colors fixed by the owner: #0061F3 primary, #14B4FF light, #001A89 dark; everything else white and light gray. Gradients only inside the logo.
+- Colors fixed by the owner: #0061F3 primary, #14B4FF light, #001A89 dark; everything else white and light gray in light mode. Dark mode approved by the owner (2026-11-17): follows the phone, with a choice in Settings. Gradients only inside the logo.
 - Arabic-first, right-to-left. Site copy is consistent Modern Standard Arabic (فصحى); no colloquial words mixed in.
 - A custom Arabic web font, self-hosted (no external font services).
 - Reference feel named by the owner: Saudi delivery apps such as HungerStation (large cards, swipeable shelves, very little text).

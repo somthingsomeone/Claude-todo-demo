@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { authMode, getCurrentAdmin } from "@/lib/admin/session";
 import { devLogin, requestLoginLink } from "../actions";
+import { Wordmark } from "@/components/Wordmark";
 
 export const metadata = { title: "دخول المشرفين", robots: { index: false } };
 
@@ -11,7 +12,7 @@ export default async function LoginPage(props: PageProps<"/admin/login">) {
   return (
     <main className="adm-login">
       <div className="group adm-login__box">
-        <img src="/brand/wordmark-header.webp" alt="بانيفو" width={109} height={35} />
+        <Wordmark width={109} height={35} />
         <h1>دخول المشرفين</h1>
         {mode === "supabase" &&
           (params.sent ? (

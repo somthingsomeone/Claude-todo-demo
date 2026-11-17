@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TopNav } from "./TopNav";
+import { Wordmark } from "@/components/Wordmark";
 
 /**
  * White top bar: the wordmark (supplied artwork, untouched) at the start; at the end a link for
@@ -10,7 +11,7 @@ export function TopBar() {
     <header className="topbar">
       <div className="wrap topbar__inner">
         <Link href="/" className="topbar__brand" aria-label="بانيفو — الرئيسية">
-          <img src="/brand/wordmark-header.webp" alt="بانيفو" width={87} height={28} />
+          <Wordmark />
         </Link>
         <TopNav />
       </div>

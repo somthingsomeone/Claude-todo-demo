@@ -1,31 +1,49 @@
 import type { Metadata } from "next";
 import { connection } from "next/server";
+import { ContactEmail } from "@/components/ContactEmail";
 import { InfoPage } from "@/components/InfoPage";
 import { getDb } from "@/lib/db/client";
-import { listPublicDoctors } from "@/lib/data/doctors";
+import { getPublicDoctor } from "@/lib/data/doctors";
 import { displayName } from "@/lib/doctors";
 import { pageMetadata } from "@/lib/seo";
-import { CorrectionForm } from "./CorrectionForm";
 
 export const metadata: Metadata = pageMetadata({
   title: "طلب تصحيح أو إزالة",
-  description: "اطلب تصحيح معلومة أو إزالة ملف من دليل بانيفو.",
+  description: "اطلب تصحيح معلومة أو إزالة ملف من دليل بانيفو عبر البريد الإلكتروني.",
   path: "/corrections",
   noindex: true,
 });
 
+/** Corrections and removals go by email; the site keeps no form and stores nothing here. */
 export default async function CorrectionsPage(props: PageProps<"/corrections">) {
   await connection();
   const { profile } = await props.searchParams;
-  const doctors = await listPublicDoctors(await getDb());
-  const profiles = doctors.map((d) => ({ slug: d.slug, label: `${displayName(d)} — ${d.hospital}` }));
-  const initial = typeof profile === "string" && profiles.some((p) => p.slug === profile) ? profile : "";
+  const doctor = typeof profile === "string" ? await getPublicDoctor(await getDb(), profile) : null;
+  const name = doctor ? displayName(doctor) : null;
+  const subject = name ? `طلب تصحيح: ${name}` : "طلب تصحيح أو إزالة";
+  const body = [
+    name ? `الملف: ${name}` : "الملف المقصود: ",
+    "المعلومة غير الدقيقة أو المطلوب: ",
+    "صلتي بالملف (الطبيب نفسه، أو ممثل عنه، أو مراجع): ",
+  ].join("\n");
+
   return (
-    <InfoPage title="طلب تصحيح أو إزالة" bare>
+    <InfoPage title="طلب تصحيح أو إزالة">
       <p className="page__lede">
-        إذا كنت طبيبًا أو تمثّل منشأة، أو لاحظت معلومة غير دقيقة، فأرسل إلينا طلبك. نحفظ فقط: اسمك، وبريدك، وصلتك بالملف، والملف المقصود، ورسالتك.
+        إن وجدت معلومة غير دقيقة، أو كنت طبيبًا وتريد تعديل ملفك أو إزالته، فراسلنا بالبريد الإلكتروني:
       </p>
-      <CorrectionForm profiles={profiles} initialProfile={initial} />
+      <p>
+        <ContactEmail subject={subject} body={body} />
+      </p>
+      <h2>اذكر في رسالتك</h2>
+      <ul>
+        <li>اسم الطبيب أو رابط ملفه{name ? ` (${name})` : ""}.</li>
+        <li>المعلومة غير الدقيقة وتصحيحها، أو طلب الإزالة.</li>
+        <li>صلتك بالملف: الطبيب نفسه، أو ممثل عنه، أو مراجع.</li>
+      </ul>
+      <p>
+        نراجع كل رسالة ونحدّث الملف أو نخفيه، ونرد عليك خلال 30 يومًا كحد أقصى. لا نستخدم بريدك إلا للرد على طلبك.
+      </p>
     </InfoPage>
   );
 }

@@ -4,17 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ما هو بانيفو؟ دليل أطباء الرياض بموافقتهم · PANIVO</title>
-<meta name="description" content="بانيفو دليل عربي لأطباء الرياض وأخصائيي العلاج الطبيعي في خمسة تخصصات: تقرأ ملفًا موثّقًا بموافقة الطبيب، ثم تراسل العيادة عبر واتساب مباشرة.">
+<meta name="description" content="بانيفو دليل عربي لأطباء الرياض وأخصائيي العلاج الطبيعي في خمسة تخصصات: تقرأ ملف الطبيب المنشور بموافقته، ثم تراسل العيادة عبر واتساب مباشرة.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_SA">
 <meta property="og:site_name" content="PANIVO">
 <meta property="og:title" content="ما هو بانيفو؟ دليل أطباء الرياض بموافقتهم">
-<meta property="og:description" content="ملفات موثّقة بموافقة الأطباء في خمسة تخصصات، والتواصل مع العيادة عبر واتساب مباشرة.">
+<meta property="og:description" content="ملفات الأطباء بموافقتهم في خمسة تخصصات، والتواصل مع العيادة عبر واتساب مباشرة.">
 <meta property="og:image" content="/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="/apple-icon.png">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0f1a" media="(prefers-color-scheme: dark)">
 <!-- canonical is added at launch, once the domain is pointed: <link rel="canonical" href="https://[domain]/intro"> -->
 <meta name="site-kind" content="software">
 <meta name="page-type" content="software">
@@ -48,6 +49,23 @@
   --ly-scale: 0.98;
 }
 </style>
+<style>
+/* dark mode: follows the phone, or the choice saved in the app's Settings (localStorage "panivo-theme") */
+:root[data-theme="dark"] {
+  --p-bg: #0b0f1a; --p-surface: #151b2b; --p-ink: #eef1f8; --p-muted: #aab2c9;
+  --p-accent: #8db4ff; --p-accent-ink: #0b0f1a; --p-action: #0061f3; --p-action-ink: #ffffff;
+}
+:root[data-theme="dark"] .pv { --pv-text: #eef1f8; --pv-muted: #aab2c9; --pv-line: #273049; --pv-ground: #0b0f1a; --pv-wash: #17284a; --pv-card: #151b2b; --pv-blue-text: #8db4ff; --pv-ink: #9db8ff; --pv-plate: #0061f3; }
+:root[data-theme="dark"] .hero--centred .hero__window, :root[data-theme="dark"] #specialties .frame { background: #0052cc; }
+:root[data-theme="dark"] #steps .panel, :root[data-theme="dark"] #faq .pv-fix { background: #151b2b; }
+:root[data-theme="dark"] .app.ui { --fx-bg: #151b2b; --fx-ink: #eef1f8; }
+:root[data-theme="dark"] .app > .app__pane { --pv-fade: #151b2b; }
+:root[data-theme="dark"] .app > .app__pane--list { --pv-fade: #0b0f1a; }
+:root[data-theme="dark"] .nav__logo .logo-light, :root[data-theme="dark"] .pv-win__bar .logo-light { display: none; }
+.logo-dark { display: none; }
+:root[data-theme="dark"] .logo-dark { display: inline; }
+</style>
+<script>try{var t=localStorage.getItem("panivo-theme");document.documentElement.dataset.theme=t==="light"||t==="dark"?t:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}catch(e){}</script>
 <link rel="stylesheet" href="/intro/assets/ui/base.css">
 <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
 <script src="/intro/assets/backgrounds/backgrounds.js"></script>
@@ -81,50 +99,56 @@
   /* the hero's frame: the brand blue, flat (gradients only inside the logo, so no fade mask) */
   .hero--centred .hero__window { --ground-bg: #0061f3; background: #0061f3; -webkit-mask-image: none; mask-image: none; }
 
-  /* PANIVO's own UI, drawn as it is in the app: white slips on light grey, the ink stamp */
-  .pv { --pv-blue: #0061f3; --pv-ink: #001a89; --pv-text: #0e1530; --pv-muted: #4a5373; --pv-line: #e3e6ee; --pv-ground: #f2f3f6; --pv-wash: #eaf1ff;
+  /* PANIVO's own UI, drawn as it is in the app: white slips on light grey, the doctor's photo circle */
+  .pv { --pv-blue: #0061f3; --pv-ink: #001a89; --pv-text: #0e1530; --pv-muted: #4a5373; --pv-line: #e3e6ee; --pv-ground: #f2f3f6; --pv-wash: #eaf1ff; --pv-card: #ffffff; --pv-blue-text: #0052cc; --pv-plate: #001a89;
         font-family: var(--font-text); color: var(--pv-text); text-align: start; }
-  .pv-win { background: #fff; border-radius: 16px; box-shadow: 0 1px 2px rgb(14 21 48 / .08), 0 24px 48px -16px rgb(0 26 137 / .35); overflow: hidden; }
+  .pv-win { background: var(--pv-card); border-radius: 16px; box-shadow: 0 1px 2px rgb(14 21 48 / .08), 0 24px 48px -16px rgb(0 26 137 / .35); overflow: hidden; }
   .pv-win__bar { display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-bottom: 1px solid var(--pv-line); font-size: 13px; color: var(--pv-muted); }
   .pv-win__bar img { height: 20px; width: auto; }
   .pv-win__bar .sp { flex: 1; }
   .pv-win__body { display: grid; grid-template-columns: 300px minmax(0, 1fr); min-height: 420px; }
   .pv-side { border-inline-end: 1px solid var(--pv-line); padding: 12px; display: grid; align-content: start; gap: 6px; background: var(--pv-ground); }
-  .pv-search { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: 12px; background: #fff; border: 1px solid var(--pv-line); font-size: 14px; color: var(--pv-text); }
+  .pv-search { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: 12px; background: var(--pv-card); border: 1px solid var(--pv-line); font-size: 14px; color: var(--pv-text); }
   .pv-search svg { width: 16px; height: 16px; color: var(--pv-blue); flex: none; }
   .pv-count { font-size: 12px; color: var(--pv-muted); padding: 4px 4px 0; }
   .pv-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; padding: 10px 12px; border-radius: 12px; font-size: 13px; }
   .pv-row b { font-weight: 600; color: var(--pv-text); }
   .pv-row span { grid-column: 1 / -1; color: var(--pv-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .pv-row.is-on { background: #fff; box-shadow: 0 1px 2px rgb(14 21 48 / .08); }
-  .pv-row .pv-chip { color: #fff; grid-column: auto; }
+  .pv-row.is-on { background: var(--pv-card); box-shadow: 0 1px 2px rgb(14 21 48 / .08); }
+  .pv-row .pv-chip { grid-column: auto; color: var(--pv-ink); }
   .pv-shelf { background: var(--pv-ground); padding: 20px 24px 40px; display: grid; gap: 12px; }
   .pv-shelf__h { font-size: 18px; font-weight: 600; }
-  .pv-chip { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: var(--pv-ink); color: #fff; font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .pv-chip { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: transparent; color: var(--pv-ink); box-shadow: inset 0 0 0 1px var(--pv-ink); font-size: 11px; font-weight: 500; white-space: nowrap; }
   .pv-open { padding: 20px 24px; display: grid; align-content: start; gap: 12px; }
-  .pv-slip { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; align-items: start; padding: 16px 18px; border-radius: 16px; background: #fff; border: 1px solid var(--pv-line); }
+  .pv-slip { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; align-items: start; padding: 16px 18px; border-radius: 16px; background: var(--pv-card); border: 1px solid var(--pv-line); }
   .pv-slip__name { font-size: 20px; font-weight: 600; color: var(--pv-text); }
   .pv-slip__role, .pv-slip__place { font-size: 13px; color: var(--pv-muted); }
-  .pv-slip .pv-stamp { grid-row: 1 / span 4; grid-column: 2; }
-  .pv-stamp { width: 72px; height: 72px; color: var(--pv-ink); flex: none; }
-  .pv-stamp--lg { width: 96px; height: 96px; }
+  .pv-slip .pv-ava { grid-row: 1 / span 4; grid-column: 2; }
+  /* the doctor's photo: until the clinic sends one, the first letter of the name holds its place */
+  .pv-ava { display: grid; place-items: center; width: 72px; height: 72px; border-radius: 50%; background: var(--pv-wash); color: var(--pv-blue-text); font-size: 26px; font-weight: 700; line-height: 1; flex: none; }
+  .pv-ava--lg { width: 96px; height: 96px; font-size: 32px; }
+  .pv-ava--xl { width: 160px; height: 160px; font-size: 56px; }
+  .pv-profile { display: grid; justify-items: center; gap: 6px; width: min(100%, 380px); padding: 32px 28px 28px; border-radius: 24px; background: var(--pv-card); box-shadow: 0 1px 2px rgb(14 21 48 / .08), 0 24px 48px -16px rgb(0 26 137 / .25); text-align: center; }
+  .pv-profile .pv-ava { margin-bottom: 10px; }
+  .pv-profile .pv-chip { margin-top: 6px; }
+  .pv-profile .pv-wa { width: 100%; margin-top: 14px; }
   .pv-fact { display: grid; gap: 2px; padding: 10px 0; border-bottom: 1px solid var(--pv-line); font-size: 13px; }
   .pv-fact:last-of-type { border-bottom: 0; }
   .pv-fact small { color: var(--pv-muted); font-size: 12px; }
   .pv-fact b { font-weight: 600; font-size: 15px; }
-  .pv-wa { display: flex; align-items: center; justify-content: center; gap: 8px; height: 48px; border-radius: 14px; background: var(--pv-ink); color: #fff; font-size: 15px; font-weight: 600; }
+  .pv-wa { display: flex; align-items: center; justify-content: center; gap: 8px; height: 48px; border-radius: 14px; background: var(--pv-plate); color: #fff; font-size: 15px; font-weight: 600; }
   .pv-wa svg { width: 20px; height: 20px; flex: none; }
   .pv-note { font-size: 12px; color: var(--pv-muted); }
-  .pv-bubble { justify-self: start; max-width: 92%; padding: 10px 14px; border-radius: 14px 14px 14px 4px; background: #fff; border: 1px solid var(--pv-line); font-size: 13px; line-height: 1.6; }
+  .pv-bubble { justify-self: start; max-width: 92%; padding: 10px 14px; border-radius: 14px 14px 14px 4px; background: var(--pv-card); border: 1px solid var(--pv-line); font-size: 13px; line-height: 1.6; }
   .pv-bubble small { display: block; margin-top: 4px; color: var(--pv-muted); font-size: 11px; direction: ltr; text-align: end; }
   .pv-tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
-  .pv-tile { display: grid; justify-items: center; align-content: center; gap: 8px; min-height: 104px; padding: 12px 6px; border-radius: 16px; background: #fff; color: var(--pv-text); font-size: 14px; font-weight: 500; text-align: center; line-height: 1.3; }
+  .pv-tile { display: grid; justify-items: center; align-content: center; gap: 8px; min-height: 104px; padding: 12px 6px; border-radius: 16px; background: var(--pv-card); color: var(--pv-text); font-size: 14px; font-weight: 500; text-align: center; line-height: 1.3; }
   .pv-tile svg { width: 26px; height: 26px; color: var(--pv-ink); }
   .pv-band { background: var(--pv-blue); color: #fff; padding: 28px 24px 32px; display: grid; gap: 18px; }
   .pv-band__h { font-size: 26px; font-weight: 600; line-height: 1.3; }
   .pv-band .pv-search { height: 48px; border: 0; }
 
-  /* the hero's window: the search, the result, the stamp, the WhatsApp button arrive step by step (data-ly-steps) */
+  /* the hero's window: the result, its source line and the WhatsApp button arrive step by step (data-ly-steps) */
   .hero__window .pv-win__body { min-height: 440px; }
   .hero__window .pv-open { gap: 8px; padding-top: 16px; }
 
@@ -151,7 +175,8 @@
     .hero__window .pv-win__bar .sp ~ span { display: none; }
     .pv-open { padding: 14px; }
     .pv-slip__name { font-size: 18px; }
-    .pv-stamp { width: 60px; height: 60px; }
+    .pv-ava { width: 60px; height: 60px; font-size: 22px; }
+    .pv-ava--xl { width: 120px; height: 120px; font-size: 44px; }
     .pv-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
   .app .pv-open { padding: 28px 32px; }
@@ -171,13 +196,13 @@
   main .section :is(p, h2, h3, .section-head, .faq__item) { max-width: none; }
   .footer__col a, .footer__legal > span { display: block; }
 
-  /* the statement: one sentence set large, its line and one link, beside the app's stamp set large */
+  /* the statement: one sentence set large, its line and one link, beside a doctor's profile head */
   #consent .grid { align-items: start; }
   #consent .stack-4 { display: grid; gap: var(--s-5); }
   #consent .mo-lt__type { font-size: clamp(48px, 6.4vw, 96px); }
   #consent p { font-size: var(--t-lead); color: var(--muted); }
   #consent .pv-seal { display: grid; place-items: center; }
-  #consent .pv-seal svg { width: min(100%, 400px); height: auto; aspect-ratio: 1; color: #001a89; }
+
   #faq .pv-fix { --p-h: 168px; background: #f2f3f6; margin-top: var(--s-5); }
   #faq .pv-fix .pv-piece { position: absolute; inset-inline: 24px; top: 50%; transform: translateY(-50%); }
   /* the specialties' frame is square on a desktop, so the section ends level with its neighbours */
@@ -190,7 +215,7 @@
     #specialties .frame .pv-piece { position: static; margin: 16px; }
     #specialties .pv-shelf { display: none; }
   }
-  @media (max-width: 639px) { #consent .pv-seal svg { width: 200px; } }
+
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"الرئيسية","item":"/"},{"@type":"ListItem","position":2,"name":"ما هو بانيفو؟","item":"/intro"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
@@ -198,7 +223,7 @@
 {"@type":"Question","name":"هل أحجز الموعد من الموقع؟","acceptedAnswer":{"@type":"Answer","text":"لا. يفتح زر واتساب محادثة مع العيادة، وتتفق معها على الموعد مباشرة."}},
 {"@type":"Question","name":"من أين تأتي معلومات الطبيب؟","acceptedAnswer":{"@type":"Answer","text":"من مصدر نذكره بجانب كل معلومة، مثل الموقع الرسمي للعيادة، مع تاريخ آخر تحقق منها."}},
 {"@type":"Question","name":"هل يعلم الطبيب أن ملفه منشور؟","acceptedAnswer":{"@type":"Answer","text":"نعم. لا ننشر أي ملف دون موافقة الطبيب، ولا نعرض صورته إلا بإذنه."}},
-{"@type":"Question","name":"وجدت معلومة خاطئة، فماذا أفعل؟","acceptedAnswer":{"@type":"Answer","text":"أرسل طلب تصحيح من صفحة الطبيب أو من صفحة طلب التصحيح، فنراجعه ونحدّث الملف."}},
+{"@type":"Question","name":"وجدت معلومة خاطئة، فماذا أفعل؟","acceptedAnswer":{"@type":"Answer","text":"راسلنا بالبريد الإلكتروني المذكور في صفحة طلب التصحيح، فنراجع رسالتك ونحدّث الملف."}},
 {"@type":"Question","name":"هل يصلح بانيفو للحالات الطارئة؟","acceptedAnswer":{"@type":"Answer","text":"لا. بانيفو دليل معلومات وليس جهة رعاية صحية. في الحالات الطارئة اتصل بالرقم 997 أو 911."}}]}</script>
 </head>
 <body>
@@ -209,14 +234,14 @@
            grounds: none and no effect (the brief: gradients only inside the logo; flat brand blue in the frames)
      moments: liquid-type on the statement section #consent (dealt again: letters-assemble splits a word into letters, and
               Arabic letters must stay joined). It moves because the sentence is the promise the page stands on.
-     plan: hero (the app window: a search, its result with the stamp, the WhatsApp button) 1 · app (app-frame: the list beside
+     plan: hero (the app window: a search, its result with the doctor's photo, the WhatsApp button) 1 · app (app-frame: the list beside
            the open profile) 1 · steps (three steps, each with its piece of the app) 1 · consent (the statement, liquid-type) 1 ·
            specialties (split-text-left: the app's blue band with the five tiles) 1 · faq 1 · footer.closing 1 -->
 
 <header class="nav">
   <div class="wrap nav__bar">
     <a class="skip-link" href="#top">انتقل إلى المحتوى</a>
-    <a class="nav__logo" href="#top"><img src="/brand/wordmark-header.webp" alt="بانيفو PANIVO" width="480" height="154"></a>
+    <a class="nav__logo" href="#top"><img class="logo-light" src="/brand/wordmark-header.webp" alt="بانيفو PANIVO" width="480" height="154"><img class="logo-dark" src="/brand/wordmark-footer.webp" alt="بانيفو PANIVO" width="480" height="156"></a>
     <nav class="nav__links" aria-label="الرئيسية">
       <div class="nav__item"><a class="nav__link" href="#app">الملف</a></div>
       <div class="nav__item"><a class="nav__link" href="#steps">الخطوات</a></div>
@@ -236,9 +261,9 @@
               <a href="/riyadh/physio">علاج طبيعي<span>التأهيل وآلام المفاصل</span></a>
             </div>
             <a class="menu-card span-3 start-10" href="#consent">
-              <div class="panel"><div class="stage"><div class="at-corner" style="--ax:24px;--ay:24px"><div class="pv"><svg class="pv-stamp pv-stamp--lg" viewBox="0 0 100 100" aria-hidden="true"><use href="#stamp"/></svg></div></div></div></div>
-              <span class="t-card">الختم على كل ملف</span>
-              <span class="t-small muted">موافقة الطبيب وتاريخ التحقق</span>
+              <div class="panel"><div class="stage"><div class="at-corner" style="--ax:24px;--ay:24px"><div class="pv"><span class="pv-ava pv-ava--lg" aria-hidden="true">س</span></div></div></div></div>
+              <span class="t-card">صورة الطبيب في ملفه</span>
+              <span class="t-small muted">تُنشر بإذنه فقط</span>
             </a>
           </div>
         </div>
@@ -254,15 +279,8 @@
   </div>
 </header>
 
-<!-- the stamp, drawn once (the app's own seal) -->
+<!-- icons drawn once -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="stamp" viewBox="0 0 100 100">
-    <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="3.5"/>
-    <circle cx="50" cy="50" r="39" fill="none" stroke="currentColor" stroke-width="1.25"/>
-    <path d="M41 30l6.5 6.5L60 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="50" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">موثّق</text>
-    <text x="50" y="72" text-anchor="middle" font-size="9" font-weight="500" fill="currentColor" style="direction:ltr">2026/10/18</text>
-  </symbol>
   <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.2a9.7 9.7 0 0 0-8.4 14.6L2.3 21.7l5-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 19.9Zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.2-.2-.5-.3Z"/></symbol>
   <symbol id="find" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
 </svg>
@@ -273,12 +291,12 @@
       <div class="hero__c">
         <a class="pill" href="#specialties"><span>الرياض · 5 تخصصات</span><span class="muted">تعرّف إليها</span></a>
         <h1 id="hero-h" aria-label="بانيفو: دليل أطباء الرياض بموافقتهم"><img class="hero__mark" src="/brand/mark.webp" alt="" width="256" height="256"> دليل أطباء الرياض بموافقتهم</h1>
-        <p class="hero__lead">أطباء سعوديون وأخصائيو علاج طبيعي في 5 تخصصات. تقرأ الملف الموثّق، ثم تراسل العيادة عبر واتساب مباشرة، دون حساب ودون رسوم.</p>
+        <p class="hero__lead">أطباء سعوديون وأخصائيو علاج طبيعي في 5 تخصصات. تقرأ ملف الطبيب، ثم تراسل العيادة عبر واتساب مباشرة، دون حساب ودون رسوم.</p>
         <div class="btn-row"><a class="btn btn--primary" href="/">ابحث عن طبيبك<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a></div>
       </div>
-      <div class="hero__window" role="img" aria-label="بانيفو يعرض نتيجة البحث عن تقويم الأسنان: ملف موثّق لطبيب، وزر مراسلة العيادة عبر واتساب">
+      <div class="hero__window" role="img" aria-label="بانيفو يعرض نتيجة البحث عن تقويم الأسنان: ملف طبيب، وزر مراسلة العيادة عبر واتساب">
         <div class="ly-piece pv pv-win" aria-hidden="true">
-          <div class="pv-win__bar"><img src="/brand/wordmark-header.webp" alt="" width="480" height="154"><span class="sp"></span><span>الرياض · أسنان</span></div>
+          <div class="pv-win__bar"><img class="logo-light" src="/brand/wordmark-header.webp" alt="" width="480" height="154"><img class="logo-dark" src="/brand/wordmark-footer.webp" alt="" width="480" height="156"><span class="sp"></span><span>الرياض · أسنان</span></div>
           <div class="pv-win__body">
             <div class="pv-side">
               <div class="pv-search"><svg><use href="#find"/></svg>تقويم الأسنان</div>
@@ -292,7 +310,7 @@
                 <span class="pv-slip__name">د. خالد الزهراني</span>
                 <span class="pv-slip__role">استشاري تقويم الأسنان · 13 سنة خبرة</span>
                 <span class="pv-slip__place">عيادات ابتسامة الرياض، حي الصحافة</span>
-                <svg class="pv-stamp" viewBox="0 0 100 100"><use href="#stamp"/></svg>
+                <span class="pv-ava">خ</span>
               </div>
               <div class="pv-note" data-step>المصدر: بيانات تجريبية للعرض فقط · تحقق 2026/10/18</div>
               <div class="pv-wa" data-step><svg><use href="#wa"/></svg>راسل العيادة عبر واتساب</div>
@@ -312,7 +330,7 @@
           <p><a class="link" href="/riyadh/dermatology">افتح قسم الجلدية</a></p>
         </div>
       </div>
-      <div class="ui app fill pv" role="img" aria-label="قائمة أطباء الجلدية في الرياض بجانب ملف د. سارة القحطاني المفتوح، وعليه ختم التحقق ومصدر كل معلومة">
+      <div class="ui app fill pv" role="img" aria-label="قائمة أطباء الجلدية في الرياض بجانب ملف د. سارة القحطاني المفتوح، مع مصدر كل معلومة">
         <div class="app__pane app__pane--list">
           <div class="pv-side" aria-hidden="true">
             <div class="pv-search"><svg><use href="#find"/></svg>جلدية</div>
@@ -335,8 +353,8 @@
               <span class="pv-chip" style="justify-self:start">ملف تجريبي</span>
               <span class="pv-slip__name">د. سارة القحطاني</span>
               <span class="pv-slip__role">استشارية جلدية</span>
-              <span class="pv-slip__place">ملف موثّق: أُدرج الطبيب بموافقته، وتحققنا من معلوماته في 2026/10/18.</span>
-              <svg class="pv-stamp pv-stamp--lg" viewBox="0 0 100 100"><use href="#stamp"/></svg>
+              <span class="pv-slip__place">مجمع الروابي الطبي، حي الملقا</span>
+              <span class="pv-ava pv-ava--lg">س</span>
             </div>
             <div>
               <div class="pv-fact"><small>العيادة</small><b>مجمع الروابي الطبي</b><small>بيانات تجريبية للعرض فقط · تحقق 2026/10/18</small></div>
@@ -372,15 +390,15 @@
         </article>
         <article class="card card--row card--open span-4">
           <span class="step-num">2</span>
-          <h3>اقرأ الملف الموثّق</h3>
-          <p>ترى العيادة والحي والخبرة، وبجانب كل معلومة مصدرها وتاريخ التحقق.</p>
-          <div class="panel" role="img" aria-label="ملف طبيب عليه ختم موثّق، وتحته العيادة مع مصدرها وتاريخ التحقق">
+          <h3>اقرأ ملف الطبيب</h3>
+          <p>ترى صورته وعيادته وحيّه وخبرته، وبجانب كل معلومة مصدرها وتاريخ التحقق.</p>
+          <div class="panel" role="img" aria-label="ملف طبيبة بصورتها، وتحته الخبرة مع مصدرها وتاريخ التحقق">
             <div class="pv-piece pv" aria-hidden="true" style="display:grid;gap:8px">
               <div class="pv-slip">
                 <span class="pv-slip__name">د. هند المطيري</span>
                 <span class="pv-slip__role">أخصائية عيون أطفال</span>
                 <span class="pv-slip__place">مركز البصيرة للعيون، حي الربيع</span>
-                <svg class="pv-stamp" viewBox="0 0 100 100"><use href="#stamp"/></svg>
+                <span class="pv-ava">ه</span>
               </div>
               <div class="pv-slip" style="grid-template-columns:1fr"><div class="pv-fact"><small>الخبرة</small><b>7 سنوات</b><small>بيانات تجريبية للعرض فقط · تحقق 2026/10/18</small></div></div>
             </div>
@@ -406,11 +424,18 @@
       <div class="grid">
         <div class="span-5 stack-4">
           <h2 class="mo-lt__type" id="consent-h">لا ملف دون موافقة صاحبه</h2>
-          <p>نضيف الطبيب بعد موافقته، ولا نعرض صورته إلا بإذنه، ويستطيع أي شخص أن يطلب تصحيح معلومة.</p>
+          <p>نضيف الطبيب بعد موافقته، ولا نعرض صورته إلا بإذنه، ولأي شخص أن يطلب تصحيح معلومة بمراسلتنا عبر البريد الإلكتروني.</p>
           <p><a class="link" href="/corrections">اطلب تصحيح معلومة</a></p>
         </div>
-        <div class="pv-seal span-6 start-7" role="img" aria-label="ختم بانيفو: موثّق، مع تاريخ آخر تحقق">
-          <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#stamp"/></svg>
+        <div class="pv-seal span-6 start-7" role="img" aria-label="رأس ملف طبيبة في بانيفو: مكان صورتها، واسمها وتخصصها، وزر مراسلة العيادة عبر واتساب">
+          <div class="pv pv-profile" aria-hidden="true">
+            <span class="pv-ava pv-ava--xl">ن</span>
+            <span class="pv-slip__name">د. نورة الشهري</span>
+            <span class="pv-slip__role">استشارية جلدية أطفال</span>
+            <span class="pv-slip__place">مركز الندى الطبي، حي النرجس</span>
+            <span class="pv-chip">ملف تجريبي</span>
+            <div class="pv-wa"><svg><use href="#wa"/></svg>راسل العيادة عبر واتساب</div>
+          </div>
         </div>
       </div>
     </div>
@@ -421,7 +446,7 @@
       <div class="grid grid--top">
         <div class="span-5 stack-4">
           <h2 id="spec-h">خمسة تخصصات في الرياض</h2>
-          <p class="t-lead">الجلدية، والتجميل والليزر، والعيون، والأسنان، والعلاج الطبيعي. لكل تخصص صفحة فيها أطباؤه وعياداته وأجوبة عن أكثر الأسئلة شيوعًا.</p>
+          <p class="t-lead">الجلدية، والتجميل والليزر، والعيون، والأسنان، والعلاج الطبيعي. لكل تخصص صفحة فيها أطباؤه وأجوبة عن أكثر الأسئلة شيوعًا.</p>
           <p>لا حجز ولا دفع في الموقع: تتفق على الموعد مع العيادة مباشرة.</p>
           <p>تحفظ الأطباء في المحفوظات على جهازك، دون حساب.</p>
           <p><a class="link" href="/riyadh/physio">افتح قسم العلاج الطبيعي</a></p>
@@ -446,7 +471,7 @@
                 <span class="pv-slip__name">محمد القرني</span>
                 <span class="pv-slip__role">أخصائي علاج طبيعي · 10 سنوات خبرة</span>
                 <span class="pv-slip__place">مركز حركة للعلاج الطبيعي، حي الياسمين</span>
-                <svg class="pv-stamp" viewBox="0 0 100 100"><use href="#stamp"/></svg>
+                <span class="pv-ava">م</span>
               </div>
             </div>
           </div>
@@ -462,11 +487,11 @@
           <h2 id="faq-h">أسئلة شائعة</h2>
           <p class="muted">إن لم تجد جوابك، فاقرأ صفحة من نحن وكيف نتحقق.</p>
           <p><a class="link" href="/about">من نحن وكيف نتحقق</a></p>
-          <div class="panel pv-fix" role="img" aria-label="سطر في صفحة الطبيب: طلب تصحيح أو إزالة، إن وجدت معلومة غير دقيقة في هذا الملف">
+          <div class="panel pv-fix" role="img" aria-label="سطر في صفحة الطبيب: طلب تصحيح أو إزالة بالبريد، إن وجدت معلومة غير دقيقة في هذا الملف">
             <div class="pv-piece pv" aria-hidden="true">
               <div class="pv-slip" style="grid-template-columns:auto minmax(0,1fr) auto;align-items:center">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0061f3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/></svg>
-                <span style="display:grid;gap:2px"><b style="font-weight:600">طلب تصحيح أو إزالة</b><span class="pv-note">إن وجدت معلومة غير دقيقة في هذا الملف</span></span>
+                <span style="display:grid;gap:2px"><b style="font-weight:600">طلب تصحيح أو إزالة</b><span class="pv-note">راسلنا بالبريد إن وجدت معلومة غير دقيقة في هذا الملف</span></span>
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#4a5373" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
               </div>
             </div>
@@ -477,7 +502,7 @@
           <div class="faq__item"><h3>هل أحجز الموعد من الموقع؟</h3><p>لا. يفتح زر واتساب محادثة مع العيادة، وتتفق معها على الموعد مباشرة.</p></div>
           <div class="faq__item"><h3>من أين تأتي معلومات الطبيب؟</h3><p>من مصدر نذكره بجانب كل معلومة، مثل الموقع الرسمي للعيادة، مع تاريخ آخر تحقق منها.</p></div>
           <div class="faq__item"><h3>هل يعلم الطبيب أن ملفه منشور؟</h3><p>نعم. لا ننشر أي ملف دون موافقة الطبيب، ولا نعرض صورته إلا بإذنه.</p></div>
-          <div class="faq__item"><h3>وجدت معلومة خاطئة، فماذا أفعل؟</h3><p>أرسل طلب تصحيح من صفحة الطبيب أو من صفحة طلب التصحيح، فنراجعه ونحدّث الملف.</p></div>
+          <div class="faq__item"><h3>وجدت معلومة خاطئة، فماذا أفعل؟</h3><p>راسلنا بالبريد الإلكتروني المذكور في صفحة طلب التصحيح، فنراجع رسالتك ونحدّث الملف.</p></div>
           <div class="faq__item"><h3>هل يصلح بانيفو للحالات الطارئة؟</h3><p>لا. بانيفو دليل معلومات وليس جهة رعاية صحية. في الحالات الطارئة اتصل بالرقم 997 أو 911.</p></div>
         </div>
       </div>
@@ -498,7 +523,7 @@
       <div class="grid">
         <div class="span-4 stack-4">
           <a class="nav__logo" href="#top"><img loading="lazy" src="/brand/wordmark-footer.webp" alt="بانيفو PANIVO" width="480" height="154"></a>
-          <p class="footer__lede">أطباء الرياض في ملفات موثّقة.</p>
+          <p class="footer__lede">أطباء الرياض بموافقتهم.</p>
         </div>
         <div class="span-2 footer__col"><h3>الملف</h3><ul><li><a href="#app">ملف الطبيب</a></li><li><a href="#consent">موافقة الطبيب</a></li></ul></div>
         <div class="span-2 footer__col"><h3>الخطوات</h3><ul><li><a href="#steps">البحث والمراسلة</a></li><li><a href="/">الصفحة الرئيسية</a></li></ul></div>

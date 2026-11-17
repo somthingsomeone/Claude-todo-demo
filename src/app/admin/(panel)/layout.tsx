@@ -5,6 +5,7 @@ import { Flash } from "@/components/admin/Flash";
 import { ROLE_LABELS } from "@/lib/admin/core";
 import { requireAdmin } from "@/lib/admin/session";
 import { logout } from "../actions";
+import { Wordmark } from "@/components/Wordmark";
 
 export const metadata = { title: "لوحة الإدارة", robots: { index: false } };
 
@@ -23,7 +24,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
       <header className="adm__bar">
         <div className="wrap adm__bar-inner">
           <Link href="/admin" className="adm__brand">
-            <img src="/brand/wordmark-header.webp" alt="بانيفو" width={87} height={28} />
+            <Wordmark />
             الإدارة
           </Link>
           <span className="adm__who">

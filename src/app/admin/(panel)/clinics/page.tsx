@@ -14,7 +14,7 @@ export default async function AdminClinics() {
           إضافة عيادة
         </Link>
       </div>
-      <p className="updated">لكل عيادة صفحة في الموقع تعرض الأطباء المدرجين فيها. تظهر العيادة للزوار عندما يكون فيها طبيب منشور واحد على الأقل.</p>
+      <p className="updated">العيادة هي مكان عمل الطبيب: يظهر اسمها وحيّها في ملف الطبيب. لا توجد صفحات للعيادات في الموقع حاليًا.</p>
       {clinics.length === 0 ? (
         <div className="empty">
           <p className="empty__title">لا توجد عيادات بعد</p>

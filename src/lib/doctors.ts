@@ -47,22 +47,11 @@ export interface Doctor {
   demo: boolean;
 }
 
-export interface Clinic {
-  slug: string;
-  name: string;
-  district: string;
-  mapUrl: string | null;
-  specialties: SpecialtySlug[];
-  doctorCount: number;
-  demo: boolean;
-}
-
 export const CITY = { slug: "riyadh", name: "الرياض" } as const;
 
-/** Clean, descriptive URLs: /riyadh/eyes/<doctor>, /riyadh/clinics/<clinic>. */
+/** Clean, descriptive URLs: /riyadh/eyes/<doctor>. */
 export const doctorPath = (d: Pick<Doctor, "slug" | "specialty">) => `/${CITY.slug}/${d.specialty}/${d.slug}`;
 export const specialtyPath = (s: SpecialtySlug) => `/${CITY.slug}/${s}`;
-export const clinicPath = (slug: string) => `/${CITY.slug}/clinics/${slug}`;
 
 export function isSpecialty(value: string | null | undefined): value is SpecialtySlug {
   return SPECIALTIES.some((s) => s.slug === value);
@@ -110,4 +99,9 @@ export const WHATSAPP_MESSAGE = "السلام عليكم، وصلتُ إليكم
 export function whatsappLink(d: Doctor): string | null {
   if (!d.whatsapp) return null;
   return `https://wa.me/${d.whatsapp}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+}
+
+/** Formats YYYY-MM-DD as 2026/10/18 (Latin digits, as on Saudi forms). */
+export function formatDate(iso: string) {
+  return iso.replaceAll("-", "/");
 }

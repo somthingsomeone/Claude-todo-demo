@@ -2,12 +2,12 @@ import Link from "next/link";
 import { type Doctor, displayName, doctorPath, whatsappLink } from "@/lib/doctors";
 import { FavoriteButton } from "./FavoriteButton";
 import { PinIcon } from "./Icons";
-import { Stamp, stampDate } from "./Stamp";
+import { DoctorPhoto } from "./DoctorPhoto";
 import { WhatsAppButton } from "./WhatsAppButton";
 
 /**
- * A doctor as an appointment slip: facts and the stamp above the tear line; below it the stub,
- * fixed cells (experience | last checked) and the contact actions.
+ * A doctor as an appointment slip: the photo and the facts above the tear line; below it the
+ * stub, experience and the WhatsApp action.
  */
 export function DoctorSlip({ doctor }: { doctor: Doctor }) {
   const wa = whatsappLink(doctor);
@@ -31,13 +31,9 @@ export function DoctorSlip({ doctor }: { doctor: Doctor }) {
             <span className="label label--demo">ملف تجريبي</span>
           </p>
         )}
-        <div className="slip__stamp">
-          <Stamp checkedAt={doctor.checkedAt} />
+        <div className="slip__photo">
+          <DoctorPhoto doctor={doctor} decorative />
         </div>
-        {doctor.photo && <img className="slip__photo" src={doctor.photo} alt="" loading="lazy" />}
-        <span className="slip__fav">
-          <FavoriteButton slug={doctor.slug} name={displayName(doctor)} />
-        </span>
       </div>
       <div className="slip__stub">
         <dl className="slip__cells">
@@ -47,12 +43,9 @@ export function DoctorSlip({ doctor }: { doctor: Doctor }) {
               <dd>{doctor.yearsExperience} سنة</dd>
             </div>
           )}
-          <div className="slip__cell">
-            <dt>آخر تحقق</dt>
-            <dd dir="ltr">{stampDate(doctor.checkedAt)}</dd>
-          </div>
         </dl>
         <span className="slip__actions">
+          <FavoriteButton slug={doctor.slug} name={displayName(doctor)} />
           <WhatsAppButton slug={doctor.slug} href={wa} label={wa ? "واتساب" : "غير متاح"} className="slip__wa" />
         </span>
       </div>

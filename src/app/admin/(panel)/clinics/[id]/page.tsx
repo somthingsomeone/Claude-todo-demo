@@ -1,9 +1,7 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ClinicForm } from "@/components/admin/ClinicForm";
 import { getDb } from "@/lib/db/client";
 import { getAdminClinic } from "@/lib/admin/clinics";
-import { clinicPath } from "@/lib/doctors";
 import { setClinicHidden, updateClinicForm } from "../../../actions";
 
 export default async function EditClinic(props: PageProps<"/admin/clinics/[id]">) {
@@ -14,11 +12,6 @@ export default async function EditClinic(props: PageProps<"/admin/clinics/[id]">
     <div className="adm-stack">
       <div className="adm-head">
         <h1>{clinic.name}</h1>
-        {!clinic.is_hidden && clinic.doctor_count > 0 && (
-          <Link href={clinicPath(clinic.slug)} className="link" target="_blank">
-            عرض في الموقع ↗
-          </Link>
-        )}
       </div>
       {clinic.is_demo ? (
         <p className="flash flash--warn">هذه عيادة تجريبية غير حقيقية ولا يمكن تعديلها.</p>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { InfoPage } from "@/components/InfoPage";
+import { ContactEmail } from "@/components/ContactEmail";
 import { Placeholder } from "@/components/Placeholder";
 import { LEGAL_UPDATED } from "@/lib/legal";
 import { pageMetadata } from "@/lib/seo";
@@ -18,7 +19,7 @@ export default function TermsPage() {
       <p>
         مرحبًا بك في بانيفو. باستخدامك للموقع فأنت توافق على هذه الشروط. يدير الموقع <Placeholder>اسم الجهة</Placeholder>،
         سجل تجاري رقم <Placeholder>رقم السجل التجاري</Placeholder> («بانيفو» أو «نحن»). للتواصل:{" "}
-        <Placeholder>إيميل التواصل</Placeholder>.
+        <ContactEmail />.
       </p>
 
       <h2>1. طبيعة الخدمة</h2>
@@ -51,8 +52,8 @@ export default function TermsPage() {
       <ul>
         <li>ندرج الأطباء بعد موافقتهم.</li>
         <li>
-          يحق لأي شخص طلب تصحيح معلومة أو إزالة ملف عبر صفحة <Link href="/corrections">طلب تصحيح أو إزالة</Link>، ونراجع
-          الطلبات في أقرب وقت.
+          يحق لأي شخص طلب تصحيح معلومة أو إزالة ملف بمراسلتنا عبر البريد الإلكتروني كما في صفحة{" "}
+          <Link href="/corrections">طلب تصحيح أو إزالة</Link>، ونراجع الطلبات في أقرب وقت.
         </li>
       </ul>
 
@@ -87,7 +88,7 @@ export default function TermsPage() {
 
       <h2>12. التواصل</h2>
       <p>
-        لأي استفسار: <Placeholder>إيميل التواصل</Placeholder>.
+        لأي استفسار: <ContactEmail />.
       </p>
     </InfoPage>
   );

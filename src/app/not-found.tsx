@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { Wordmark } from "@/components/Wordmark";
 
 export default function NotFound() {
   return (
     <main className="wrap page">
       <Link href="/" aria-label="بانيفو — الرئيسية">
-        <img src="/brand/wordmark-header.webp" alt="بانيفو" width={87} height={28} />
+        <Wordmark />
       </Link>
       <div className="empty">
         <p className="empty__title">الصفحة غير موجودة</p>

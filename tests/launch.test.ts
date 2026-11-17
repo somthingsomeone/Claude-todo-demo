@@ -137,10 +137,9 @@ describe("structured data", () => {
   });
 });
 
-describe("clinics, order and clean URLs", () => {
-  it("lists public doctors in the owner's order and links each to its clinic page", async () => {
-    const { listPublicClinics, getPublicClinic } = await import("@/lib/data/doctors");
-    const { doctorPath, clinicPath } = await import("@/lib/doctors");
+describe("order and clean URLs", () => {
+  it("lists public doctors in the owner's order at clean URLs", async () => {
+    const { doctorPath } = await import("@/lib/doctors");
     const db = await freshDb();
     const owner = await makeOwner(db);
     await createDoctor(db, owner, realDoctor({ status: "published", position: "1" }));
@@ -148,17 +147,21 @@ describe("clinics, order and clean URLs", () => {
     expect(list[0].slug).toBe("test-doctor"); // position 1 comes first
     expect(doctorPath(list[0])).toBe("/riyadh/eyes/test-doctor");
     expect(list[0].clinicSlug).toBe("test-clinic");
-    const clinic = await getPublicClinic(db, "test-clinic");
-    expect(clinic?.doctorCount).toBe(1);
-    expect(clinicPath("test-clinic")).toBe("/riyadh/clinics/test-clinic");
-    // A clinic with no public doctor does not appear.
-    await db.query(`insert into clinics (slug, name, district) values ('empty-clinic', 'عيادة فارغة', 'حي')`);
-    expect((await listPublicClinics(db)).some((c) => c.slug === "empty-clinic")).toBe(false);
   });
 
   it("robots names every requested crawler", () => {
     vi.stubEnv("SITE_LIVE", "true");
     const agents = (robots().rules as { userAgent: string }[]).map((r) => r.userAgent);
     for (const bot of ["GPTBot", "ClaudeBot", "Google-Extended", "PerplexityBot", "Googlebot", "Bingbot"]) expect(agents).toContain(bot);
+  });
+});
+
+describe("contact email (corrections go by email)", () => {
+  it("is shown only when CONTACT_EMAIL is a real address", async () => {
+    const { contactEmail } = await import("@/lib/site");
+    expect(contactEmail({})).toBeNull();
+    expect(contactEmail({ CONTACT_EMAIL: "  " })).toBeNull();
+    expect(contactEmail({ CONTACT_EMAIL: "not-an-email" })).toBeNull();
+    expect(contactEmail({ CONTACT_EMAIL: " hello@panivo.sa " })).toBe("hello@panivo.sa");
   });
 });

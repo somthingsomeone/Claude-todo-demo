@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ClearFavorites } from "@/components/ClearFavorites";
+import { ThemePicker } from "@/components/ThemePicker";
 import { ChevronIcon, DocIcon, EditIcon, InfoIcon, SearchIcon, ShieldIcon } from "@/components/Icons";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "الإعدادات",
-  description: "التعريف ببانيفو، والشروط والخصوصية، وطلبات التصحيح.",
+  description: "المظهر، والتعريف ببانيفو، والشروط والخصوصية، وطلب التصحيح.",
   path: "/settings",
   noindex: true,
 });
@@ -25,6 +26,7 @@ export default function SettingsPage() {
       <h1 id="settings-title" className="page__title">
         الإعدادات
       </h1>
+      <ThemePicker />
       <ul className="group">
         {LINKS.map(({ href, label, Icon }) => (
           <li key={href}>

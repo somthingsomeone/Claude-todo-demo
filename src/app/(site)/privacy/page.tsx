@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { InfoPage } from "@/components/InfoPage";
+import { ContactEmail } from "@/components/ContactEmail";
 import { Placeholder } from "@/components/Placeholder";
 import { LEGAL_UPDATED } from "@/lib/legal";
 import { pageMetadata } from "@/lib/seo";
@@ -17,10 +18,12 @@ export const metadata: Metadata = pageMetadata({
  * - Favourites: localStorage on the device only.
  * - WhatsApp clicks: per-profile daily count only.
  * - Abuse protection: keyed hash of IP in rate_limits, deleted after ~1 day.
- * - Correction requests: name, email, relationship, profile, message, consent time.
+ * - Corrections/removals: by email only (no form). Older form requests, if any, keep name, email,
+ *   relationship, profile, message, consent time until erased (CORRECTION_RETENTION_DAYS).
  * - Admins: email/name/role + Supabase login cookies; audit log of their changes.
  * - Doctors: professional data, clinic WhatsApp, consent record, photo with approval. No nationality data.
- * - Providers: Vercel (hosting), Supabase (database + admin login emails).
+ * - Providers: Vercel (hosting), Supabase (database + admin login emails), the mailbox provider of CONTACT_EMAIL.
+ * - Theme choice: localStorage on the device only.
  */
 export default function PrivacyPage() {
   return (
@@ -34,7 +37,7 @@ export default function PrivacyPage() {
       <h2>1. من المسؤول عن بياناتك</h2>
       <p>
         جهة التحكم بالبيانات: <Placeholder>اسم الجهة</Placeholder>، سجل تجاري رقم <Placeholder>رقم السجل التجاري</Placeholder>.
-        للتواصل في أي شأن يخص بياناتك: <Placeholder>إيميل التواصل</Placeholder>.
+        للتواصل في أي شأن يخص بياناتك: <ContactEmail subject="استفسار عن البيانات الشخصية" />.
       </p>
 
       <h2>2. زوار الموقع</h2>
@@ -42,15 +45,15 @@ export default function PrivacyPage() {
         <li>يمكنك تصفّح الموقع <b>دون حساب</b> ودون تقديم أي بيانات.</li>
         <li>لا نستخدم ملفات تعريف الارتباط (الكوكيز) للزوار، ولا أدوات تحليل أو تتبع أو إعلانات. والخط المستخدم مستضاف على موقعنا نفسه، ولا يوجد محتوى مضمَّن من جهات خارجية.</li>
         <li>
-          <b>المحفوظات</b>: الأطباء الذين تحفظهم يُحفظون على جهازك فقط (في ذاكرة المتصفح) ولا تصل إلينا. ويمكنك مسحها من صفحة
-          الإعدادات أو بمسح بيانات المتصفح.
+          <b>المحفوظات والمظهر</b>: الأطباء الذين تحفظهم، واختيارك للمظهر (فاتح أو داكن)، يُحفظون على جهازك فقط (في ذاكرة
+          المتصفح) ولا تصل إلينا. ويمكنك مسح المحفوظات من صفحة الإعدادات أو بمسح بيانات المتصفح.
         </li>
         <li>
           <b>عدّاد واتساب</b>: عند ضغطك زر واتساب نحسب ضغطة واحدة لملف الطبيب مع التاريخ فقط، ولا نحفظ في هذا العدّاد أي بيانات
           شخصية عنك.
         </li>
         <li>
-          <b>الحماية من الإساءة</b>: عند إرسال طلب تصحيح أو الضغط على زر واتساب، نحوّل عنوان IP إلى رمز مشفّر لا يمكن إرجاعه،
+          <b>الحماية من الإساءة</b>: عند الضغط على زر واتساب، نحوّل عنوان IP إلى رمز مشفّر لا يمكن إرجاعه،
           ونستخدمه فقط لمنع الطلبات المتكررة المزعجة. لا نحفظ عنوان IP نفسه، ويُحذف الرمز تلقائيًا بعد يوم تقريبًا.
         </li>
         <li>
@@ -62,13 +65,15 @@ export default function PrivacyPage() {
       <h2>3. طلبات التصحيح أو الإزالة</h2>
       <ul>
         <li>
-          إذا أرسلت <Link href="/corrections">طلب تصحيح أو إزالة</Link> فإننا نحفظ فقط: <b>اسمك، وبريدك الإلكتروني، وصلتك بالملف،
-          والصفحة المقصودة، ورسالتك</b>، مع وقت موافقتك على حفظها.
+          تصلنا <Link href="/corrections">طلبات التصحيح أو الإزالة</Link> عبر البريد الإلكتروني فقط، ولا يجمع الموقع نفسه أي
+          بيانات لهذا الغرض. نستخدم ما تكتبه في رسالتك وعنوان بريدك <b>لمعالجة طلبك والرد عليك فقط</b>.
         </li>
-        <li>الغرض: معالجة طلبك والرد عليك فقط.</li>
         <li>
-          بعد إغلاق الطلب تُحذف بياناتك الشخصية خلال <Placeholder>مدة يحددها المحامي</Placeholder>، ويبقى سجل مختصر دون أي
-          بيانات شخصية. ويمكنك طلب حذفها قبل ذلك.
+          بعد معالجة الطلب نحذف رسالتك من بريدنا خلال <Placeholder>مدة يحددها المحامي</Placeholder>، ويمكنك طلب حذفها قبل ذلك.
+        </li>
+        <li>
+          الطلبات التي وصلت سابقًا عبر نموذج كان في الموقع تُحذف بياناتها الشخصية (الاسم والبريد والرسالة) بعد إغلاقها خلال المدة
+          نفسها، ويبقى سجل مختصر دون أي بيانات شخصية.
         </li>
       </ul>
 
@@ -104,6 +109,9 @@ export default function PrivacyPage() {
           <b>Supabase Inc.</b> — قاعدة البيانات، وإرسال رسائل الدخول للمشرفين. موقع الخوادم:{" "}
           <Placeholder>منطقة خوادم Supabase</Placeholder>.
         </li>
+        <li>
+          <b>مزود البريد الإلكتروني</b> — لاستقبال رسائلكم والرد عليها: <Placeholder>اسم مزود البريد وموقع خوادمه</Placeholder>.
+        </li>
       </ul>
       <p>
         هذا يعني أن البيانات تُعالج وتُحفظ <b>خارج المملكة العربية السعودية</b>. نلتزم بالضمانات التي يتطلبها النظام لنقل
@@ -125,8 +133,7 @@ export default function PrivacyPage() {
         <li>سحب موافقتك في أي وقت.</li>
       </ul>
       <p>
-        لممارسة أي حق، راسلنا على <Placeholder>إيميل التواصل</Placeholder> أو استخدم{" "}
-        <Link href="/corrections">نموذج التصحيح والإزالة</Link>، ونرد عليك خلال 30 يومًا كحد أقصى. وإذا لم تكن راضيًا عن
+        لممارسة أي حق، راسلنا على <ContactEmail subject="طلب يخص بياناتي الشخصية" />، ونرد عليك خلال 30 يومًا كحد أقصى. وإذا لم تكن راضيًا عن
         ردّنا، يحق لك تقديم شكوى إلى <b>الهيئة السعودية للبيانات والذكاء الاصطناعي (سدايا)</b>.
       </p>
 

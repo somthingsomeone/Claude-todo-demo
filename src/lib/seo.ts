@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { type Clinic, type Doctor, clinicPath, displayName, doctorPath, specialtyName, specialtyPath } from "./doctors";
+import { type Doctor, displayName, doctorPath, specialtyName, specialtyPath } from "./doctors";
 import { absoluteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_NAME_EN } from "./site";
 import { SPECIALTY_PAGES, type Faq } from "./specialty-content";
 
@@ -86,7 +86,6 @@ export function doctorJsonLd(d: Doctor): JsonLdObject {
     parentOrganization: {
       "@type": "MedicalClinic",
       name: d.hospital,
-      ...(d.clinicSlug ? { url: absoluteUrl(clinicPath(d.clinicSlug)) } : {}),
     },
     areaServed: { "@type": "City", name: "الرياض" },
   };
@@ -130,26 +129,4 @@ export function doctorDescription(d: Doctor): string {
   return `${displayName(d)}، ${d.role} في ${d.hospital} (${d.district}). ${specialtyName(d.specialty)}${
     treats ? `: ${treats}` : ""
   }. تواصل مع العيادة مباشرة عبر واتساب.`.slice(0, 300);
-}
-
-/** A clinic page: schema.org MedicalClinic with its address and the specialties on offer. Never includes ratings. */
-export function clinicJsonLd(c: Clinic, doctors: Doctor[]): JsonLdObject {
-  return {
-    "@context": "https://schema.org",
-    "@type": "MedicalClinic",
-    "@id": absoluteUrl(`${clinicPath(c.slug)}#clinic`),
-    name: c.name,
-    url: absoluteUrl(clinicPath(c.slug)),
-    address: { "@type": "PostalAddress", streetAddress: c.district, addressLocality: "الرياض", addressCountry: "SA" },
-    ...(c.mapUrl ? { hasMap: c.mapUrl } : {}),
-    medicalSpecialty: [...new Set(c.specialties.map((s) => `https://schema.org/${SPECIALTY_PAGES[s].schemaSpecialty}`))],
-    employee: doctors.map((d) => ({ "@type": "Person", name: displayName(d), jobTitle: d.role, url: absoluteUrl(doctorPath(d)) })),
-  };
-}
-
-export function clinicBreadcrumb(c: Clinic) {
-  return breadcrumbJsonLd([
-    { name: "الرئيسية", path: "/" },
-    { name: c.name, path: clinicPath(c.slug) },
-  ]);
 }

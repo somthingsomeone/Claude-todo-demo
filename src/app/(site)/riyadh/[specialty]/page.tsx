@@ -2,14 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
-import { ClinicSlip } from "@/components/ClinicSlip";
 import { DoctorSlip } from "@/components/DoctorSlip";
 import { ChevronIcon, PlusIcon } from "@/components/Icons";
 import { JsonLd } from "@/components/JsonLd";
 import { SearchBand } from "@/components/SearchBand";
-import { Shelf } from "@/components/Shelf";
 import { getDb } from "@/lib/db/client";
-import { listPublicClinics, listPublicDoctors } from "@/lib/data/doctors";
+import { listPublicDoctors } from "@/lib/data/doctors";
 import { isSpecialty, specialtyPath } from "@/lib/doctors";
 import { breadcrumbJsonLd, faqJsonLd, pageMetadata } from "@/lib/seo";
 import { SPECIALTY_ORDER, SPECIALTY_PAGES } from "@/lib/specialty-content";
@@ -30,11 +28,7 @@ export default async function SpecialtyLanding(props: PageProps<"/riyadh/[specia
   if (!isSpecialty(specialty)) notFound();
   const page = SPECIALTY_PAGES[specialty];
   await connection();
-  const db = await getDb();
-  const [doctors, clinics] = await Promise.all([
-    listPublicDoctors(db, { specialty }),
-    listPublicClinics(db).then((all) => all.filter((c) => c.specialties.includes(specialty))),
-  ]);
+  const doctors = await listPublicDoctors(await getDb(), { specialty });
 
   return (
     <>
@@ -78,14 +72,6 @@ export default async function SpecialtyLanding(props: PageProps<"/riyadh/[specia
             </div>
           )}
         </section>
-
-        {clinics.length > 0 && (
-          <Shelf id="clinics-title" title="عيادات تقدّم هذا التخصص">
-            {clinics.map((c) => (
-              <ClinicSlip key={c.slug} clinic={c} />
-            ))}
-          </Shelf>
-        )}
 
         <section aria-labelledby="faq-title">
           <h2 id="faq-title" className="section-title">

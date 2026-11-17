@@ -25,3 +25,7 @@ FORM: Appointment slip with a verification stamp, grounded candidate 4 of 7. Sig
 Raises: fixed-cell grid (split-flap board), one face at a strict four-step scale (bitmap specimen), one reversed #001A89 plate per screen for WhatsApp (timetable rack), brand blue owns whole regions (guide map).
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## Owner change (2026-11-17)
+
+The verification stamp is retired: every listed doctor consents, so the owner removed «موثّق» and asked for the doctor's photo in its place. The slip and the doctor page now lead with the photo (a first-letter circle until a photo is approved and uploaded). Dark mode added (follows the phone, choice in Settings). Doctors only: no public clinic pages; home is one shelf per specialty. Corrections by email. DESIGN.md records the system as built; where this contract's THESIS, OWN-WORLD and signature move mention the stamp, this note supersedes them.

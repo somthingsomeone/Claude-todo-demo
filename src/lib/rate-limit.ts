@@ -21,7 +21,6 @@ export function clientIp(headers: Headers): string {
 }
 
 export const LIMITS = {
-  correction: { limit: 5, windowSec: 60 * 60 }, // 5 requests per hour
   click: { limit: 3, windowSec: 60 * 60 }, // 3 counted clicks per profile per hour
   login: { limit: 5, windowSec: 60 * 60 }, // 5 login emails per hour
 } as const;
