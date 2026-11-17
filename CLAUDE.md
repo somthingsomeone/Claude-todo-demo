@@ -5,6 +5,7 @@ The owner is a **complete beginner** (no programming, Git, terminal, database or
 ## How to work with the owner
 
 - Reply in simple **Gulf Arabic**. Short messages; explain each step in plain words after doing it.
+- **Site copy is consistent Modern Standard Arabic (فصحى)** — never mix colloquial words into it.
 - Do the work yourself (files, builds, tests, fixes). Don't hand him code to paste.
 - Explain any manual step click by click.
 - **Ask before deleting any data** (database rows, columns, tables, uploaded files). Hiding is fine; deleting needs a yes.
@@ -16,7 +17,7 @@ The owner is a **complete beginner** (no programming, Git, terminal, database or
 Brand: **PANIVO**, Arabic **بانيفو** (renamed from Panax / باناكس on 2026-11-17; trademark check with SAIP still needed).
 Logo: the owner's P mark + lowercase geometric "panivo" wordmark (`src/components/Logo.tsx`). Keep its geometry.
 
-Arabic-first (RTL) directory of doctors and physiotherapists in **Riyadh**. Specialties:
+Arabic-first (RTL) directory of Saudi doctors and physiotherapists in **Riyadh**, for patients of any nationality. Product truth lives in `PRODUCT.md`. Specialties:
 جلدية، تجميل وليزر، عيون، أسنان، علاج طبيعي. Phase 1 = directory + WhatsApp button only. No booking, no payment.
 
 ## Hard rules
@@ -27,8 +28,8 @@ Arabic-first (RTL) directory of doctors and physiotherapists in **Riyadh**. Spec
 - A profile is public only when `status = 'published'`, not hidden, and it has a **consent date** (demo excepted).
 - Doctor photos only with the doctor's approval (checkbox + note).
 - Physiotherapists are «أخصائي/أخصائية علاج طبيعي», never «د.» unless a documented title supports it.
-- Nationality is **not** collected (owner decision). Never infer it from name/photo.
-- **Ranking/placement is never sold. No paid ads for doctors.** Public order is alphabetical.
+- Listed doctors are Saudi nationals (owner's selection). Nationality data is **not** stored. Never infer it from name/photo.
+- **Placement is never sold. No paid ads for doctors.** Public order is set manually by the owner in admin; the site never mentions or explains any ranking/ordering method (no "how we rank" page for now).
 - Never sell or share personal data. Correction requests keep only: name, email, relationship, profile, message (+ consent time); erased after the retention period the lawyer sets (`CORRECTION_RETENTION_DAYS`).
 - The WhatsApp click counter stores **count + date per profile only**.
 - Legal pages (privacy, terms) must describe what the code **actually** does. Re-audit them whenever data collection changes.
