@@ -6,11 +6,6 @@ export function ClinicSlip({ clinic }: { clinic: Clinic }) {
   return (
     <article className="slip clinic-slip">
       <div className="slip__body">
-        {clinic.demo && (
-          <p className="slip__label">
-            <span className="label label--demo">عيادة تجريبية</span>
-          </p>
-        )}
         <h3 className="slip__name">
           <Link href={clinicPath(clinic.slug)} className="stretched">
             {clinic.name}
@@ -21,6 +16,7 @@ export function ClinicSlip({ clinic }: { clinic: Clinic }) {
           {clinic.district}
         </p>
         <ul className="clinic-slip__specs">
+          {clinic.demo && <li className="label label--demo">عيادة تجريبية</li>}
           {clinic.specialties.map((s) => (
             <li key={s} className="label">
               {specialtyName(s)}

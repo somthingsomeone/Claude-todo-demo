@@ -77,16 +77,15 @@ export default async function DoctorPage(props: PageProps<"/riyadh/[specialty]/[
         <header className="profile-slip">
           <div className="profile-slip__top">
             <div>
-              {d.demo ? (
-                <span className="label label--demo">ملف تجريبي</span>
-              ) : (
+              <h1 className="profile-slip__name">{displayName(d)}</h1>
+              <p className="profile-slip__role">{d.role}</p>
+              <p className="profile-slip__tags">
                 <Link href={specialtyPath(d.specialty)} className="label">
                   <SpecialtyIcon slug={d.specialty} size={14} />
                   {specialtyName(d.specialty)}
                 </Link>
-              )}
-              <h1 className="profile-slip__name">{displayName(d)}</h1>
-              <p className="profile-slip__role">{d.role}</p>
+                {d.demo && <span className="label label--demo">ملف تجريبي</span>}
+              </p>
             </div>
             {d.photo ? <img className="profile-slip__photo" src={d.photo} alt={`صورة ${d.name}`} /> : null}
           </div>

@@ -19,10 +19,10 @@ export function Stamp({ checkedAt, large = false }: { checkedAt: string; large?:
       <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" strokeWidth="3.5" />
       <circle cx="50" cy="50" r="39" fill="none" stroke="currentColor" strokeWidth="1.25" />
       <path d="M41 30l6.5 6.5L60 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-      <text x="50" y="58" textAnchor="middle" fontSize="14" fontWeight="700" fill="currentColor">
+      <text x="50" y="57" textAnchor="middle" fontSize="15" fontWeight="700" fill="currentColor">
         موثّق
       </text>
-      <text x="50" y="72" textAnchor="middle" fontSize="9" fontWeight="500" fill="currentColor" style={{ direction: "ltr" }}>
+      <text x="50" y="73" textAnchor="middle" fontSize="11" fontWeight="600" fill="currentColor" style={{ direction: "ltr" }}>
         {stampDate(checkedAt)}
       </text>
     </svg>

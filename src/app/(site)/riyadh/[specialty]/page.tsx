@@ -65,7 +65,7 @@ export default async function SpecialtyLanding(props: PageProps<"/riyadh/[specia
           {doctors.length > 0 ? (
             <div className="stack">
               {doctors.map((d) => (
-                <DoctorSlip key={d.slug} doctor={d} showSpecialty={false} />
+                <DoctorSlip key={d.slug} doctor={d} />
               ))}
             </div>
           ) : (

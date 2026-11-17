@@ -5,13 +5,13 @@ import { usePathname } from "next/navigation";
 import { useFavorites } from "@/lib/favorites";
 import { HeartIcon, HomeIcon, SettingsIcon } from "./Icons";
 
-const ITEMS = [
+export const NAV_ITEMS = [
   { href: "/", label: "الرئيسية", Icon: HomeIcon },
   { href: "/favorites", label: "المحفوظات", Icon: HeartIcon },
   { href: "/settings", label: "الإعدادات", Icon: SettingsIcon },
 ] as const;
 
-function activeIndex(pathname: string) {
+export function activeIndex(pathname: string) {
   if (pathname.startsWith("/favorites")) return 1;
   if (["/settings", "/about", "/privacy", "/terms", "/corrections"].some((p) => pathname.startsWith(p))) return 2;
   return 0;
@@ -30,7 +30,7 @@ export function BottomNav() {
   const active = activeIndex(pathname);
   return (
     <nav className="tabbar" aria-label="التنقل الرئيسي">
-      {ITEMS.map(({ href, label, Icon }, i) => (
+      {NAV_ITEMS.map(({ href, label, Icon }, i) => (
         <Link key={href} href={href} className="tabbar__item" aria-current={i === active ? "page" : undefined}>
           <span className="tabbar__icon">
             <Icon size={22} />

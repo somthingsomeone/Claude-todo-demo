@@ -51,13 +51,13 @@ export default async function ClinicPage(props: PageProps<"/riyadh/clinics/[clin
 
       <div className="page">
         <header className="profile-slip">
-          {clinic.demo && <span className="label label--demo">عيادة تجريبية</span>}
           <h1 className="profile-slip__name">{clinic.name}</h1>
           <p className="slip__where">
             <BuildingIcon size={16} />
             {clinic.district}
           </p>
           <ul className="clinic-slip__specs">
+            {clinic.demo && <li className="label label--demo">عيادة تجريبية</li>}
             {clinic.specialties.map((s) => (
               <li key={s} className="label">
                 {specialtyName(s)}
